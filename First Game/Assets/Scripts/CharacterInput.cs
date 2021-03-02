@@ -34,7 +34,7 @@ public class CharacterInput : MonoBehaviour
         //set reference for animator
         animator = GetComponent<Animator>();
 
-        //increases performance
+        //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
     }
 
