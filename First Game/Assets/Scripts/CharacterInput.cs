@@ -69,7 +69,7 @@ public class CharacterInput : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
 
         //move character
-        if (direction.magnitude >= 0.1f)
+        if (direction.magnitude >= 0.1f || Input.GetMouseButton(1))
         {
             //rotate character with camera
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -83,7 +83,10 @@ public class CharacterInput : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //physical movement
-            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            if (direction.magnitude >= 0.1f)
+            {
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            }
 
         }
 
@@ -106,7 +109,7 @@ public class CharacterInput : MonoBehaviour
         }
 
         //set animator speed multiplier for sprinting
-        if (forwardPressed && sprintPressed)
+        if (forwardPressed && sprintPressed && !Input.GetMouseButton(1))
         {
             playerSpeed = 8.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.5f);
