@@ -13,6 +13,7 @@ public class CharacterInput : MonoBehaviour
 
     //jump
     Vector3 jumpVelocity;
+    public float defGravity;
     public float gravity = -9.81f;
     public bool groundedPlayer;
     public int jumps;
@@ -49,7 +50,7 @@ public class CharacterInput : MonoBehaviour
     {
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
-        if (dashing)
+        if (dashing || dashTimer > 0.0f)
         {
             dashTimer += Time.deltaTime;
             //dash lasts [maxDashTime] seconds (ex. 1)
@@ -57,8 +58,13 @@ public class CharacterInput : MonoBehaviour
             {
                 dashing = false;
                 playerSpeed = 4.0f;
-                dashTimer = 0f;
             }
+        }
+
+        if ((dashTimer % 60) >= maxDashTime + 0.2f)
+        {
+            dashTimer = 0.0f;
+            gravity = defGravity;
         }
 
         if (groundedPlayer && jumpVelocity.y < 0)
@@ -85,10 +91,15 @@ public class CharacterInput : MonoBehaviour
             {
                 dashing = true;
                 playerSpeed = 16.0f;
+                if (!groundedPlayer)
+                {
+                    gravity /= 3;
+                }
             }
             else if (jumps < maxJumps)
             {
                 jumps++;
+                gravity = defGravity;
                 jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 //animator jump code below?
                 
