@@ -76,6 +76,10 @@ public class CharacterInput : MonoBehaviour
 
             //smooth turning
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            if (Input.GetMouseButton(1))
+            {
+                angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            }
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //physical movement
