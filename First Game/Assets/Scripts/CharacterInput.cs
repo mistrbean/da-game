@@ -14,7 +14,7 @@ public class CharacterInput : MonoBehaviour
     //jump
     Vector3 jumpVelocity;
     public float gravity = -9.81f;
-    private bool groundedPlayer;
+    public bool groundedPlayer;
     public float jumpHeight = 3.0f;
 
     //smooth character turning
@@ -40,7 +40,7 @@ public class CharacterInput : MonoBehaviour
 
     void Update()
     {
-        //jump
+
         groundedPlayer = controller.isGrounded;
 
         if(groundedPlayer && jumpVelocity.y < 0)
@@ -55,6 +55,19 @@ public class CharacterInput : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(horizontal, 0.0f, vertical).normalized;
 
+        //update jumpVelocity using physics equation
+        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        {
+            jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            //animator jump code below?
+
+            //
+        }
+        jumpVelocity.y += gravity * Time.deltaTime;
+
+        //declare movement Vector3 (x, y, z)
+        Vector3 moveDir = Vector3.zero;
+
         //move character
         if (direction.magnitude >= 0.1f)
         {
@@ -66,10 +79,13 @@ public class CharacterInput : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             //physical movement
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * playerSpeed * Time.deltaTime);
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
         }
-        
+
+        controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+
+        //animator blend tree (setting velocity)
         if (forwardPressed && velocity < 1.0f)
         {
             velocity += Time.deltaTime * acceleration;
@@ -85,6 +101,7 @@ public class CharacterInput : MonoBehaviour
             velocity = 0.0f;
         }
 
+        //set animator speed multiplier for sprinting
         if (forwardPressed && sprintPressed)
         {
             playerSpeed = 8.0f;
@@ -95,20 +112,9 @@ public class CharacterInput : MonoBehaviour
             playerSpeed = 4.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
         }
-        
+
+        //update velocity variable in animator blend tree
         animator.SetFloat(VelocityHash, velocity);
-
-        //jump
-        if(Input.GetButtonDown("Jump") && groundedPlayer)
-        {
-            jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            //animator jump code below?
-
-            //
-        }
-
-        jumpVelocity.y += gravity * Time.deltaTime;
-        controller.Move(jumpVelocity * Time.deltaTime);
     }
 
 }
