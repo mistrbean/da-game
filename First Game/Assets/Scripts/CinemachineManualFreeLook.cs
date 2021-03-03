@@ -8,6 +8,13 @@ public class CinemachineManualFreeLook : MonoBehaviour
     public CinemachineInputAxisDriver yAxis;
 
     private CinemachineFreeLook freeLook;
+    private CinemachineFreeLook.Orbit[] originalOrbits;
+
+    public float minRadius;
+    public float maxRadius;
+    public float zoomSpeed; //change in zoom multiplier (0.05)
+    public float zoomX; //current zoom multiplier
+    private Vector2 scroll = Vector2.zero;
 
     public void Start()
     {
@@ -35,6 +42,14 @@ public class CinemachineManualFreeLook : MonoBehaviour
         freeLook.m_XAxis.m_InputAxisName = string.Empty;
         freeLook.m_YAxis.m_MaxSpeed = freeLook.m_YAxis.m_AccelTime = freeLook.m_YAxis.m_DecelTime = 0;
         freeLook.m_YAxis.m_InputAxisName = string.Empty;
+
+        originalOrbits = new CinemachineFreeLook.Orbit[freeLook.m_Orbits.Length]; //array of all rig orbits (3)
+        zoomX = 1;
+        for (int i = 0; i < freeLook.m_Orbits.Length; i++)
+        {
+            originalOrbits[i].m_Height = freeLook.m_Orbits[i].m_Height;
+            originalOrbits[i].m_Radius = freeLook.m_Orbits[i].m_Radius;
+        }
     }
 
     private void OnValidate()
@@ -69,6 +84,24 @@ public class CinemachineManualFreeLook : MonoBehaviour
         {
             freeLook.m_RecenterToTargetHeading.CancelRecentering();
             freeLook.m_YAxisRecentering.CancelRecentering();
+        }
+
+        scroll = UnityEngine.Input.mouseScrollDelta;
+        if (scroll.y > 0f && zoomX - zoomSpeed >= minRadius)
+        {
+            zoomX -= zoomSpeed;
+            for (int i = 0; i < freeLook.m_Orbits.Length; i++)
+            {
+                freeLook.m_Orbits[i].m_Radius = originalOrbits[i].m_Radius * zoomX;
+            }
+        }
+        else if (scroll.y < 0f && zoomX + zoomSpeed <= maxRadius)
+        {
+            zoomX += zoomSpeed;
+            for (int i = 0; i < freeLook.m_Orbits.Length; i++)
+            {
+                freeLook.m_Orbits[i].m_Radius = originalOrbits[i].m_Radius * zoomX;
+            }
         }
     }
 }
