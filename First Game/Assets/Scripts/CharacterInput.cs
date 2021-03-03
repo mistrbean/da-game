@@ -15,6 +15,8 @@ public class CharacterInput : MonoBehaviour
     Vector3 jumpVelocity;
     public float gravity = -9.81f;
     public bool groundedPlayer;
+    public int jumps;
+    public int maxJumps;
     public float jumpHeight = 3.0f;
 
     //smooth character turning
@@ -22,7 +24,7 @@ public class CharacterInput : MonoBehaviour
     float turnSmoothVelocity;
 
     public bool targeting;
-    public bool dash;
+    public bool dashing;
     public float dashTimer = 0.0f;
     public float maxDashTime;
     //character face toward camera
@@ -40,20 +42,20 @@ public class CharacterInput : MonoBehaviour
 
         //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
-        dash = false;
+        dashing = false;
     }
 
     void Update()
     {
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
-        if (dash)
+        if (dashing)
         {
             dashTimer += Time.deltaTime;
             //dash lasts [maxDashTime] seconds (ex. 1)
             if ((dashTimer % 60) >= maxDashTime)
             {
-                dash = false;
+                dashing = false;
                 playerSpeed = 4.0f;
                 dashTimer = 0f;
             }
@@ -62,6 +64,11 @@ public class CharacterInput : MonoBehaviour
         if (groundedPlayer && jumpVelocity.y < 0)
         {
             jumpVelocity.y = -2.0f;
+            jumps = 0;
+        }
+        else if (dashing)
+        {
+            jumpVelocity.y = 0.0f;
         }
 
         //get key/axis input from player
@@ -72,26 +79,28 @@ public class CharacterInput : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0.0f, vertical).normalized;
 
         //update jumpVelocity using physics equation
-        if (groundedPlayer)
+        if (Input.GetKeyDown("space"))
         {
-            if (Input.GetKeyDown("space"))
+            if (targeting && dashTimer == 0.0f)
             {
-                if (targeting && dashTimer == 0.0f)
-                {
-                    dash = true;
-                    playerSpeed = 16.0f;
-                }
-                else
-                {
-                    jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                    //animator jump code below?
-
-                    //
-                }
+                dashing = true;
+                playerSpeed = 16.0f;
+            }
+            else if (jumps < maxJumps)
+            {
+                jumps++;
+                jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                //animator jump code below?
+                
+                //
             }
         }
 
-        jumpVelocity.y += gravity * Time.deltaTime;
+        if (!dashing)
+        {
+            jumpVelocity.y += gravity * Time.deltaTime;
+        }
+        
 
         //declare movement Vector3 (x, y, z)
         Vector3 moveDir = Vector3.zero;
@@ -104,7 +113,7 @@ public class CharacterInput : MonoBehaviour
 
             //smooth turning
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            if (!dash && targeting)
+            if (!dashing && targeting)
             {
                 angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             }
@@ -142,7 +151,7 @@ public class CharacterInput : MonoBehaviour
             playerSpeed = 8.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.5f);
         }
-        else if (!dash)
+        else if (!dashing)
         {
             playerSpeed = 4.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
