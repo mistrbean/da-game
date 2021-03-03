@@ -21,6 +21,10 @@ public class CharacterInput : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
+    public bool targeting;
+    public bool dash;
+    public float dashTimer = 0.0f;
+    public float maxDashTime;
     //character face toward camera
     public Transform cam;
 
@@ -36,14 +40,26 @@ public class CharacterInput : MonoBehaviour
 
         //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
+        dash = false;
     }
 
     void Update()
     {
-
         groundedPlayer = controller.isGrounded;
+        targeting = Input.GetMouseButton(1);
+        if (dash)
+        {
+            dashTimer += Time.deltaTime;
+            //dash lasts [maxDashTime] seconds (ex. 1)
+            if ((dashTimer % 60) >= maxDashTime)
+            {
+                dash = false;
+                playerSpeed = 4.0f;
+                dashTimer = 0f;
+            }
+        }
 
-        if(groundedPlayer && jumpVelocity.y < 0)
+        if (groundedPlayer && jumpVelocity.y < 0)
         {
             jumpVelocity.y = -2.0f;
         }
@@ -56,27 +72,39 @@ public class CharacterInput : MonoBehaviour
         Vector3 direction = new Vector3(horizontal, 0.0f, vertical).normalized;
 
         //update jumpVelocity using physics equation
-        if (Input.GetButtonDown("Jump") && groundedPlayer)
+        if (groundedPlayer)
         {
-            jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            //animator jump code below?
+            if (Input.GetKeyDown("space"))
+            {
+                if (targeting && dashTimer == 0.0f)
+                {
+                    dash = true;
+                    playerSpeed = 16.0f;
+                }
+                else
+                {
+                    jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+                    //animator jump code below?
 
-            //
+                    //
+                }
+            }
         }
+
         jumpVelocity.y += gravity * Time.deltaTime;
 
         //declare movement Vector3 (x, y, z)
         Vector3 moveDir = Vector3.zero;
 
         //move character
-        if (direction.magnitude >= 0.1f || Input.GetMouseButton(1))
+        if (direction.magnitude >= 0.1f || targeting)
         {
             //rotate character with camera
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
 
             //smooth turning
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            if (Input.GetMouseButton(1))
+            if (!dash && targeting)
             {
                 angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             }
@@ -109,12 +137,12 @@ public class CharacterInput : MonoBehaviour
         }
 
         //set animator speed multiplier for sprinting
-        if (forwardPressed && sprintPressed && !Input.GetMouseButton(1))
+        if (forwardPressed && sprintPressed && !targeting)
         {
             playerSpeed = 8.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.5f);
         }
-        else
+        else if (!dash)
         {
             playerSpeed = 4.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
