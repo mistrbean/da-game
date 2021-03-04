@@ -16,9 +16,12 @@ public class CharacterInput : MonoBehaviour
     public float defGravity;
     public float gravity = -9.81f;
     public bool groundedPlayer;
+    private bool jump;
     public int jumps;
     public int maxJumps;
     public float jumpHeight = 3.0f;
+    public bool onWall;
+    public bool canAttach;
 
     //smooth character turning
     public float turnSmoothTime = 0.1f;
@@ -28,9 +31,10 @@ public class CharacterInput : MonoBehaviour
     public bool dashing;
     public float dashTimer = 0.0f;
     public float maxDashTime;
+
     //character face toward camera
     public Transform cam;
-
+    public ControllerColliderHit lastWall;
     public CharacterController controller;
 
     void Start()
@@ -71,8 +75,9 @@ public class CharacterInput : MonoBehaviour
         {
             jumpVelocity.y = -2.0f;
             jumps = 0;
+            canAttach = true;
         }
-        else if (dashing)
+        else if (dashing || onWall)
         {
             jumpVelocity.y = 0.0f;
         }
@@ -98,6 +103,7 @@ public class CharacterInput : MonoBehaviour
             }
             else if (jumps < maxJumps)
             {
+                jump = true;
                 jumps++;
                 gravity = defGravity;
                 jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -138,7 +144,26 @@ public class CharacterInput : MonoBehaviour
 
         }
 
-        controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+        if (!onWall)
+        {
+            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+            jump = false;
+        }
+        else if (forwardPressed && !jump)
+        {
+            moveDir = Vector3.zero;
+            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+        }
+        else if (jump)
+        {
+            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+            onWall = false;
+            jump = false;
+        }
+        else
+        {
+            onWall = false;
+        }
 
         //animator blend tree (setting velocity)
         if (forwardPressed && velocity < 1.0f)
@@ -172,4 +197,24 @@ public class CharacterInput : MonoBehaviour
         animator.SetFloat(VelocityHash, velocity);
     }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.layer == 9)
+        {
+            if (canAttach)
+            {
+                onWall = true;
+                jumps = 0;
+                canAttach = false;
+                lastWall = hit;
+            }
+            else if (lastWall.gameObject != hit.gameObject)
+            {
+                onWall = true;
+                jumps = 0;
+                canAttach = false;
+                lastWall = hit;
+            }
+        }
+    }
 }
