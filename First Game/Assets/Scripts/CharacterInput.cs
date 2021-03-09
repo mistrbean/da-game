@@ -10,6 +10,7 @@ public class CharacterInput : MonoBehaviour
     public float deceleration = 0.5f;
     int VelocityHash;
     public float playerSpeed = 6f;
+    public int playerDamage;
 
     //jump
     Vector3 jumpVelocity;
@@ -22,6 +23,7 @@ public class CharacterInput : MonoBehaviour
     public float jumpHeight = 3.0f;
     public bool onWall;
     public bool canAttach;
+    public bool canKick; //off of an enemy
 
     //smooth character turning
     public float turnSmoothTime = 0.1f;
@@ -76,6 +78,7 @@ public class CharacterInput : MonoBehaviour
             jumpVelocity.y = -2.0f;
             jumps = 0;
             canAttach = true;
+            canKick = true;
         }
         else if (dashing || onWall)
         {
@@ -199,21 +202,27 @@ public class CharacterInput : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        //if hitting wall (should somehow change to if jumping into wall)
         if (hit.gameObject.layer == 9)
         {
-            if (canAttach)
+            if (canAttach || lastWall.gameObject != hit.gameObject)
             {
                 onWall = true;
                 jumps = 0;
                 canAttach = false;
                 lastWall = hit;
             }
-            else if (lastWall.gameObject != hit.gameObject)
+        }
+        else if (hit.gameObject.tag == "Enemy") //if hitting enemy
+        {
+            if (canKick && jump) //if kicking off enemy
             {
-                onWall = true;
-                jumps = 0;
-                canAttach = false;
-                lastWall = hit;
+                canKick = false;
+                hit.gameObject.GetComponent<EnemyCondition>().currentHealth -= playerDamage;
+                if (jumps != 0)
+                {
+                    jumps--;
+                }
             }
         }
     }
