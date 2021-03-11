@@ -19,6 +19,7 @@ public class CinemachineManualFreeLook : MonoBehaviour
     public void Start()
     {
         CinemachineCore.GetInputAxis = GetAxisCustom;
+        xAxis.multiplier = PlayerPrefs.GetFloat("playerSens") * -1;
     }
 
     public float GetAxisCustom(string axisName)

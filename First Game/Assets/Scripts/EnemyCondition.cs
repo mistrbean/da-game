@@ -17,7 +17,7 @@ public class EnemyCondition : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = GameObject.Find("OptionStorage").GetComponent<OptionStorage>().enemyHealth;
+        maxHealth = PlayerPrefs.GetInt("enemyHealth");
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
     }
