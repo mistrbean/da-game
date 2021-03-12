@@ -281,7 +281,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 107770559}
-  m_LocalRotation: {x: 0.08303165, y: 0.11780497, z: -0.009885237, w: 0.98951}
+  m_LocalRotation: {x: 0.08327904, y: 0.08963607, z: -0.0075215325, w: 0.9924583}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -405,7 +405,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238185112}
-  m_LocalRotation: {x: 0.12379469, y: 0.1172967, z: -0.014738234, w: 0.9852407}
+  m_LocalRotation: {x: 0.12416353, y: 0.089249335, z: -0.011214106, w: 0.9881762}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -866,7 +866,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.123794705, y: 0.1172967, z: -0.014738238, w: 0.98524064}
+  m_LocalRotation: {x: 0.124163546, y: 0.08924936, z: -0.011214109, w: 0.9881762}
   m_LocalPosition: {x: -4.065, y: 0.97099996, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -960,7 +960,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'foot.L'\n\tTransform 'spine1'\n\tTransform 'hand.R'\n\tTransform
+    'shin.R'\n\tTransform 'head'\n\tTransform 'toes.R'\n\tTransform 'spine2'\n\tTransform
+    'foot.R'\n\tTransform 'lowerarm.L'\n\tTransform 'shoulder.R'\n\tand more ...\n\tFrom
+    animation clip 'Attack'\n\tFrom animation clip 'sidestep'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -1255,6 +1260,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d0f08cf3bca23744f8422467f90256b1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0f08cf3bca23744f8422467f90256b1, type: 3}
 --- !u!1 &1239608407
@@ -1490,7 +1500,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486723591}
-  m_LocalRotation: {x: 0.16491337, y: 0.11657724, z: -0.019633574, w: 0.97919756}
+  m_LocalRotation: {x: 0.16540474, y: 0.08870192, z: -0.014938898, w: 0.9821151}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2007,7 +2017,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'foot.L'\n\tTransform 'spine1'\n\tTransform 'hand.R'\n\tTransform
+    'shin.R'\n\tTransform 'head'\n\tTransform 'toes.R'\n\tTransform 'spine2'\n\tTransform
+    'foot.R'\n\tTransform 'lowerarm.L'\n\tTransform 'shoulder.R'\n\tand more ...\n\tFrom
+    animation clip 'Attack'\n\tFrom animation clip 'sidestep'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
