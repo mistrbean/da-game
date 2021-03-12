@@ -86,7 +86,22 @@ public class CharacterInput : MonoBehaviour
         }
 
         //get key/axis input from player
-        bool forwardPressed = Input.GetKey("w") || Input.GetKey("s") || Input.GetKey("a") || Input.GetKey("d");
+        bool anythingPressed = Input.GetKey("w") || Input.GetKey("s") || Input.GetKey("a") || Input.GetKey("d");
+        if (!Input.GetKey("w"))
+        {
+            if (targeting && anythingPressed)
+            {
+                animator.SetBool("sideStep", true);
+            }
+            else
+            {
+                animator.SetBool("sideStep", false);
+            }
+        }
+        else
+        {
+            animator.SetBool("sideStep", false);
+        }
         bool sprintPressed = Input.GetKey("left shift");
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -152,8 +167,9 @@ public class CharacterInput : MonoBehaviour
             controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
             jump = false;
         }
-        else if (forwardPressed && !jump)
-        {
+        //else if (forwardPressed && !jump)
+        else if (anythingPressed && !jump)
+                {
             moveDir = Vector3.zero;
             controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
         }
@@ -169,23 +185,27 @@ public class CharacterInput : MonoBehaviour
         }
 
         //animator blend tree (setting velocity)
-        if (forwardPressed && velocity < 1.0f)
+        //if (forwardPressed && velocity < 1.0f)
+        if (anythingPressed && velocity < 1.0f)
         {
             velocity += Time.deltaTime * acceleration;
         }
 
-        if (!forwardPressed && velocity > 0.0f)
+        //if (!forwardPressed && velocity > 0.0f)
+        if (!anythingPressed && velocity > 0.0f)
         {
             velocity -= Time.deltaTime * deceleration;
         }
 
-        if (!forwardPressed && velocity < 0.0f)
+        //if (!forwardPressed && velocity < 0.0f)
+        if (!anythingPressed && velocity < 0.0f)
         {
             velocity = 0.0f;
         }
 
         //set animator speed multiplier for sprinting
-        if (forwardPressed && sprintPressed && !targeting)
+        //if (forwardPressed && sprintPressed && !targeting)
+        if (anythingPressed && sprintPressed && !targeting)
         {
             playerSpeed = 8.0f;
             animator.SetFloat("AnimSpeedMultiplier", 1.5f);
