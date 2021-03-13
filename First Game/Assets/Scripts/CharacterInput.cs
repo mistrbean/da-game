@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterInput : MonoBehaviour
 {
-    Animator animator;
+    public Animator animator;
     float velocity = 0.0f;
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
@@ -39,6 +39,7 @@ public class CharacterInput : MonoBehaviour
     public Transform cam;
     public ControllerColliderHit lastWall;
     public CharacterController controller;
+    public GameObject hand;
 
     void Start()
     {
@@ -61,6 +62,12 @@ public class CharacterInput : MonoBehaviour
         {
             isAttacking = Input.GetMouseButtonDown(0);
         }
+        if (isAttacking)
+        {
+            animator.SetTrigger("Attack");
+            isAttacking = false;
+        }
+
         if (dashing || dashTimer > 0.0f)
         {
             dashTimer += Time.deltaTime;
@@ -222,11 +229,6 @@ public class CharacterInput : MonoBehaviour
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
         }
 
-        if (isAttacking)
-        {
-            animator.SetTrigger("Attack");
-            isAttacking = false;
-        }
 
         //update velocity variable in animator blend tree
         animator.SetFloat(VelocityHash, velocity);
@@ -245,7 +247,7 @@ public class CharacterInput : MonoBehaviour
                 lastWall = hit;
             }
         }
-        else if (hit.gameObject.tag == "Enemy") //if hitting enemy
+        else if (hit.gameObject.CompareTag("Enemy")) //if hitting enemy
         {
             if (canKick && jump) //if kicking off enemy
             {
@@ -261,6 +263,17 @@ public class CharacterInput : MonoBehaviour
                 hit.gameObject.GetComponent<EnemyCondition>().currentHealth -= playerDamage;
                 isAttacking = false;
             }
+        }
+        else if (hit.gameObject.CompareTag("Weapon"))
+        {
+            GameObject wep = hit.gameObject;
+            wep.SetActive(true);
+            WeaponController wepControl = wep.GetComponent<WeaponController>();
+
+            wep.transform.parent = hand.transform;
+            wep.transform.localPosition = (wepControl as WeaponController).PrefPosition;
+            wep.transform.localEulerAngles = (wepControl as WeaponController).PrefRotation;
+            gameObject.GetComponent<PlayerState>().equippedWeapon = wep;
         }
     }
 }
