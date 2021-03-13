@@ -11,6 +11,7 @@ public class CharacterInput : MonoBehaviour
     int VelocityHash;
     public float playerSpeed = 6f;
     public int playerDamage;
+    private bool isAttacking;
 
     //jump
     Vector3 jumpVelocity;
@@ -56,6 +57,10 @@ public class CharacterInput : MonoBehaviour
     {
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
+        if (!isAttacking)
+        {
+            isAttacking = Input.GetMouseButtonDown(0);
+        }
         if (dashing || dashTimer > 0.0f)
         {
             dashTimer += Time.deltaTime;
@@ -148,7 +153,8 @@ public class CharacterInput : MonoBehaviour
 
             //smooth turning
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            if (!dashing && targeting)
+            //if (!dashing && targeting)
+            if (targeting)
             {
                 angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             }
@@ -216,6 +222,12 @@ public class CharacterInput : MonoBehaviour
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
         }
 
+        if (isAttacking)
+        {
+            animator.SetTrigger("Attack");
+            isAttacking = false;
+        }
+
         //update velocity variable in animator blend tree
         animator.SetFloat(VelocityHash, velocity);
     }
@@ -243,6 +255,11 @@ public class CharacterInput : MonoBehaviour
                 {
                     jumps--;
                 }
+            }
+            else if (isAttacking)
+            {
+                hit.gameObject.GetComponent<EnemyCondition>().currentHealth -= playerDamage;
+                isAttacking = false;
             }
         }
     }
