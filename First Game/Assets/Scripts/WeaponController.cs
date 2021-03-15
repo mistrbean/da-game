@@ -9,11 +9,9 @@ public class WeaponController : MonoBehaviour
 
     public int weaponDamage;
 
-
     private void OnTriggerEnter(Collider other)
     {
-        //if (this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
-        if (other.gameObject.CompareTag("Enemy") && GetComponentInParent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
             other.gameObject.GetComponent<EnemyCondition>().currentHealth -= weaponDamage;
         }
@@ -28,10 +26,12 @@ public class WeaponController : MonoBehaviour
                 transform.localPosition = this.PrefPosition;
                 transform.localEulerAngles = this.PrefRotation;
                 playerState.equippedWeapon = this.gameObject;
+                BoxCollider weaponCollider = this.gameObject.GetComponent<BoxCollider>();
+                weaponCollider.enabled = false;
+                playerState.weaponCollider = weaponCollider;
             }
         }
 
     }
-
 
 }

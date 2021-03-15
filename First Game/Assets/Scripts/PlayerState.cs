@@ -6,6 +6,24 @@ public class PlayerState : MonoBehaviour
 {
     public GameObject equippedWeapon;
     public GameObject hand;
+    public BoxCollider weaponCollider;
 
+    private void Start()
+    {
+        weaponCollider = hand.GetComponent<BoxCollider>();
+        weaponCollider.enabled = false;
+        equippedWeapon = hand;
+    }
 
+    public void StartAttack()
+    {
+        Debug.Log("Started attack.");
+        weaponCollider.enabled = true;
+    }
+
+    public void StopAttack()
+    {
+        Debug.Log("Stopped attack");
+        weaponCollider.enabled = false;
+    }
 }
