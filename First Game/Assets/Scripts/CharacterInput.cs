@@ -182,7 +182,7 @@ public class CharacterInput : MonoBehaviour
         }
         //else if (forwardPressed && !jump)
         else if (anythingPressed && !jump)
-                {
+        {
             moveDir = Vector3.zero;
             controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
         }
@@ -258,22 +258,6 @@ public class CharacterInput : MonoBehaviour
                     jumps--;
                 }
             }
-            else if (isAttacking)
-            {
-                hit.gameObject.GetComponent<EnemyCondition>().currentHealth -= playerDamage;
-                isAttacking = false;
-            }
-        }
-        else if (hit.gameObject.CompareTag("Weapon"))
-        {
-            GameObject wep = hit.gameObject;
-            wep.SetActive(true);
-            WeaponController wepControl = wep.GetComponent<WeaponController>();
-
-            wep.transform.parent = hand.transform;
-            wep.transform.localPosition = (wepControl as WeaponController).PrefPosition;
-            wep.transform.localEulerAngles = (wepControl as WeaponController).PrefRotation;
-            gameObject.GetComponent<PlayerState>().equippedWeapon = wep;
         }
     }
 }
