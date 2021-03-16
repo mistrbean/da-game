@@ -40,6 +40,7 @@ public class CharacterInput : MonoBehaviour
     public ControllerColliderHit lastWall;
     public CharacterController controller;
     public GameObject hand;
+    public GameObject virtualCam;
 
     void Start()
     {
@@ -49,6 +50,9 @@ public class CharacterInput : MonoBehaviour
         //set reference for animator
         animator = GetComponent<Animator>();
 
+        //get CinemachineVirtualCamera reference
+        virtualCam = GameObject.Find("VirtualPlayerCam");
+
         //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
         dashing = false;
@@ -56,6 +60,16 @@ public class CharacterInput : MonoBehaviour
 
     void Update()
     {
+        Vector2 scroll = Input.mouseScrollDelta;
+        if (scroll.y > 0f)
+        {
+            virtualCam.SendMessage("ZoomIn");
+        }
+        else if (scroll.y < 0f)
+        {
+            virtualCam.SendMessage("ZoomOut");
+        }
+
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
         if (!isAttacking)

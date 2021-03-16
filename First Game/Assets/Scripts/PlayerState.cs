@@ -17,13 +17,11 @@ public class PlayerState : MonoBehaviour
 
     public void StartAttack()
     {
-        Debug.Log("Started attack.");
         weaponCollider.enabled = true;
     }
 
     public void StopAttack()
     {
-        Debug.Log("Stopped attack");
         weaponCollider.enabled = false;
     }
 }
