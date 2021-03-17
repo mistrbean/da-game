@@ -41,6 +41,7 @@ public class CharacterInput : MonoBehaviour
     public CharacterController controller;
     public GameObject hand;
     public GameObject virtualCam;
+    private PlayerState playerState;
 
     void Start()
     {
@@ -56,10 +57,20 @@ public class CharacterInput : MonoBehaviour
         //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
         dashing = false;
+
+        playerState = GetComponent<PlayerState>();
     }
 
     void Update()
     {
+        if (Input.GetKeyDown("f"))
+        {
+            if (LookingAtEquippable(out GameObject item) && item != null)
+            {
+                if (item.CompareTag("Weapon")) playerState.SendMessage("EquipWeapon", item);
+            }
+        }
+
         Vector2 scroll = Input.mouseScrollDelta;
         if (scroll.y > 0f)
         {
@@ -272,6 +283,26 @@ public class CharacterInput : MonoBehaviour
                     jumps--;
                 }
             }
+        }
+    }
+
+    private bool LookingAtEquippable(out GameObject item)
+    {
+        //only collide with objects in "Item" layer 10
+        int layerMask = 1 << 10;
+
+        Ray ray = new Ray(cam.position, cam.TransformDirection(Vector3.forward));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, 1000, layerMask))
+        {
+            Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow, 1, true);
+            item = hit.collider.gameObject;
+            return true;
+        }
+        else
+        {
+            item = null;
+            return false;
         }
     }
 }

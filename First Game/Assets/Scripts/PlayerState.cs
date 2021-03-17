@@ -24,4 +24,21 @@ public class PlayerState : MonoBehaviour
     {
         weaponCollider.enabled = false;
     }
+
+    public void EquipWeapon(GameObject weapon)
+    {
+        if (this.equippedWeapon != weapon)
+        {
+            WeaponController weaponController = weapon.GetComponent<WeaponController>();
+            weapon.transform.parent = this.hand.transform;
+            weapon.transform.localPosition = weaponController.PrefPosition;
+            weapon.transform.localEulerAngles = weaponController.PrefRotation;
+            this.equippedWeapon = weapon;
+            BoxCollider weaponCollider = weapon.GetComponent<BoxCollider>();
+            weaponCollider.enabled = false;
+            this.weaponCollider = weaponCollider;
+
+            Debug.Log("Equipped weapon " + this.equippedWeapon.ToString());
+        }
+    }
 }
