@@ -78,13 +78,11 @@ public class CharacterInput : MonoBehaviour
                 if (item.CompareTag("Weapon")) playerState.SendMessage("EquipWeapon", item);
             }
         }
-        /*if (Input.GetKeyDown("f"))
+        
+        if (Input.GetKeyDown("q"))
         {
-            if (LookingAtEquippable(out GameObject item) && item != null)
-            {
-                if (item.CompareTag("Weapon")) playerState.SendMessage("EquipWeapon", item);
-            }
-        }*/
+            playerState.SendMessage("SwapWeapons");
+        }
 
         Vector2 scroll = Input.mouseScrollDelta;
         if (scroll.y > 0f)

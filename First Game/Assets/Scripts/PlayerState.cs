@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     public GameObject equippedWeapon;
+    public GameObject secondWeapon;
     public GameObject hand;
     public BoxCollider weaponCollider;
 
@@ -29,6 +30,12 @@ public class PlayerState : MonoBehaviour
     {
         if (this.equippedWeapon != weapon)
         {
+            //if picking up second item
+            if (this.secondWeapon == null && this.equippedWeapon != null)
+            {
+                this.equippedWeapon.SetActive(false);
+                this.secondWeapon = equippedWeapon;
+            }
             WeaponController weaponController = weapon.GetComponent<WeaponController>();
             weapon.transform.parent = this.hand.transform;
             weapon.transform.localPosition = weaponController.PrefPosition;
@@ -41,5 +48,17 @@ public class PlayerState : MonoBehaviour
 
             Debug.Log("Equipped weapon " + this.equippedWeapon.ToString());
         }
+    }
+
+    public void SwapWeapons()
+    {
+        /*if (this.secondWeapon != null)
+        {
+            this.equippedWeapon.SetActive(false);
+            GameObject swapWeapon = this.secondWeapon;
+            this.secondWeapon = this.equippedWeapon;
+            this.equippedWeapon = swapWeapon;
+            this.equippedWeapon.SetActive(true);
+        }*/
     }
 }
