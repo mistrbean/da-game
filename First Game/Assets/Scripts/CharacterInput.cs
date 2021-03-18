@@ -42,6 +42,9 @@ public class CharacterInput : MonoBehaviour
     public GameObject hand;
     public GameObject virtualCam;
     private PlayerState playerState;
+    public GameObject promptPickup;
+
+    private bool promptVisible;
 
     void Start()
     {
@@ -63,13 +66,25 @@ public class CharacterInput : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("f"))
+        if (LookingAtEquippable(out GameObject item))
+        {
+            if (!promptVisible)
+            {
+                promptPickup.SetActive(true);
+                promptVisible = true;
+            }
+            if (Input.GetKeyDown("f"))
+            {
+                if (item.CompareTag("Weapon")) playerState.SendMessage("EquipWeapon", item);
+            }
+        }
+        /*if (Input.GetKeyDown("f"))
         {
             if (LookingAtEquippable(out GameObject item) && item != null)
             {
                 if (item.CompareTag("Weapon")) playerState.SendMessage("EquipWeapon", item);
             }
-        }
+        }*/
 
         Vector2 scroll = Input.mouseScrollDelta;
         if (scroll.y > 0f)
@@ -293,15 +308,20 @@ public class CharacterInput : MonoBehaviour
 
         Ray ray = new Ray(cam.position, cam.TransformDirection(Vector3.forward));
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 1000, layerMask))
+        if (Physics.Raycast(ray, out RaycastHit hit, 5.0f, layerMask))
         {
-            Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow, 1, true);
+            //Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow, 1, true);
             item = hit.collider.gameObject;
             return true;
         }
         else
         {
             item = null;
+            if (promptVisible)
+            {
+                promptVisible = false;
+                promptPickup.SetActive(false);
+            }
             return false;
         }
     }
