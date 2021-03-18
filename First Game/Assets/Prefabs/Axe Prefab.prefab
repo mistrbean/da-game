@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!65 &132434115955519810
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7149058469206012292}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.23671517, y: 0.6575089, z: 0.57288074}
-  m_Center: {x: 0.0048679025, y: 0.4490722, z: -0.009982604}
 --- !u!135 &1613068419
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26,6 +13,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.9377776
   m_Center: {x: -0.000018723516, y: 0.10251432, z: -0.6319277}
+--- !u!65 &132434115955519810
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7149058469206012292}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.23671517, y: 0.6575089, z: 0.57288074}
+  m_Center: {x: 0.0048679025, y: 0.4490722, z: -0.009982604}
 --- !u!114 &1613068418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38,8 +38,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f308349dd2a7da447bede0654abdf43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrefPosition: {x: -0.00149, y: 0.00324, z: 0.00197}
-  PrefRotation: {x: 53.326, y: 140.918, z: -28.253}
+  PrefPosition: {x: -0.00109, y: -0.0002, z: 0.00431}
+  PrefRotation: {x: -0.377, y: -13.05, z: -5.958}
   weaponDamage: 250
 --- !u!1001 &8068171369256881365
 PrefabInstance:
