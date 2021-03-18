@@ -31,7 +31,7 @@ public class PlayerState : MonoBehaviour
         if (this.equippedWeapon != weapon)
         {
             //if picking up second item
-            if (this.secondWeapon == null && this.equippedWeapon != null)
+            if (this.secondWeapon == null && this.equippedWeapon != null && this.equippedWeapon != hand)
             {
                 this.equippedWeapon.SetActive(false);
                 this.secondWeapon = equippedWeapon;
@@ -52,13 +52,14 @@ public class PlayerState : MonoBehaviour
 
     public void SwapWeapons()
     {
-        /*if (this.secondWeapon != null)
+        if (this.secondWeapon != null)
         {
             this.equippedWeapon.SetActive(false);
-            GameObject swapWeapon = this.secondWeapon;
-            this.secondWeapon = this.equippedWeapon;
-            this.equippedWeapon = swapWeapon;
-            this.equippedWeapon.SetActive(true);
-        }*/
+            this.secondWeapon.SetActive(true);
+            GameObject swapWeapon = this.equippedWeapon;
+            this.equippedWeapon = this.secondWeapon;
+            this.secondWeapon = swapWeapon;
+            this.weaponCollider = this.equippedWeapon.GetComponent<BoxCollider>();
+        }
     }
 }

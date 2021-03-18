@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrefPosition: {x: -0.00149, y: 0.00324, z: 0.00197}
   PrefRotation: {x: 53.326, y: 140.918, z: -28.253}
-  weaponDamage: 250
+  weaponDamage: 100
 --- !u!1 &6400964671231278071
 GameObject:
   m_ObjectHideFlags: 0
