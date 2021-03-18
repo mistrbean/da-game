@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4138038731475971149}
+  - component: {fileID: 1795174856139174084}
   - component: {fileID: 4651422370714436313}
   - component: {fileID: 7731089116347503121}
   m_Layer: 0
@@ -33,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -83.566, y: 119.84401, z: -51.376003}
+--- !u!135 &1795174856139174084
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5827625222405583342}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.0013345208
+  m_Center: {x: -6.467345e-13, y: 1.8426476e-12, z: 0.0005542088}
 --- !u!65 &4651422370714436313
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -42,7 +56,7 @@ BoxCollider:
   m_GameObject: {fileID: 5827625222405583342}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.00022389274, y: 0.00012043304, z: 0.001388809}
   m_Center: {x: 0.0000022528623, y: -0.0000056629115, z: 0.00002128174}
@@ -60,7 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PrefPosition: {x: -0.00149, y: 0.00324, z: 0.00197}
   PrefRotation: {x: 53.326, y: 140.918, z: -28.253}
-  animator: {fileID: 0}
   weaponDamage: 250
 --- !u!1 &6400964671231278071
 GameObject:

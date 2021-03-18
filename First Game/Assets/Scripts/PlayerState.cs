@@ -35,7 +35,8 @@ public class PlayerState : MonoBehaviour
             weapon.transform.localEulerAngles = weaponController.PrefRotation;
             this.equippedWeapon = weapon;
             BoxCollider weaponCollider = weapon.GetComponent<BoxCollider>();
-            weaponCollider.enabled = false;
+            SphereCollider pickupCollider = weapon.GetComponent<SphereCollider>();
+            pickupCollider.enabled = false;
             this.weaponCollider = weaponCollider;
 
             Debug.Log("Equipped weapon " + this.equippedWeapon.ToString());
