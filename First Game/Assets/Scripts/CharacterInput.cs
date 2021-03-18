@@ -96,14 +96,13 @@ public class CharacterInput : MonoBehaviour
 
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
-        if (!isAttacking)
+        //if (!isAttacking)
+        if (!playerState.attacking)
         {
-            isAttacking = Input.GetMouseButtonDown(0);
-        }
-        if (isAttacking)
-        {
-            animator.SetTrigger("Attack");
-            isAttacking = false;
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetTrigger("Attack");
+            }
         }
 
         if (dashing || dashTimer > 0.0f)
@@ -310,6 +309,7 @@ public class CharacterInput : MonoBehaviour
         {
             //Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow, 1, true);
             item = hit.collider.gameObject;
+            if (item == playerState.equippedWeapon) return false;
             return true;
         }
         else

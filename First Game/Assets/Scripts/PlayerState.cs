@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
+    private Animator animator;
+
     public GameObject equippedWeapon;
     public GameObject secondWeapon;
     public GameObject hand;
     public BoxCollider weaponCollider;
 
+    public bool attacking;
+
     private void Start()
     {
+        animator = GetComponent<Animator>();
         weaponCollider = hand.GetComponent<BoxCollider>();
         weaponCollider.enabled = false;
         equippedWeapon = hand;
+        attacking = false;
     }
 
     public void StartAttack()
@@ -24,6 +30,18 @@ public class PlayerState : MonoBehaviour
     public void StopAttack()
     {
         weaponCollider.enabled = false;
+    }
+
+    public void Attacking()
+    {
+        attacking = true;
+        animator.SetBool("Attacking", true);
+    }
+
+    public void DoneAttacking()
+    {
+        attacking = false;
+        animator.SetBool("Attacking", false);
     }
 
     public void EquipWeapon(GameObject weapon)
@@ -52,13 +70,14 @@ public class PlayerState : MonoBehaviour
 
     public void SwapWeapons()
     {
-        if (this.secondWeapon != null)
+        if (this.secondWeapon != null && !attacking)
         {
             this.equippedWeapon.SetActive(false);
             this.secondWeapon.SetActive(true);
             GameObject swapWeapon = this.equippedWeapon;
             this.equippedWeapon = this.secondWeapon;
             this.secondWeapon = swapWeapon;
+            this.weaponCollider.enabled = false;
             this.weaponCollider = this.equippedWeapon.GetComponent<BoxCollider>();
         }
     }

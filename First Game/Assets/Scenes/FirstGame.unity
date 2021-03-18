@@ -1197,6 +1197,7 @@ MonoBehaviour:
   secondWeapon: {fileID: 0}
   hand: {fileID: 1267085880}
   weaponCollider: {fileID: 0}
+  attacking: 0
 --- !u!1 &1116189405
 GameObject:
   m_ObjectHideFlags: 0
@@ -3797,6 +3798,7 @@ MonoBehaviour:
   secondWeapon: {fileID: 0}
   hand: {fileID: 7962670433613000295}
   weaponCollider: {fileID: 0}
+  attacking: 0
 --- !u!4 &6765747026765527978
 Transform:
   m_ObjectHideFlags: 0
