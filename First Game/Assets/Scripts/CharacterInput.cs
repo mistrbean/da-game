@@ -11,7 +11,6 @@ public class CharacterInput : MonoBehaviour
     int VelocityHash;
     public float playerSpeed = 6f;
     public int playerDamage;
-    private bool isAttacking;
 
     //jump
     Vector3 jumpVelocity;
@@ -39,7 +38,6 @@ public class CharacterInput : MonoBehaviour
     public Transform cam;
     public ControllerColliderHit lastWall;
     public CharacterController controller;
-    public GameObject hand;
     public GameObject virtualCam;
     private PlayerState playerState;
     public GameObject promptPickup;
@@ -66,24 +64,30 @@ public class CharacterInput : MonoBehaviour
 
     void Update()
     {
+        /* If looking at equippable item */
         if (LookingAtEquippable(out GameObject item))
         {
-            if (!promptVisible)
+            playerState.SendMessage("CheckPrompt", true); //check prompt visibility, enabling if not already enabled
+            if (Input.GetKeyDown("f")) //if picking up item
             {
-                promptPickup.SetActive(true);
-                promptVisible = true;
-            }
-            if (Input.GetKeyDown("f"))
-            {
-                if (item.CompareTag("Weapon")) playerState.SendMessage("EquipWeapon", item);
+                playerState.SendMessage("PickupItem", item);
             }
         }
+        else
+        {
+            playerState.SendMessage("CheckPrompt", false); //check prompt visibility, disabling if already enabled
+        }
+
+        /* --------------------------------- */
         
+        /* If trying to swap weapons */
         if (Input.GetKeyDown("q"))
         {
             playerState.SendMessage("SwapWeapons");
         }
+        /* --------------------------- */
 
+        /* If trying to zoom in/out */
         Vector2 scroll = Input.mouseScrollDelta;
         if (scroll.y > 0f)
         {
@@ -93,7 +97,18 @@ public class CharacterInput : MonoBehaviour
         {
             virtualCam.SendMessage("ZoomOut");
         }
+        /* -------------------------- */
 
+        /*    Get movement input     */
+        /*targeting = Input.GetMouseButton(0);
+        if (!playerState.attacking)
+        {
+            if (Input.GetMouseButtonDown(0)) animator.SetTrigger("Attack");
+        }*/
+
+
+
+        /* ------------------------- */
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
         //if (!isAttacking)
@@ -315,11 +330,11 @@ public class CharacterInput : MonoBehaviour
         else
         {
             item = null;
-            if (promptVisible)
+            /*if (promptVisible)
             {
                 promptVisible = false;
                 promptPickup.SetActive(false);
-            }
+            }*/
             return false;
         }
     }

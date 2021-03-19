@@ -12,6 +12,11 @@ public class PlayerState : MonoBehaviour
     public BoxCollider weaponCollider;
 
     public bool attacking;
+    public int playerDamage;
+
+    //pick-up prompt
+    public GameObject promptPickup;
+    private bool promptVisible;
 
     private void Start()
     {
@@ -44,6 +49,11 @@ public class PlayerState : MonoBehaviour
         animator.SetBool("Attacking", false);
     }
 
+    public void PickupItem(GameObject item)
+    {
+        if (item.CompareTag("Weapon")) EquipWeapon(item);
+    }
+
     public void EquipWeapon(GameObject weapon)
     {
         if (this.equippedWeapon != weapon)
@@ -59,10 +69,8 @@ public class PlayerState : MonoBehaviour
             weapon.transform.localPosition = weaponController.PrefPosition;
             weapon.transform.localEulerAngles = weaponController.PrefRotation;
             this.equippedWeapon = weapon;
-            BoxCollider weaponCollider = weapon.GetComponent<BoxCollider>();
-            SphereCollider pickupCollider = weapon.GetComponent<SphereCollider>();
-            pickupCollider.enabled = false;
-            this.weaponCollider = weaponCollider;
+            this.weaponCollider = weapon.GetComponent<BoxCollider>();
+            weapon.GetComponent<SphereCollider>().enabled = false;
 
             Debug.Log("Equipped weapon " + this.equippedWeapon.ToString());
         }
@@ -80,5 +88,24 @@ public class PlayerState : MonoBehaviour
             this.weaponCollider.enabled = false;
             this.weaponCollider = this.equippedWeapon.GetComponent<BoxCollider>();
         }
+    }
+
+    //public pick-up prompt functions
+
+    //check if prompt is visible, if not let it be so
+    public void CheckPrompt(bool check)
+    {
+        promptPickup.SetActive(check);
+        promptVisible = check;
+
+        /*if (!promptVisible && check)
+        {
+            promptPickup.SetActive(true);
+            promptVisible = true;
+        }
+        else if (promptVisible && !check)
+        {
+            promptPickup.SetActive(false)
+        }*/
     }
 }
