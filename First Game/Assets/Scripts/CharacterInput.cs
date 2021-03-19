@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class CharacterInput : MonoBehaviour
 {
-    public Animator animator;
-    float velocity = 0.0f;
+    /*float velocity = 0.0f;
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
     int VelocityHash;
     public float playerSpeed = 6f;
     public int playerDamage;
+    public bool dashing;
+    public float dashTimer = 0.0f;
+    public float maxDashTime;
 
     //jump
     Vector3 jumpVelocity;
     public float defGravity;
     public float gravity = -9.81f;
     public bool groundedPlayer;
-    private bool jump;
     public int jumps;
     public int maxJumps;
     public float jumpHeight = 3.0f;
@@ -27,25 +28,25 @@ public class CharacterInput : MonoBehaviour
 
     //smooth character turning
     public float turnSmoothTime = 0.1f;
-    float turnSmoothVelocity;
+    float turnSmoothVelocity;*/
 
+    public bool jump;
     public bool targeting;
-    public bool dashing;
     public bool dash;
-    public float dashTimer = 0.0f;
-    public float maxDashTime;
     public bool sprint;
     public bool forwardPressed; //"w"
     public bool strafePressed; //"a" or "d" or "s"
     //public bool backwardsPressed //"s" unused until we need a backstep animation/feature
+    public Vector3 direction;
 
     //character face toward camera
+    public Animator animator;
     public Transform cam;
     public ControllerColliderHit lastWall;
     public CharacterController controller;
     public GameObject virtualCam;
     private PlayerState playerState;
-    public GameObject promptPickup;
+    private CharacterMovement characterMovement;
 
     void Start()
     {
@@ -59,10 +60,11 @@ public class CharacterInput : MonoBehaviour
         virtualCam = GameObject.Find("VirtualPlayerCam");
 
         //get velocity parameter id
-        VelocityHash = Animator.StringToHash("Velocity");
-        dashing = false;
+        //VelocityHash = Animator.StringToHash("Velocity");
+        //dashing = false;
 
         playerState = GetComponent<PlayerState>();
+        characterMovement = GetComponent<CharacterMovement>();
     }
 
     void Update()
@@ -103,18 +105,25 @@ public class CharacterInput : MonoBehaviour
         /* -------------------------- */
 
         /*    Get movement input     */
-        /*if (!playerState.attacking)
+
+        //attack input
+        if (!playerState.attacking)
         {
             if (Input.GetMouseButtonDown(0)) animator.SetTrigger("Attack");
         }
-        targeting = Input.GetMouseButton(1);
-        jump = Input.GetKeyDown("space");
-        if (targeting && jump)
+        targeting = Input.GetMouseButton(1); //targeting input
+        jump = Input.GetKeyDown("space"); //jump input
+        if (targeting && jump) //turn jump into dash if targeting
         {
             dash = true;
             jump = false;
         }
-        if (!targeting && Input.GetKey("left shift"))
+        else
+        {
+            dash = false;
+        }
+
+        if (!targeting && Input.GetKey("left shift")) //sprint input if not targeting
         {
             sprint = true;
         }
@@ -123,15 +132,20 @@ public class CharacterInput : MonoBehaviour
             sprint = false;
         }
 
+        //movement input
         forwardPressed = Input.GetKey("w");
-        strafePressed = Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("s");*/
-        
+        strafePressed = Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("s");
 
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        direction = new Vector3(horizontal, 0.0f, vertical).normalized;
+
+        characterMovement.SendMessage("UpdateMovement", this);
 
 
 
         /* ------------------------- */
-        groundedPlayer = controller.isGrounded;
+        /*groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
         if (!playerState.attacking)
         {
@@ -331,7 +345,7 @@ public class CharacterInput : MonoBehaviour
                     jumps--;
                 }
             }
-        }
+        }*/
     }
 
     private bool LookingAtEquippable(out GameObject item)
