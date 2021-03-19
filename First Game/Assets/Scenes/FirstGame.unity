@@ -1141,7 +1141,6 @@ MonoBehaviour:
   maxDashTime: 0.15
   cam: {fileID: 963194228}
   controller: {fileID: 1042442621}
-  hand: {fileID: 1267085880}
   virtualCam: {fileID: 0}
   promptPickup: {fileID: 0}
 --- !u!95 &1042442620
@@ -1198,6 +1197,8 @@ MonoBehaviour:
   hand: {fileID: 1267085880}
   weaponCollider: {fileID: 0}
   attacking: 0
+  playerDamage: 0
+  promptPickup: {fileID: 0}
 --- !u!1 &1116189405
 GameObject:
   m_ObjectHideFlags: 0
@@ -3508,7 +3509,6 @@ MonoBehaviour:
   maxDashTime: 0.15
   cam: {fileID: 963194228}
   controller: {fileID: 3944211455460558986}
-  hand: {fileID: 7962670433613000295}
   virtualCam: {fileID: 0}
   promptPickup: {fileID: 1355943721}
 --- !u!4 &5767204839164374131
@@ -3799,6 +3799,8 @@ MonoBehaviour:
   hand: {fileID: 7962670433613000295}
   weaponCollider: {fileID: 0}
   attacking: 0
+  playerDamage: 0
+  promptPickup: {fileID: 1355943721}
 --- !u!4 &6765747026765527978
 Transform:
   m_ObjectHideFlags: 0
