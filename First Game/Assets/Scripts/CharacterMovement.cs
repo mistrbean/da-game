@@ -9,7 +9,6 @@ public class CharacterMovement : MonoBehaviour
     public Transform cam;
     public ControllerColliderHit lastWall;
     public CharacterController controller;
-    private PlayerState playerState;
 
     //horizontal movement (running)
     private Vector3 moveDir;
@@ -45,7 +44,6 @@ public class CharacterMovement : MonoBehaviour
     {
         //get component references
         animator = GetComponent<Animator>();
-        playerState = GetComponent<PlayerState>();
 
         //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
@@ -166,7 +164,6 @@ public class CharacterMovement : MonoBehaviour
     public void UpdateAnimSpeedMultiplier(bool anythingPressed, bool sprint, bool targeting)
     {
         //set animator speed multiplier for sprinting
-        //if (forwardPressed && sprintPressed && !targeting)
         if (anythingPressed && sprint && !targeting)
         {
             playerSpeed = 8.0f;
