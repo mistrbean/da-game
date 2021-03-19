@@ -31,8 +31,13 @@ public class CharacterInput : MonoBehaviour
 
     public bool targeting;
     public bool dashing;
+    public bool dash;
     public float dashTimer = 0.0f;
     public float maxDashTime;
+    public bool sprint;
+    public bool forwardPressed; //"w"
+    public bool strafePressed; //"a" or "d" or "s"
+    //public bool backwardsPressed //"s" unused until we need a backstep animation/feature
 
     //character face toward camera
     public Transform cam;
@@ -41,8 +46,6 @@ public class CharacterInput : MonoBehaviour
     public GameObject virtualCam;
     private PlayerState playerState;
     public GameObject promptPickup;
-
-    private bool promptVisible;
 
     void Start()
     {
@@ -100,18 +103,36 @@ public class CharacterInput : MonoBehaviour
         /* -------------------------- */
 
         /*    Get movement input     */
-        /*targeting = Input.GetMouseButton(0);
-        if (!playerState.attacking)
+        /*if (!playerState.attacking)
         {
             if (Input.GetMouseButtonDown(0)) animator.SetTrigger("Attack");
-        }*/
+        }
+        targeting = Input.GetMouseButton(1);
+        jump = Input.GetKeyDown("space");
+        if (targeting && jump)
+        {
+            dash = true;
+            jump = false;
+        }
+        if (!targeting && Input.GetKey("left shift"))
+        {
+            sprint = true;
+        }
+        else
+        {
+            sprint = false;
+        }
+
+        forwardPressed = Input.GetKey("w");
+        strafePressed = Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("s");*/
+        
+
 
 
 
         /* ------------------------- */
         groundedPlayer = controller.isGrounded;
         targeting = Input.GetMouseButton(1);
-        //if (!isAttacking)
         if (!playerState.attacking)
         {
             if (Input.GetMouseButtonDown(0))
@@ -330,11 +351,6 @@ public class CharacterInput : MonoBehaviour
         else
         {
             item = null;
-            /*if (promptVisible)
-            {
-                promptVisible = false;
-                promptPickup.SetActive(false);
-            }*/
             return false;
         }
     }

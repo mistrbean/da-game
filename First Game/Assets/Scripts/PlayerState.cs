@@ -16,7 +16,6 @@ public class PlayerState : MonoBehaviour
 
     //pick-up prompt
     public GameObject promptPickup;
-    private bool promptVisible;
 
     private void Start()
     {
@@ -96,16 +95,5 @@ public class PlayerState : MonoBehaviour
     public void CheckPrompt(bool check)
     {
         promptPickup.SetActive(check);
-        promptVisible = check;
-
-        /*if (!promptVisible && check)
-        {
-            promptPickup.SetActive(true);
-            promptVisible = true;
-        }
-        else if (promptVisible && !check)
-        {
-            promptPickup.SetActive(false)
-        }*/
     }
 }
