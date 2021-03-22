@@ -20,7 +20,19 @@ public class CharacterInput : MonoBehaviour
     private PlayerState playerState;
     private CharacterMovement characterMovement;
 
-    void Start()
+    /*void Start()
+    {
+        //lock cursor
+        Cursor.lockState = CursorLockMode.Locked;
+
+        //set references for game objects and components
+        animator = GetComponent<Animator>();
+        virtualCam = GameObject.Find("VirtualPlayerCam");
+        playerState = GetComponent<PlayerState>();
+        characterMovement = GetComponent<CharacterMovement>();
+    }*/
+
+    void Awake()
     {
         //lock cursor
         Cursor.lockState = CursorLockMode.Locked;
@@ -34,6 +46,14 @@ public class CharacterInput : MonoBehaviour
 
     void Update()
     {
+        /* If opening/closing pause menu */
+        if (Input.GetKeyDown("escape"))
+        {
+            playerState.SendMessage("CheckPause");
+        }
+
+        if (playerState.paused) return; //stop getting input if game is paused
+
         /* If looking at equippable item */
         if (LookingAtEquippable(out GameObject item))
         {

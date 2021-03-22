@@ -21,6 +21,16 @@ public class OptionsMenu : MonoBehaviour
         sensitivityText.text = sensitivitySlider.value.ToString("#.##");
     }
 
+    private void Awake()
+    {
+        enemySlider = GameObject.Find("EnemyHealthSlider").GetComponent<Slider>();
+        sensitivitySlider = GameObject.Find("SensitivitySlider").GetComponent<Slider>();
+        sensitivityText = GameObject.Find("SensitivityValue").GetComponent<TextMeshProUGUI>();
+        enemySlider.value = PlayerPrefs.GetInt("enemyHealth");
+        sensitivitySlider.value = PlayerPrefs.GetFloat("playerSens");
+        sensitivityText.text = sensitivitySlider.value.ToString("#.##");
+    }
+
 
     public void SetText()
     {

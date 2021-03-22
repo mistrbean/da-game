@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerState : MonoBehaviour
 {
     private Animator animator;
+    public GameObject virtualCam;
 
     public GameObject equippedWeapon;
     public GameObject secondWeapon;
@@ -16,6 +17,10 @@ public class PlayerState : MonoBehaviour
 
     //pick-up prompt
     public GameObject promptPickup;
+    public GameObject pausePanel;
+
+    //pause menu
+    public bool paused;
 
     private void Start()
     {
@@ -24,6 +29,7 @@ public class PlayerState : MonoBehaviour
         weaponCollider.enabled = false;
         equippedWeapon = hand;
         attacking = false;
+        paused = false;
     }
 
     public void StartAttack()
@@ -89,11 +95,43 @@ public class PlayerState : MonoBehaviour
         }
     }
 
-    //public pick-up prompt functions
-
-    //check if prompt is visible, if not let it be so
+    //set pick-up prompt visibility to check
     public void CheckPrompt(bool check)
     {
         promptPickup.SetActive(check);
+    }
+
+    //set pause menu visibility to opposite of current visibility
+    public void CheckPause()
+    {
+        if (pausePanel.activeSelf)
+        {
+            ClosePause();
+        }
+        else
+        {
+            OpenPause();
+        }
+
+    }
+
+    //set pause menu visibility to true
+    public void OpenPause()
+    {
+        pausePanel.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        this.paused = true;
+        virtualCam.SetActive(false);
+    }
+
+    //set pause menu visiblity to false
+    public void ClosePause()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        this.paused = false;
+        virtualCam.SetActive(true);
     }
 }

@@ -43,4 +43,9 @@ public class CinemachineVirtualCam : MonoBehaviour
             currentZoom = virtualCamFrameTransposer.m_CameraDistance;
         }
     }
+
+    public void UpdateSensitivity()
+    {
+        virtualCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("playerSens");
+    }
 }
