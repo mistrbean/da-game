@@ -13,7 +13,7 @@ public class WeaponController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.GetComponent<EnemyCondition>().currentHealth -= weaponDamage;
+            other.gameObject.SendMessage("TakeDamage", weaponDamage);
         }
     }
 

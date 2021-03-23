@@ -64,7 +64,7 @@ public class CharacterMovement : MonoBehaviour
             jumpVelocity.y += gravity * Time.deltaTime;
         }
 
-        if (input.targeting) SetMoveDir(input.direction, input.targeting);
+        if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
         else SetMoveDir(input.direction);
 
         bool anythingPressed = input.strafePressed || input.forwardPressed;
@@ -214,11 +214,31 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    public void SetMoveDir(Vector3 direction, bool targeting)
+    /*public void SetMoveDir(Vector3 direction, bool targeting)
     {
         moveDir = Vector3.zero;
 
         if (targeting)
+        {
+            //rotate character with camera
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            //smooth turning
+            float angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            //set rotation
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            //set moveDir
+            if (direction.magnitude >= 0.1f)
+            {
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            }
+        }
+    }*/
+
+    public void SetMoveDir(Vector3 direction, bool lockRotation)
+    {
+        moveDir = Vector3.zero;
+
+        if (lockRotation)
         {
             //rotate character with camera
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;

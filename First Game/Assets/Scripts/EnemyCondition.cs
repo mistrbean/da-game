@@ -5,30 +5,36 @@ using UnityEngine.UIElements;
 
 public class EnemyCondition : MonoBehaviour
 {
-    private int maxHealth;
-    public int currentHealth;
+    private float maxHealth;
+    public float currentHealth;
 
     //"dead"
     public bool vanquished;
 
-    Animator animator;
+    private Animator animator;
     
 
     // Start is called before the first frame update
     void Start()
     {
-        maxHealth = PlayerPrefs.GetInt("enemyHealth");
+        maxHealth = (float)PlayerPrefs.GetInt("enemyHealth");
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(float damage)
+    {
+        this.currentHealth -= damage;
+        Debug.Log(gameObject.ToString() + " took " + damage + " damage.");
+        FoeVanquished();
+    }
+
+    public void FoeVanquished()
     {
         if (currentHealth <= 0 && !vanquished)
         {
             vanquished = true;
-            animator.SetBool("vanquished", true);
+            animator.SetTrigger("Vanquished");
             transform.Rotate(new Vector3(-90, 0, 0));
         }
     }

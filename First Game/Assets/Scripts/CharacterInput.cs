@@ -12,6 +12,7 @@ public class CharacterInput : MonoBehaviour
     public bool strafePressed; //"a" or "d" or "s"
     //public bool backwardsPressed //"s" unused until we need a backstep animation/feature
     public Vector3 direction;
+    public bool lockRotation;
 
     //game objects and components
     public Animator animator;
@@ -53,6 +54,8 @@ public class CharacterInput : MonoBehaviour
         }
 
         if (playerState.paused) return; //stop getting input if game is paused
+
+        if (playerState.ability1.useable && Input.GetKeyDown("e")) playerState.ability1.UseAbility();
 
         /* If looking at equippable item */
         if (LookingAtEquippable(out GameObject item))
@@ -124,6 +127,9 @@ public class CharacterInput : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         direction = new Vector3(horizontal, 0.0f, vertical).normalized;
+
+        if (targeting || playerState.attacking || playerState.lockRotation) this.lockRotation = true;
+        else this.lockRotation = false;
 
         characterMovement.SendMessage("UpdateMovement", this);
 

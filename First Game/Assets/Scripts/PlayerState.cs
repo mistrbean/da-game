@@ -14,10 +14,13 @@ public class PlayerState : MonoBehaviour
 
     public bool attacking;
     public int playerDamage;
+    public bool lockRotation;
 
     //pick-up prompt
     public GameObject promptPickup;
     public GameObject pausePanel;
+
+    public Ability ability1;
 
     //pause menu
     public bool paused;
@@ -30,6 +33,7 @@ public class PlayerState : MonoBehaviour
         equippedWeapon = hand;
         attacking = false;
         paused = false;
+        ability1 = gameObject.AddComponent<LaserBeam>();
     }
 
     public void StartAttack()
@@ -133,5 +137,11 @@ public class PlayerState : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         this.paused = false;
         virtualCam.SetActive(true);
+    }
+
+    //lock/unlock character rotation so that they are always facing forward
+    public void LockRotation(bool check)
+    {
+        this.lockRotation = check;
     }
 }
