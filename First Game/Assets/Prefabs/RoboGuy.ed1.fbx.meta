@@ -1,0 +1,314 @@
+fileFormatVersion: 2
+guid: 0c18790578a240341a7aa5e9f247b2a7
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 4372308477391419939
+    second: JumpSimpleLong.001
+  - first:
+      74: 6461062684120329160
+    second: Idle_ND
+  - first:
+      74: -1958388752414435345
+    second: Run_1
+  - first:
+      74: 7418089593287832821
+    second: Armature|Idle_ND
+  - first:
+      74: -8197869523005851864
+    second: Armature|Idle_Simple
+  - first:
+      74: 347721096516772394
+    second: Armature|JumpFunny
+  - first:
+      74: 6552153870749757104
+    second: Armature|JumpSimpleLong
+  - first:
+      74: -1704194367982054408
+    second: Armature|JumpSimpleShort
+  - first:
+      74: -2819699339151644480
+    second: Armature|Run_1
+  - first:
+      74: 786504323170427181
+    second: Armature|T-Pose
+  externalObjects: {}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftHand' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: RoboGuy.ed1(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461808, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Pelvis
+      parentName: Armature
+      position: {x: 0.000080001264, y: -0.0012100906, z: 0.0077601126}
+      rotation: {x: 0.71862745, y: 0.027874159, z: -0.0024534983, w: 0.6948322}
+      scale: {x: 1, y: 0.99999964, z: 0.9999983}
+    - name: Spine_1
+      parentName: Pelvis
+      position: {x: -0.000000022831955, y: 0.0011561668, z: 0.00000013480918}
+      rotation: {x: 0.018062767, y: 0.04561208, z: -0.0026862987, w: 0.99879235}
+      scale: {x: 0.9999997, y: 1.0000001, z: 1.0000037}
+    - name: Spine_2
+      parentName: Spine_1
+      position: {x: 8.1490726e-12, y: 0.0018736138, z: 1.8189894e-11}
+      rotation: {x: -0.005908366, y: 0.000000021420417, z: 0.0033532106, w: 0.99997693}
+      scale: {x: 0.99999994, y: 1.0000007, z: 0.9999981}
+    - name: Neck
+      parentName: Spine_2
+      position: {x: -0.000034346143, y: 0.0020664216, z: 0.00013599414}
+      rotation: {x: -4.6566123e-10, y: -0.0043287124, z: -0.0000000035761327, w: 0.99999064}
+      scale: {x: 1.0000004, y: 0.99999905, z: 0.99999964}
+    - name: Head
+      parentName: Neck
+      position: {x: -2.9103829e-12, y: 0.0009698253, z: 5.922629e-11}
+      rotation: {x: -0.12269844, y: 4.6566123e-10, z: 0.0000000038963237, w: 0.99244404}
+      scale: {x: 1.0000005, y: 1.0000012, z: 1.0000012}
+    - name: UpperArm.L
+      parentName: Spine_2
+      position: {x: 0.001789294, y: 0.0012839518, z: -0.00012124524}
+      rotation: {x: 0.0030609202, y: -0.0030608329, z: -0.7071002, w: 0.7071002}
+      scale: {x: 1.0000027, y: 1.0000052, z: 0.99999994}
+    - name: LowerArm.L
+      parentName: UpperArm.L
+      position: {x: -0.00000001071335, y: 0.0029652703, z: 0.000000003110534}
+      rotation: {x: 0.001309819, y: -0.0004005, z: -0.0064299814, w: 0.9999784}
+      scale: {x: 1.0000023, y: 1.0000002, z: 1.0000005}
+    - name: UpperArm.R
+      parentName: Spine_2
+      position: {x: -0.0018672202, y: 0.0012839511, z: -0.0001529022}
+      rotation: {x: -0.0030608312, y: -0.0030609209, z: 0.7071002, w: 0.70710015}
+      scale: {x: 0.99999994, y: 1.0000045, z: 0.99999964}
+    - name: LowerArm.R
+      parentName: UpperArm.R
+      position: {x: -1.862645e-10, y: 0.0029652587, z: 1.3038516e-10}
+      rotation: {x: -0, y: 2.3283059e-10, z: -0.000000011033987, w: 1}
+      scale: {x: 1.0000024, y: 0.99999636, z: 1.0000007}
+    - name: Hip.L
+      parentName: Pelvis
+      position: {x: 0.0009942979, y: -0.0007821219, z: -0.00014199519}
+      rotation: {x: 0.7071068, y: 0.00000012060627, z: 0.7071068, w: -0.00000020954758}
+      scale: {x: 1.0000008, y: 1, z: 0.9999997}
+    - name: Shin.L
+      parentName: Hip.L
+      position: {x: 1.8626451e-11, y: 0.0025276653, z: 9.313225e-11}
+      rotation: {x: -0.00000006322026, y: -1.07830394e-14, z: -0.00000006322026, w: 1}
+      scale: {x: 1.0000024, y: 1.0000073, z: 1.0000049}
+    - name: Foot.L
+      parentName: Shin.L
+      position: {x: -1.0477379e-10, y: 0.0040465826, z: 4.6857167e-11}
+      rotation: {x: -0.00000013052917, y: 0.0000000800848, z: 0.6455073, w: 0.7637541}
+      scale: {x: 1.0000045, y: 1.0000018, z: 1.0000019}
+    - name: Hip.R
+      parentName: Pelvis
+      position: {x: -0.0010490825, y: -0.00078212214, z: -0.0001419952}
+      rotation: {x: -0.70710677, y: -0.00000012060627, z: 0.7071068, w: -0.00000006053597}
+      scale: {x: 1.0000017, y: 0.9999978, z: 1.0000001}
+    - name: Shin.R
+      parentName: Hip.R
+      position: {x: 1.8626451e-11, y: 0.0025276658, z: -3.7252902e-11}
+      rotation: {x: -0.000000042146844, y: 0.000000059604634, z: 0.00000008429371,
+        w: 1}
+      scale: {x: 0.9999998, y: 0.99999666, z: 0.9999981}
+    - name: Foot.R
+      parentName: Shin.R
+      position: {x: 1.1641532e-10, y: 0.0040465826, z: 3.5390257e-10}
+      rotation: {x: 0.00000021959693, y: 0.00000012324043, z: -0.64220387, w: 0.766534}
+      scale: {x: 1.0000054, y: 1.0000049, z: 1.0000018}
+    - name: Cube
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.001
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: 2.2176072e-11, y: -9.297541e-10, z: 4.926685e-11}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.002
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.003
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -8.870429e-11, y: 0.0000000037190164, z: -1.970674e-10}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.004
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: 2.8042822e-11, y: 1.9778468e-10, z: 0.0000000037199301}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.005
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.006
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.007
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.008
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.009
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.010
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.011
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cube.012
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cylinder
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: 5.6085643e-11, y: 3.9556936e-10, z: 0.0000000074398603}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Cylinder.001
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: 0.0000000057633063, y: -0.00000023781789, z: 0.000000016331732}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Icosphere
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Icosphere.001
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Icosphere.002
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Icosphere.003
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: 0.0000000014192686, y: -0.000000059504263, z: 0.0000000031530785}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    - name: Icosphere.004
+      parentName: RoboGuy.ed1(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.72554815, y: -0.005461807, z: 0.0112296445, w: 0.68805814}
+      scale: {x: 99.99999, y: 99.99999, z: 100}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
