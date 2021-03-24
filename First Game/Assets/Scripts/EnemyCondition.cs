@@ -10,8 +10,12 @@ public class EnemyCondition : MonoBehaviour
 
     //"dead"
     public bool vanquished;
+    public bool isRagdoll;
 
     private Animator animator;
+    private CapsuleCollider enemyCollider;
+    private Rigidbody[] rigidbodies;
+    private Rigidbody myRigidbody;
     
 
     // Start is called before the first frame update
@@ -20,6 +24,11 @@ public class EnemyCondition : MonoBehaviour
         maxHealth = (float)PlayerPrefs.GetInt("enemyHealth");
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+        enemyCollider = GetComponent<CapsuleCollider>();
+        isRagdoll = false;
+        rigidbodies = GetComponentsInChildren<Rigidbody>();
+        myRigidbody = GetComponent<Rigidbody>();
+        ToggleRagdoll(false);
     }
 
     public void TakeDamage(float damage)
@@ -35,7 +44,28 @@ public class EnemyCondition : MonoBehaviour
         {
             vanquished = true;
             animator.SetTrigger("Vanquished");
-            transform.Rotate(new Vector3(-90, 0, 0));
+            ToggleRagdoll(vanquished);
+            //transform.Rotate(new Vector3(-90, 0, 0));
+        }
+    }
+
+    public void ToggleRagdoll(bool vanquished)
+    {
+        if (!vanquished)
+        {
+            foreach (Rigidbody ragdollBone in rigidbodies)
+            {
+                ragdollBone.isKinematic = true;
+            }
+        }
+        else
+        {
+            foreach (Rigidbody ragdollBone in rigidbodies)
+            {
+                ragdollBone.isKinematic = false;
+                enemyCollider.enabled = false;
+                animator.enabled = false;
+            }
         }
     }
 }
