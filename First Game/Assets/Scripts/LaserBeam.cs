@@ -16,7 +16,9 @@ public class LaserBeam : Ability
         base.Start();
         cam = GameObject.Find("Main Camera").transform;
 
-        this.cooldown = 15.0f;
+        this.abilityName = "Laser Beam";
+        this.moveSpeed = 12f;
+        this.cooldown = 3.0f;
         this.useable = true;
         this.cooldownTimer = 0.0f;
         this.useTime = 5.0f; //5 seconds
@@ -25,6 +27,7 @@ public class LaserBeam : Ability
         this.totalDamage = 1500.0f;
         this.tickDamage = totalDamage / (useTime / tickRate);
         this.layerMask = 1 << 11; //only collide with objects in "Enemy" layer 11
+        this.takeControl = true;
     }
 
     public override void UseAbility()

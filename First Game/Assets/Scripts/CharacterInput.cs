@@ -21,17 +21,6 @@ public class CharacterInput : MonoBehaviour
     private PlayerState playerState;
     private CharacterMovement characterMovement;
 
-    /*void Start()
-    {
-        //lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-
-        //set references for game objects and components
-        animator = GetComponent<Animator>();
-        virtualCam = GameObject.Find("VirtualPlayerCam");
-        playerState = GetComponent<PlayerState>();
-        characterMovement = GetComponent<CharacterMovement>();
-    }*/
 
     void Awake()
     {
@@ -136,7 +125,17 @@ public class CharacterInput : MonoBehaviour
         if (targeting || playerState.attacking || playerState.lockRotation) this.lockRotation = true;
         else this.lockRotation = false;
 
-        characterMovement.SendMessage("UpdateMovement", this);
+        bool abilityControlled;
+        if (playerState.ability1.useTimer > 0.0f && playerState.ability1.takeControl && !targeting) //if ability is in use, has permission to take control, and player isnt targeting
+        {
+            abilityControlled = true;
+            direction = Vector3.back;
+        }
+        else
+        {
+            abilityControlled = false;
+        }
+        characterMovement.UpdateMovement(this, abilityControlled);
 
         /* ------------------------- */
     }

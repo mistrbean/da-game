@@ -5,11 +5,14 @@ using UnityEngine;
 public abstract class Ability : MonoBehaviour
 {
     public PlayerState playerState;
+    public string abilityName;
+    public float moveSpeed;
     public float cooldown;
     public float cooldownTimer;
     public bool useable;
     public float useTime;
     public float useTimer;
+    public bool takeControl; //whether this ability should take control over character movement
 
     public virtual void Start()
     {

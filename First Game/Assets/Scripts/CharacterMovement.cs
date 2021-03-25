@@ -9,9 +9,10 @@ public class CharacterMovement : MonoBehaviour
     public Transform cam;
     public ControllerColliderHit lastWall;
     public CharacterController controller;
+    public PlayerState playerState;
 
     //horizontal movement (running)
-    private Vector3 moveDir;
+    [SerializeField] private Vector3 moveDir;
     public float velocity = 0.0f;
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
@@ -19,7 +20,7 @@ public class CharacterMovement : MonoBehaviour
     public float playerSpeed = 6f;
 
     //aerial movement (jumping/falling)
-    Vector3 jumpVelocity;
+    public Vector3 jumpVelocity;
     public float defGravity;
     public float gravity = -9.81f;
     public bool groundedPlayer;
@@ -44,6 +45,7 @@ public class CharacterMovement : MonoBehaviour
     {
         //get component references
         animator = GetComponent<Animator>();
+        playerState = GetComponent<PlayerState>();
 
         //get velocity parameter id
         VelocityHash = Animator.StringToHash("Velocity");
@@ -51,27 +53,37 @@ public class CharacterMovement : MonoBehaviour
         dashing = false;
     }
 
-    public void UpdateMovement(CharacterInput input)
+    public void UpdateMovement(CharacterInput input, bool abilityControlled)
     {
         groundedPlayer = controller.isGrounded;
         if (dashing || dashTimer > 0.0f) CheckDash();
         UpdateJumpVelocity();
-        if (input.jump) Jump();
-        if (input.dash) Dash();
-
-        if (!dashing)
+        if (abilityControlled)
         {
-            jumpVelocity.y += gravity * Time.deltaTime;
+            Debug.Log("Ability taking control");
+            SetPlayerSpeed(playerState.ability1.moveSpeed);
+            if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
+            else SetMoveDir(input.direction);
+
+            MoveCharacter(playerState.ability1);
         }
+        else
+        {
+            if (input.jump) Jump();
+            if (input.dash) Dash();
+            if (!dashing)
+            {
+                jumpVelocity.y += gravity * Time.deltaTime;
+            }
+            if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
+            else SetMoveDir(input.direction);
 
-        if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
-        else SetMoveDir(input.direction);
-
-        bool anythingPressed = input.strafePressed || input.forwardPressed;
-        MoveCharacter(input.jump, anythingPressed);
-        UpdateAnimVelocity(anythingPressed);
-        UpdateAnimSpeedMultiplier(anythingPressed, input.sprint, input.targeting);
-        UpdateSidestepAnim(input.forwardPressed, input.strafePressed, input.targeting);
+            bool anythingPressed = input.strafePressed || input.forwardPressed;
+            MoveCharacter(input.jump, anythingPressed);
+            UpdateAnimVelocity(anythingPressed);
+            UpdateAnimSpeedMultiplier(anythingPressed, input.sprint, input.targeting);
+            UpdateSidestepAnim(input.forwardPressed, input.strafePressed, input.targeting);
+        }
 
     }
 
@@ -139,19 +151,16 @@ public class CharacterMovement : MonoBehaviour
     public void UpdateAnimVelocity(bool anythingPressed)
     {
         //animator blend tree (setting velocity)
-        //if (forwardPressed && velocity < 1.0f)
         if (anythingPressed && velocity < 1.0f)
         {
             velocity += Time.deltaTime * acceleration;
         }
 
-        //if (!forwardPressed && velocity > 0.0f)
         if (!anythingPressed && velocity > 0.0f)
         {
             velocity -= Time.deltaTime * deceleration;
         }
 
-        //if (!forwardPressed && velocity < 0.0f)
         if (!anythingPressed && velocity < 0.0f)
         {
             velocity = 0.0f;
@@ -214,26 +223,6 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    /*public void SetMoveDir(Vector3 direction, bool targeting)
-    {
-        moveDir = Vector3.zero;
-
-        if (targeting)
-        {
-            //rotate character with camera
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            //smooth turning
-            float angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            //set rotation
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-            //set moveDir
-            if (direction.magnitude >= 0.1f)
-            {
-                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            }
-        }
-    }*/
-
     public void SetMoveDir(Vector3 direction, bool lockRotation)
     {
         moveDir = Vector3.zero;
@@ -254,6 +243,34 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    public void SetMoveDir(Vector3 direction, bool lockRotation, bool abilityControlled)
+    {
+        moveDir = Vector3.zero;
+
+        if (lockRotation)
+        {
+            //rotate character with camera
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            //smooth turning
+            float angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            //set rotation
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            //set moveDir
+            if (direction.magnitude >= 0.1f)
+            {
+                moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.back;
+            }
+        }
+    }
+
+    public void SetPlayerSpeed(float playerSpeed)
+    {
+        float angle = cam.eulerAngles.x;
+        if (angle > 180) angle -= 360;
+        if (angle < 0) this.playerSpeed = ((playerSpeed / 50f) * angle) + playerSpeed;
+        else this.playerSpeed = (((playerSpeed * -1) / 90.0f) * angle ) + playerSpeed;
+    }
+
     public void MoveCharacter(bool jump, bool anythingPressed)
     {
         if (!onWall)
@@ -272,6 +289,16 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
+            onWall = false;
+        }
+    }
+
+    public void MoveCharacter(Ability ability)
+    {
+        jumpVelocity.y = cam.rotation.x * 20f;
+        if (ability.abilityName == "Laser Beam")
+        {
+            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
         }
     }
