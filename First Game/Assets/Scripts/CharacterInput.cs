@@ -106,6 +106,11 @@ public class CharacterInput : MonoBehaviour
             dash = true;
             jump = false;
         }
+        else if (jump)
+        {
+            dash = false;
+            animator.SetTrigger("Jump");
+        }
         else
         {
             dash = false;
