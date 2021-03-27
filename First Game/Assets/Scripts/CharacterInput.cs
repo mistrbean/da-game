@@ -10,6 +10,9 @@ public class CharacterInput : MonoBehaviour
     public bool sprint;
     public bool forwardPressed; //"w"
     public bool strafePressed; //"a" or "d" or "s"
+    public bool strafeLeft;
+    public bool strafeRight;
+    public bool backPressed;
     //public bool backwardsPressed //"s" unused until we need a backstep animation/feature
     public Vector3 direction;
     public bool lockRotation;
@@ -98,7 +101,8 @@ public class CharacterInput : MonoBehaviour
         else if (jump)
         {
             dash = false;
-            animator.SetTrigger("Jump");
+            //animator.SetTrigger("Jump");
+            animator.SetBool("Grounded", false);
         }
         else
         {
@@ -116,7 +120,10 @@ public class CharacterInput : MonoBehaviour
 
         //movement input
         forwardPressed = Input.GetKey("w");
-        strafePressed = Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("s");
+        strafeLeft = Input.GetKey("a"); strafeRight = Input.GetKey("d");
+        backPressed = Input.GetKey("s");
+        strafePressed = strafeLeft || strafeRight || backPressed;
+        
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");

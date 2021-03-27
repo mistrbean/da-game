@@ -14,6 +14,9 @@ public class CharacterMovement : MonoBehaviour
     //horizontal movement (running)
     [SerializeField] private Vector3 moveDir;
     public float velocity = 0.0f;
+    public float verticalVelocity = 0.0f;
+    public float verticalAcceleration;
+    public float verticalDeceleration;
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
     private int VelocityHash;
@@ -56,6 +59,7 @@ public class CharacterMovement : MonoBehaviour
     public void UpdateMovement(CharacterInput input, bool abilityControlled)
     {
         groundedPlayer = controller.isGrounded;
+        if (!groundedPlayer) animator.SetBool("Grounded", false);
         if (dashing || dashTimer > 0.0f) CheckDash();
         UpdateJumpVelocity();
         if (abilityControlled)
@@ -81,8 +85,9 @@ public class CharacterMovement : MonoBehaviour
             bool anythingPressed = input.strafePressed || input.forwardPressed;
             MoveCharacter(input.jump, anythingPressed);
             UpdateAnimVelocity(anythingPressed);
+            UpdateAnimVerticalVelocity();
             UpdateAnimSpeedMultiplier(anythingPressed, input.sprint, input.targeting);
-            UpdateSidestepAnim(input.forwardPressed, input.strafePressed, input.targeting);
+            UpdateAnimator(input.forwardPressed, input.backPressed, input.strafeLeft, input.strafeRight, input.targeting);
         }
 
     }
@@ -105,6 +110,7 @@ public class CharacterMovement : MonoBehaviour
         jumps = 0;
         canAttach = true;
         canKick = true;
+        //animator.SetBool("Grounded", true);
     }
 
     public void Jump()
@@ -114,6 +120,11 @@ public class CharacterMovement : MonoBehaviour
             jumps++;
             gravity = defGravity;
             jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (groundedPlayer)
+            {
+                animator.SetTrigger("Jump");
+                Debug.Log("Triggered jump");
+            }
         }
     }
 
@@ -170,6 +181,24 @@ public class CharacterMovement : MonoBehaviour
         animator.SetFloat(VelocityHash, velocity);
     }
 
+    public void UpdateAnimVerticalVelocity()
+    {
+        if (groundedPlayer)
+        {
+            verticalVelocity = 0f;
+            animator.SetBool("Grounded", true);
+            return;
+        }
+        if (jumpVelocity.y > 0) verticalVelocity += Time.deltaTime * verticalAcceleration;
+        if (jumpVelocity.y < 0)
+        {
+            if (verticalVelocity > 0) verticalVelocity = 0;
+            else verticalVelocity -= Time.deltaTime * verticalDeceleration;
+        }
+
+        animator.SetFloat("VerticalVelocity", verticalVelocity);
+    }
+
     public void UpdateAnimSpeedMultiplier(bool anythingPressed, bool sprint, bool targeting)
     {
         //set animator speed multiplier for sprinting
@@ -185,22 +214,40 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    public void UpdateSidestepAnim(bool forwardPressed, bool strafePressed, bool targeting)
+    public void UpdateAnimator(bool forwardPressed, bool backPressed, bool strafeLeft, bool strafeRight, bool targeting)
     {
-        if (!forwardPressed)
+        if (!forwardPressed && targeting)
         {
-            if (targeting && strafePressed)
+            if (strafeLeft && !strafeRight)
             {
-                animator.SetBool("sideStep", true);
+                animator.SetBool("SideStepLeft", true);
+                animator.SetBool("SideStepRight", false);
+                animator.SetBool("BackStep", false);
+            } 
+            else if (!strafeLeft && strafeRight)
+            {
+                animator.SetBool("SideStepLeft", false);
+                animator.SetBool("SideStepRight", true);
+                animator.SetBool("BackStep", false);
+            }
+            else if (backPressed)
+            {
+                animator.SetBool("SideStepLeft", false);
+                animator.SetBool("SideStepRight", false);
+                animator.SetBool("BackStep", true);
             }
             else
             {
-                animator.SetBool("sideStep", false);
+                animator.SetBool("SideStepLeft", false);
+                animator.SetBool("SideStepRight", false);
+                animator.SetBool("BackStep", false);
             }
         }
         else
         {
-            animator.SetBool("sideStep", false);
+            animator.SetBool("SideStepLeft", false);
+            animator.SetBool("SideStepRight", false);
+            animator.SetBool("BackStep", false);
         }
     }
 

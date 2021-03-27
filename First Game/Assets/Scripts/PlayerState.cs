@@ -58,6 +58,16 @@ public class PlayerState : MonoBehaviour
         animator.SetBool("Attacking", false);
     }
 
+    public void SetIdle()
+    {
+        animator.SetBool("isIdle", true);
+    }
+
+    public void UnsetIdle()
+    {
+        animator.SetBool("isIdle", false);
+    }
+
     public void PickupItem(GameObject item)
     {
         if (item.CompareTag("Weapon")) EquipWeapon(item);
