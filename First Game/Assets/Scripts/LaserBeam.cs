@@ -58,10 +58,6 @@ public class LaserBeam : Ability
                     targets[i].collider.gameObject.SendMessage("TakeDamage", tickDamage);
                 }
             }
-            else
-            {
-                Debug.Log("Missed everything this tick");
-            }
         }
     }
 

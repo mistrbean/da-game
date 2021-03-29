@@ -61,7 +61,7 @@ public class CharacterMovement : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (!groundedPlayer) animator.SetBool("Grounded", false);
         if (dashing || dashTimer > 0.0f) CheckDash();
-        UpdateJumpVelocity();
+        UpdateJumpVelocity(abilityControlled);
         if (abilityControlled)
         {
             Debug.Log("Ability taking control");
@@ -92,8 +92,9 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    public void UpdateJumpVelocity()
+    public void UpdateJumpVelocity(bool abilityControlled)
     {
+        if (abilityControlled) return;
         if (groundedPlayer && jumpVelocity.y < 0)
         {
             jumpVelocity.y = -2.0f;
@@ -120,16 +121,8 @@ public class CharacterMovement : MonoBehaviour
             jumps++;
             gravity = defGravity;
             jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            if (groundedPlayer) //&& Input.GetButtonDown("Jump"))
-            {
-                animator.SetTrigger("Jump");
-                Debug.Log("Triggered jump");
-            }
-            //else if (!groundedPlayer) && Input.GetButtonDown("Jump"))
-            //{
-            //    animator.ResetTrigger("Jump");
-            //    Debug.Log("Jump Reset");
-            //}
+            animator.SetTrigger("Jump");
+            Debug.Log("Triggered jump");
         }
     }
 

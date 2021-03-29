@@ -45,7 +45,7 @@ public class EnemyCondition : MonoBehaviour
             vanquished = true;
             animator.SetTrigger("Vanquished");
             ToggleRagdoll(vanquished);
-            //transform.Rotate(new Vector3(-90, 0, 0));
+            Destroy(gameObject, 7f);
         }
     }
 
