@@ -120,11 +120,16 @@ public class CharacterMovement : MonoBehaviour
             jumps++;
             gravity = defGravity;
             jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            if (groundedPlayer)
+            if (groundedPlayer) //&& Input.GetButtonDown("Jump"))
             {
                 animator.SetTrigger("Jump");
                 Debug.Log("Triggered jump");
             }
+            //else if (!groundedPlayer) && Input.GetButtonDown("Jump"))
+            //{
+            //    animator.ResetTrigger("Jump");
+            //    Debug.Log("Jump Reset");
+            //}
         }
     }
 
