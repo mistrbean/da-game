@@ -7,6 +7,7 @@ public abstract class Ability : MonoBehaviour
     public PlayerState playerState;
     public string abilityName;
     public float moveSpeed;
+    public float verticalSpeed;
     public float cooldown;
     public float cooldownTimer;
     public bool useable;

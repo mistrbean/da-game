@@ -331,20 +331,23 @@ public class CharacterMovement : MonoBehaviour
         {
             controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
+            animator.SetBool("OnWall", false);
         }
         else
         {
             onWall = false;
+            animator.SetBool("OnWall", false);
         }
     }
 
     public void MoveCharacter(Ability ability)
     {
-        jumpVelocity.y = cam.rotation.x * 20f;
+        jumpVelocity.y = cam.rotation.x * ability.verticalSpeed;
         if (ability.abilityName == "Laser Beam")
         {
             controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
+            animator.SetBool("OnWall", false);
         }
     }
 
@@ -356,6 +359,7 @@ public class CharacterMovement : MonoBehaviour
             if (canAttach || lastWall.gameObject != hit.gameObject)
             {
                 onWall = true;
+                animator.SetBool("OnWall", true);
                 jumps = 0;
                 canAttach = false;
                 lastWall = hit;

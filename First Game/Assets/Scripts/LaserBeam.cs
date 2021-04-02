@@ -18,6 +18,7 @@ public class LaserBeam : Ability
 
         this.abilityName = "Laser Beam";
         this.moveSpeed = 12f;
+        this.verticalSpeed = 35f;
         this.cooldown = 3.0f;
         this.useable = true;
         this.cooldownTimer = 0.0f;
