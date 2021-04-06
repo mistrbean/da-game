@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     public GameObject virtualCam;
 
     public GameObject equippedWeapon;
@@ -21,6 +21,7 @@ public class PlayerState : MonoBehaviour
     public GameObject pausePanel;
 
     public Ability ability1;
+    public Ability ability2;
 
     //pause menu
     public bool paused;
@@ -34,6 +35,7 @@ public class PlayerState : MonoBehaviour
         attacking = false;
         paused = false;
         ability1 = gameObject.AddComponent<LaserBeam>();
+        ability2 = gameObject.AddComponent<LegSpin>();
     }
 
     public void StartAttack()

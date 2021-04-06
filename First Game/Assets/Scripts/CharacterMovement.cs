@@ -56,23 +56,19 @@ public class CharacterMovement : MonoBehaviour
         dashing = false;
     }
 
-    public void UpdateMovement(CharacterInput input, bool abilityControlled)
+    public void UpdateMovement(CharacterInput input, Ability ability)
     {
         groundedPlayer = controller.isGrounded;
         if (!groundedPlayer) animator.SetBool("Grounded", false);
         if (dashing || dashTimer > 0.0f) CheckDash();
-        UpdateJumpVelocity(abilityControlled);
-        if (abilityControlled)
+        if (ability != null && ability.inUse && ability.takeControl && input.targeting)
         {
             Debug.Log("Ability taking control");
-            SetPlayerSpeed(playerState.ability1.moveSpeed);
-            if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
-            else SetMoveDir(input.direction);
-
-            MoveCharacter(playerState.ability1);
+            MoveCharacter(ability);
         }
         else
         {
+            UpdateJumpVelocity();
             if (input.jump) Jump();
             if (input.dash) Dash();
             if (!dashing)
@@ -92,9 +88,40 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    public void UpdateJumpVelocity(bool abilityControlled)
+    public void UpdateMovement(CharacterInput input, bool abilityControlled)
     {
-        if (abilityControlled) return;
+        groundedPlayer = controller.isGrounded;
+        if (!groundedPlayer) animator.SetBool("Grounded", false);
+        if (dashing || dashTimer > 0.0f) CheckDash();
+        if (abilityControlled)
+        {
+            Debug.Log("Ability taking control");
+            MoveCharacter(playerState.ability1);
+        }
+        else
+        {
+            UpdateJumpVelocity();
+            if (input.jump) Jump();
+            if (input.dash) Dash();
+            if (!dashing)
+            {
+                jumpVelocity.y += gravity * Time.deltaTime;
+            }
+            if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
+            else SetMoveDir(input.direction);
+
+            bool anythingPressed = input.strafePressed || input.forwardPressed;
+            MoveCharacter(input.jump, anythingPressed);
+            UpdateAnimVelocity(anythingPressed);
+            UpdateAnimVerticalVelocity();
+            UpdateAnimSpeedMultiplier(anythingPressed, input.sprint, input.targeting);
+            UpdateAnimator(input.forwardPressed, input.backPressed, input.strafeLeft, input.strafeRight, input.targeting);
+        }
+
+    }
+
+    public void UpdateJumpVelocity()
+    {
         if (groundedPlayer && jumpVelocity.y < 0)
         {
             jumpVelocity.y = -2.0f;
@@ -342,9 +369,13 @@ public class CharacterMovement : MonoBehaviour
 
     public void MoveCharacter(Ability ability)
     {
-        jumpVelocity.y = cam.rotation.x * ability.verticalSpeed;
-        if (ability.abilityName == "Laser Beam")
+        if (ability is LaserBeam laser)
         {
+            SetPlayerSpeed(laser.moveSpeed);
+            if (playerState.lockRotation) SetMoveDir(Vector3.back, true);
+            else SetMoveDir(Vector3.back);
+
+            jumpVelocity.y = cam.rotation.x * laser.verticalSpeed;
             controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
             animator.SetBool("OnWall", false);

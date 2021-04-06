@@ -47,7 +47,12 @@ public class CharacterInput : MonoBehaviour
 
         if (playerState.paused) return; //stop getting input if game is paused
 
-        if (playerState.ability1.useable && Input.GetKeyDown("e")) playerState.ability1.UseAbility();
+        bool abilityOne = Input.GetKeyDown("e");
+        bool abilityTwo = Input.GetKeyDown("r");
+
+        /* Get ability input, prioritizing ability1 */
+        if (abilityOne && playerState.ability1.useable && !playerState.ability2.inUse) playerState.ability1.UseAbility();
+        if (abilityTwo && playerState.ability2.useable && !playerState.ability1.inUse) playerState.ability2.UseAbility();
 
         /* If looking at equippable item */
         if (LookingAtEquippable(out GameObject item))
@@ -132,7 +137,12 @@ public class CharacterInput : MonoBehaviour
         if (targeting || playerState.attacking || playerState.lockRotation) this.lockRotation = true;
         else this.lockRotation = false;
 
-        bool abilityControlled;
+
+        Ability ability = null;
+        if (playerState.ability1 != null && playerState.ability1.inUse) ability = playerState.ability1;
+        else if (playerState.ability2 != null && playerState.ability2.inUse) ability = playerState.ability2;
+
+        /*bool abilityControlled;
         if (playerState.ability1.useTimer > 0.0f && playerState.ability1.takeControl && !targeting) //if ability is in use, has permission to take control, and player isnt targeting
         {
             abilityControlled = true;
@@ -141,8 +151,9 @@ public class CharacterInput : MonoBehaviour
         else
         {
             abilityControlled = false;
-        }
-        characterMovement.UpdateMovement(this, abilityControlled);
+        } */
+        //characterMovement.UpdateMovement(this, abilityControlled);
+        characterMovement.UpdateMovement(this, ability);
 
         /* ------------------------- */
     }

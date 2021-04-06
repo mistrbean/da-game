@@ -6,24 +6,32 @@ public abstract class Ability : MonoBehaviour
 {
     public PlayerState playerState;
     public string abilityName;
-    public float moveSpeed;
-    public float verticalSpeed;
-    public float cooldown;
-    public float cooldownTimer;
     public bool useable;
-    public float useTime;
+    public bool inUse;
+    public float cooldownTimer;
     public float useTimer;
+    public float hitDamage; ////damage dealt when colliding with enemy
+
+    public float useTime;
+    public float cooldown;
     public bool takeControl; //whether this ability should take control over character movement
 
     public virtual void Start()
     {
         playerState = GetComponent<PlayerState>();
+        this.useable = true;
+        this.inUse = false;
+        this.cooldownTimer = 0.0f;
+        this.useTimer = 0.0f;
     }
 
     public virtual void UseAbility()
     {
+        playerState.StopAttack();
+        playerState.DoneAttacking();
         playerState.LockRotation(true);
         this.useable = false;
+        this.inUse = true;
         this.useTimer = 0.0f;
     }
 
@@ -36,12 +44,20 @@ public abstract class Ability : MonoBehaviour
     public virtual void IncrementUseTimer()
     {
         this.useTimer += 0.25f;
+        if (this.useTimer >= this.useTime)
+        {
+            CancelInvoke();
+            this.useTimer = 0.0f;
+            StartCooldown();
+        }
     }
 
     public virtual void StartCooldown()
     {
+        this.inUse = false;
         this.cooldownTimer = 0.0f;
         playerState.LockRotation(false);
+        InvokeRepeating(nameof(IncrementCooldownTimer), 0.0f, 0.5f);
         Debug.Log("On cooldown");
     }
 
