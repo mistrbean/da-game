@@ -9,6 +9,9 @@ public class LaserBeam : Ability
     private float tickDamage;
     private float totalDamage;
 
+    private float moveSpeed;
+    private float verticalSpeed;
+
     private int layerMask;
 
     public override void Start()
@@ -20,10 +23,7 @@ public class LaserBeam : Ability
         this.moveSpeed = 12f;
         this.verticalSpeed = 35f;
         this.cooldown = 3.0f;
-        this.useable = true;
-        this.cooldownTimer = 0.0f;
         this.useTime = 5.0f; //5 seconds
-        this.useTimer = 0.0f;
         this.tickRate = 0.5f; //tick damage every half second
         this.totalDamage = 1500.0f;
         this.tickDamage = totalDamage / (useTime / tickRate);
