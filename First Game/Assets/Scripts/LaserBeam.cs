@@ -9,8 +9,8 @@ public class LaserBeam : Ability
     private float tickDamage;
     private float totalDamage;
 
-    private float moveSpeed;
-    private float verticalSpeed;
+    public float moveSpeed;
+    public float verticalSpeed;
 
     private int layerMask;
 
@@ -46,7 +46,6 @@ public class LaserBeam : Ability
             CancelInvoke();
             this.useTimer = 0.0f;
             StartCooldown();
-            InvokeRepeating(nameof(IncrementCooldownTimer), 0.0f, 0.5f);
         }
         else
         {
