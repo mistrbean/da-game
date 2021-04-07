@@ -61,7 +61,7 @@ public class CharacterMovement : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (!groundedPlayer) animator.SetBool("Grounded", false);
         if (dashing || dashTimer > 0.0f) CheckDash();
-        if (ability != null && ability.inUse && ability.takeControl && input.targeting)
+        if (ability != null && ability.inUse && ability.takeControl && !input.targeting)
         {
             Debug.Log("Ability taking control");
             MoveCharacter(ability);

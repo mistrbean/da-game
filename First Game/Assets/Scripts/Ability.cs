@@ -10,7 +10,6 @@ public abstract class Ability : MonoBehaviour
     public bool inUse;
     public float cooldownTimer;
     public float useTimer;
-    public float hitDamage; ////damage dealt when colliding with enemy
 
     public float useTime;
     public float cooldown;

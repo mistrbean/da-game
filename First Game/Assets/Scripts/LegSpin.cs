@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LegSpin : Ability
 {
+    [SerializeField] private int hitDamage;
     [SerializeField] private GameObject legL;
     [SerializeField] private GameObject legR;
     private BoxCollider legL_collider;
@@ -14,20 +15,19 @@ public class LegSpin : Ability
     {
         base.Start();
 
-        legL = GameObject.Find("Foot.L");
-        legR = GameObject.Find("Foot.R");
-        legL.GetComponent<WeaponController>().weaponDamage = 300;
-        legR.GetComponent<WeaponController>().weaponDamage = 300;
-        legL_collider = legL.GetComponent<BoxCollider>();
-        legR_collider = legR.GetComponent<BoxCollider>();
-        legL_collider.enabled = false;
-        legR_collider.enabled = false;
         this.abilityName = "Leg-o-Copter";
         this.cooldown = 5.0f; //5 second cooldown
         this.useTime = 5.0f; //spin for 5 seconds
         this.takeControl = false;
-        this.hitDamage = 300f;
-        
+        this.hitDamage = 300;
+        legL = GameObject.Find("Foot.L");
+        legR = GameObject.Find("Foot.R");
+        legL.GetComponent<WeaponController>().weaponDamage = this.hitDamage;
+        legR.GetComponent<WeaponController>().weaponDamage = this.hitDamage;
+        legL_collider = legL.GetComponent<BoxCollider>();
+        legR_collider = legR.GetComponent<BoxCollider>();
+        legL_collider.enabled = false;
+        legR_collider.enabled = false;
     }
 
     public override void UseAbility()
