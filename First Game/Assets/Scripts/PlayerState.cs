@@ -15,6 +15,8 @@ public class PlayerState : MonoBehaviour
     public bool attacking;
     public int playerDamage;
     public bool lockRotation;
+    public float playerSpeed = 6f;
+    public float returnSpeed; //holds current speed to return to after attack
 
     //pick-up prompt
     public GameObject promptPickup;
@@ -40,22 +42,21 @@ public class PlayerState : MonoBehaviour
 
     public void StartAttack()
     {
+        attacking = true;
         weaponCollider.enabled = true;
+        lockRotation = true;
+        animator.SetBool("Attacking", true);
+        returnSpeed = playerSpeed;
+        playerSpeed = 1.5f;
+        Debug.Log("Slowing movement to " + playerSpeed);
     }
 
     public void StopAttack()
     {
         weaponCollider.enabled = false;
-    }
-
-    public void Attacking()
-    {
-        attacking = true;
-        animator.SetBool("Attacking", true);
-    }
-
-    public void DoneAttacking()
-    {
+        playerSpeed = returnSpeed;
+        Debug.Log("Returning movement.");
+        lockRotation = false;
         attacking = false;
         animator.SetBool("Attacking", false);
     }
@@ -68,6 +69,19 @@ public class PlayerState : MonoBehaviour
     public void UnsetIdle()
     {
         animator.SetBool("isIdle", false);
+    }
+
+    public void SetPlayerSpeed(float playerSpeed)
+    {
+        if (!attacking)
+        {
+            this.playerSpeed = playerSpeed;
+        }
+    }
+
+    public void ReturnPlayerSpeed()
+    {
+        this.playerSpeed = returnSpeed;
     }
 
     public void PickupItem(GameObject item)

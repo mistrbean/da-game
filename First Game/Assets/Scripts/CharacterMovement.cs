@@ -20,7 +20,6 @@ public class CharacterMovement : MonoBehaviour
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
     private int VelocityHash;
-    public float playerSpeed = 6f;
 
     //aerial movement (jumping/falling)
     public Vector3 jumpVelocity;
@@ -158,7 +157,7 @@ public class CharacterMovement : MonoBehaviour
         if (dashTimer == 0.0f)
         {
             dashing = true;
-            playerSpeed = 16.0f;
+            playerState.SetPlayerSpeed(16.0f);
             if (!groundedPlayer)
             {
                 gravity /= 3;
@@ -173,7 +172,7 @@ public class CharacterMovement : MonoBehaviour
         if ((dashTimer % 60) >= maxDashTime)
         {
             dashing = false;
-            playerSpeed = 4.0f;
+            playerState.SetPlayerSpeed(4.0f);
         }
 
         //keep gravity lowered for 0.2f, then reset dash timer
@@ -229,12 +228,16 @@ public class CharacterMovement : MonoBehaviour
         //set animator speed multiplier for sprinting
         if (anythingPressed && sprint && !targeting)
         {
-            playerSpeed = 8.0f;
+            if (playerState.playerSpeed != 8.0f) playerState.SetPlayerSpeed(8.0f);
             animator.SetFloat("AnimSpeedMultiplier", 1.5f);
         }
         else if (!dashing)
         {
-            playerSpeed = 4.0f;
+            if (playerState.playerSpeed != 4.0f) playerState.SetPlayerSpeed(4.0f);
+            animator.SetFloat("AnimSpeedMultiplier", 1.0f);
+        }
+        else
+        {
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
         }
     }
@@ -339,24 +342,24 @@ public class CharacterMovement : MonoBehaviour
     {
         float angle = cam.eulerAngles.x;
         if (angle > 180) angle -= 360;
-        if (angle < 0) this.playerSpeed = ((playerSpeed / 50f) * angle) + playerSpeed;
-        else this.playerSpeed = (((playerSpeed * -1) / 90.0f) * angle ) + playerSpeed;
+        if (angle < 0) playerState.SetPlayerSpeed(((playerSpeed / 50f) * angle) + playerSpeed);
+        else playerState.SetPlayerSpeed((((playerSpeed * -1) / 90.0f) * angle ) + playerSpeed);
     }
 
     public void MoveCharacter(bool jump, bool anythingPressed)
     {
         if (!onWall)
         {
-            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+            controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
         }
         else if (anythingPressed && !jump)
         {
             moveDir = Vector3.zero;
-            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+            controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
         }
         else if (jump)
         {
-            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+            controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
             animator.SetBool("OnWall", false);
         }
@@ -376,7 +379,7 @@ public class CharacterMovement : MonoBehaviour
             else SetMoveDir(Vector3.back);
 
             jumpVelocity.y = cam.rotation.x * laser.verticalSpeed;
-            controller.Move(((moveDir.normalized * playerSpeed) + jumpVelocity) * Time.deltaTime);
+            controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
             animator.SetBool("OnWall", false);
         }

@@ -134,7 +134,7 @@ public class CharacterInput : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
         direction = new Vector3(horizontal, 0.0f, vertical).normalized;
 
-        if (targeting || playerState.attacking || playerState.lockRotation) this.lockRotation = true;
+        if (targeting || playerState.lockRotation) this.lockRotation = true;
         else this.lockRotation = false;
 
 
@@ -142,17 +142,6 @@ public class CharacterInput : MonoBehaviour
         if (playerState.ability1 != null && playerState.ability1.inUse) ability = playerState.ability1;
         else if (playerState.ability2 != null && playerState.ability2.inUse) ability = playerState.ability2;
 
-        /*bool abilityControlled;
-        if (playerState.ability1.useTimer > 0.0f && playerState.ability1.takeControl && !targeting) //if ability is in use, has permission to take control, and player isnt targeting
-        {
-            abilityControlled = true;
-            direction = Vector3.back;
-        }
-        else
-        {
-            abilityControlled = false;
-        } */
-        //characterMovement.UpdateMovement(this, abilityControlled);
         characterMovement.UpdateMovement(this, ability);
 
         /* ------------------------- */

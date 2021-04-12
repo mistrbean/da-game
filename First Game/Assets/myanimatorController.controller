@@ -243,7 +243,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Armature|Jump_start
-  m_Speed: 2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3783196602764175767}
@@ -1216,7 +1216,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.055990815
+  m_TransitionDuration: 0.0705986
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0

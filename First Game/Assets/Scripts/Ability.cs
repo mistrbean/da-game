@@ -27,7 +27,7 @@ public abstract class Ability : MonoBehaviour
     public virtual void UseAbility()
     {
         playerState.StopAttack();
-        playerState.DoneAttacking();
+        //playerState.DoneAttacking();
         playerState.LockRotation(true);
         this.useable = false;
         this.inUse = true;
