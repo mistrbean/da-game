@@ -21,6 +21,7 @@ public class PlayerState : MonoBehaviour
     //pick-up prompt
     public GameObject promptPickup;
     public GameObject pausePanel;
+    public GameObject augmentPanel;
 
     public Ability ability1;
     public Ability ability2;
@@ -159,15 +160,43 @@ public class PlayerState : MonoBehaviour
     public void ClosePause()
     {
         pausePanel.SetActive(false);
-        Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
-        this.paused = false;
-        virtualCam.SetActive(true);
+        if (!augmentPanel.activeSelf)
+        {
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+            this.paused = false;
+            virtualCam.SetActive(true);
+        }
     }
 
     //lock/unlock character rotation so that they are always facing forward
     public void LockRotation(bool check)
     {
         this.lockRotation = check;
+    }
+
+    public void CheckAugmentScreen()
+    {
+        if (pausePanel.activeSelf) return;
+        if (augmentPanel.activeSelf) CloseAugmentScreen();
+        else OpenAugmentScreen();
+    }
+
+    public void OpenAugmentScreen()
+    {
+        augmentPanel.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        this.paused = true;
+        virtualCam.SetActive(false);
+    }
+
+    public void CloseAugmentScreen()
+    {
+        augmentPanel.SetActive(false);
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        this.paused = false;
+        virtualCam.SetActive(true);
     }
 }

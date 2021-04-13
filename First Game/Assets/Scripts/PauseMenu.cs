@@ -10,7 +10,10 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Debug.Log("Quit game.");
-        playerState.ClosePause();
+        //playerState.ClosePause();
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
+        playerState.paused = false;
         SceneManager.LoadScene("MainMenu");
         //Application.Quit();
     }

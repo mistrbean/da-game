@@ -45,6 +45,11 @@ public class CharacterInput : MonoBehaviour
             playerState.SendMessage("CheckPause");
         }
 
+        if (Input.GetKeyDown("tab"))
+        {
+            playerState.SendMessage("CheckAugmentScreen");
+        }
+
         if (playerState.paused) return; //stop getting input if game is paused
 
         bool abilityOne = Input.GetKeyDown("e");
