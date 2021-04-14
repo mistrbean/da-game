@@ -10,7 +10,7 @@ public abstract class Ability : MonoBehaviour
     public bool inUse;
     public float cooldownTimer;
     public float useTimer;
-
+    public int energyCost;
     public float useTime;
     public float cooldown;
     public bool takeControl; //whether this ability should take control over character movement
@@ -24,14 +24,21 @@ public abstract class Ability : MonoBehaviour
         this.useTimer = 0.0f;
     }
 
-    public virtual void UseAbility()
+    public virtual bool UseAbility()
     {
-        playerState.StopAttack();
-        //playerState.DoneAttacking();
-        playerState.LockRotation(true);
-        this.useable = false;
-        this.inUse = true;
-        this.useTimer = 0.0f;
+        if (playerState.DrainEnergy(this.energyCost))
+        {
+            playerState.StopAttack();
+            playerState.LockRotation(true);
+            this.useable = false;
+            this.inUse = true;
+            this.useTimer = 0.0f;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public virtual void IncrementCooldownTimer()
@@ -49,6 +56,13 @@ public abstract class Ability : MonoBehaviour
             this.useTimer = 0.0f;
             StartCooldown();
         }
+    }
+
+    public virtual void Interrupt()
+    {
+        CancelInvoke();
+        this.useTimer = 0.0f;
+        StartCooldown();
     }
 
     public virtual void StartCooldown()

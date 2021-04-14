@@ -20,6 +20,7 @@ public class LegSpin : Ability
         this.useTime = 5.0f; //spin for 5 seconds
         this.takeControl = false;
         this.hitDamage = 300;
+        this.energyCost = 75;
         legL = GameObject.Find("Foot.L");
         legR = GameObject.Find("Foot.R");
         legL.GetComponent<WeaponController>().weaponDamage = this.hitDamage;
@@ -30,15 +31,21 @@ public class LegSpin : Ability
         legR_collider.enabled = false;
     }
 
-    public override void UseAbility()
+    public override bool UseAbility()
     {
-        base.UseAbility();
+        if (base.UseAbility())
+        {
+            legL_collider.enabled = true;
+            legR_collider.enabled = true;
 
-        legL_collider.enabled = true;
-        legR_collider.enabled = true;
-
-        playerState.animator.SetTrigger("LegSpin");
-        InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.25f);
+            playerState.animator.SetTrigger("LegSpin");
+            InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.25f);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public override void StartCooldown()

@@ -26,6 +26,10 @@ public class PlayerState : MonoBehaviour
     public Ability ability1;
     public Ability ability2;
 
+    //energy
+    public int energy;
+    public int maxEnergy;
+
     //pause menu
     public bool paused;
 
@@ -39,6 +43,9 @@ public class PlayerState : MonoBehaviour
         paused = false;
         ability1 = gameObject.AddComponent<LaserBeam>();
         ability2 = gameObject.AddComponent<LegSpin>();
+        maxEnergy = 100;
+        energy = maxEnergy;
+        InvokeRepeating("AccumulateEnergy", 0f, 0.25f);
     }
 
     public void StartAttack()
@@ -49,7 +56,7 @@ public class PlayerState : MonoBehaviour
         animator.SetBool("Attacking", true);
         returnSpeed = playerSpeed;
         playerSpeed = 1.5f;
-        Debug.Log("Slowing movement to " + playerSpeed);
+        DrainEnergy(10);
     }
 
     public void StopAttack()
@@ -198,5 +205,29 @@ public class PlayerState : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         this.paused = false;
         virtualCam.SetActive(true);
+    }
+
+    public void AccumulateEnergy()
+    {
+        if (this.energy == maxEnergy) return;
+        if (this.energy + 2 > maxEnergy) this.energy = maxEnergy;
+        else this.energy += 2;
+    }
+
+    public void AccumulateEnergy(int energy)
+    {
+        if (this.energy == maxEnergy) return;
+        if (this.energy + energy > maxEnergy) this.energy = maxEnergy;
+        else this.energy += energy;
+    }
+
+    public bool DrainEnergy(int energy)
+    {
+        if (this.energy - energy < 0) return false;
+        else
+        {
+            this.energy -= energy;
+            return true;
+        }
     }
 }

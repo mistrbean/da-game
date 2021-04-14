@@ -23,6 +23,7 @@ public class CharacterInput : MonoBehaviour
     public GameObject virtualCam;
     private PlayerState playerState;
     private CharacterMovement characterMovement;
+    private PlayerHUD playerHUD;
 
 
     void Awake()
@@ -35,6 +36,7 @@ public class CharacterInput : MonoBehaviour
         virtualCam = GameObject.Find("VirtualPlayerCam");
         playerState = GetComponent<PlayerState>();
         characterMovement = GetComponent<CharacterMovement>();
+        playerHUD = GameObject.Find("HUD").GetComponent<PlayerHUD>();
     }
 
     void Update()
@@ -56,21 +58,21 @@ public class CharacterInput : MonoBehaviour
         bool abilityTwo = Input.GetKeyDown("r");
 
         /* Get ability input, prioritizing ability1 */
-        if (abilityOne && playerState.ability1.useable && !playerState.ability2.inUse) playerState.ability1.UseAbility();
-        if (abilityTwo && playerState.ability2.useable && !playerState.ability1.inUse) playerState.ability2.UseAbility();
+        if (abilityOne && !playerState.ability2.inUse)
+        {
+            if (playerState.ability1.useable) playerState.ability1.UseAbility();
+            else if (playerState.ability1.inUse) playerState.ability1.Interrupt();
+        }
+        if (abilityTwo && !playerState.ability1.inUse)
+        {
+            if (playerState.ability2.useable) playerState.ability2.UseAbility();
+            else if (playerState.ability2.inUse) playerState.ability2.Interrupt();
+        }
 
         /* If looking at equippable item */
-        if (LookingAtEquippable(out GameObject item))
+        if (playerHUD.PromptVisible())
         {
-            playerState.SendMessage("CheckPrompt", true); //check prompt visibility, enabling if not already enabled
-            if (Input.GetKeyDown("f")) //if picking up item
-            {
-                playerState.SendMessage("PickupItem", item);
-            }
-        }
-        else
-        {
-            playerState.SendMessage("CheckPrompt", false); //check prompt visibility, disabling if already enabled
+            if (Input.GetKeyDown("f")) playerState.SendMessage("PickupItem", playerHUD.lookingAt);
         }
 
         /* --------------------------------- */
@@ -150,26 +152,5 @@ public class CharacterInput : MonoBehaviour
         characterMovement.UpdateMovement(this, ability);
 
         /* ------------------------- */
-    }
-
-    private bool LookingAtEquippable(out GameObject item)
-    {
-        //only collide with objects in "Item" layer 10
-        int layerMask = 1 << 10;
-
-        Ray ray = new Ray(cam.position, cam.TransformDirection(Vector3.forward));
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 5.0f, layerMask))
-        {
-            //Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * hit.distance, Color.yellow, 1, true);
-            item = hit.collider.gameObject;
-            if (item == playerState.equippedWeapon) return false;
-            return true;
-        }
-        else
-        {
-            item = null;
-            return false;
-        }
     }
 }

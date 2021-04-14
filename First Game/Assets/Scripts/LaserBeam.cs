@@ -22,7 +22,8 @@ public class LaserBeam : Ability
         this.abilityName = "Laser Beam";
         this.moveSpeed = 12f;
         this.verticalSpeed = 35f;
-        this.cooldown = 3.0f;
+        this.cooldown = 10.0f;
+        this.energyCost = 25;
         this.useTime = 5.0f; //5 seconds
         this.tickRate = 0.5f; //tick damage every half second
         this.totalDamage = 1500.0f;
@@ -31,12 +32,18 @@ public class LaserBeam : Ability
         this.takeControl = true;
     }
 
-    public override void UseAbility()
+    public override bool UseAbility()
     {
-        base.UseAbility();
-
-        InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.25f);
-        InvokeRepeating(nameof(CheckTargets), 0.0f, tickRate);
+        if (base.UseAbility())
+        {
+            InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.25f);
+            InvokeRepeating(nameof(CheckTargets), 0.0f, tickRate);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void CheckTargets()
