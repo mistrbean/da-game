@@ -12,6 +12,7 @@ public class LaserBeam : Ability
     public float moveSpeed;
     public float verticalSpeed;
 
+    private RaycastHit[] targets;
     private int layerMask;
 
     public override void Start()
@@ -28,6 +29,7 @@ public class LaserBeam : Ability
         this.tickRate = 0.5f; //tick damage every half second
         this.totalDamage = 1500.0f;
         this.tickDamage = totalDamage / (useTime / tickRate);
+        this.targets = new RaycastHit[10];
         this.layerMask = 1 << 11; //only collide with objects in "Enemy" layer 11
         this.takeControl = true;
     }
@@ -56,7 +58,7 @@ public class LaserBeam : Ability
         }
         else
         {
-            RaycastHit[] targets = Physics.SphereCastAll(cam.position, 1.0f, cam.TransformDirection(Vector3.forward), 20.0f, layerMask);
+            /*RaycastHit[] targets = Physics.SphereCastAll(cam.position, 1.0f, cam.TransformDirection(Vector3.forward), 20.0f, layerMask);
             Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * 20.0f, Color.yellow, 1, true);
             if (targets.Length != 0)
             {
@@ -64,6 +66,13 @@ public class LaserBeam : Ability
                 {
                     targets[i].collider.gameObject.SendMessage("TakeDamage", tickDamage);
                 }
+            }*/
+
+            Physics.SphereCastNonAlloc(cam.position, 1.0f, cam.TransformDirection(Vector3.forward), targets, 20.0f, layerMask);
+            for (int i = 0; i < targets.Length; i++)
+            {
+                if (targets[i].collider != null)
+                targets[i].collider.gameObject.SendMessage("TakeDamage", tickDamage);
             }
         }
     }
