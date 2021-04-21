@@ -52,7 +52,7 @@ public abstract class Ability : MonoBehaviour
         this.useTimer += 0.25f;
         if (this.useTimer >= this.useTime)
         {
-            CancelInvoke();
+            CancelInvoke(nameof(IncrementUseTimer));
             this.useTimer = 0.0f;
             StartCooldown();
         }
@@ -77,7 +77,7 @@ public abstract class Ability : MonoBehaviour
     public virtual void StopCooldown()
     {
         this.useable = true;
-        CancelInvoke();
+        CancelInvoke(nameof(IncrementCooldownTimer));
         Debug.Log("Off cooldown");
     }
 }

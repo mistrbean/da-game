@@ -148,13 +148,12 @@ public class CharacterMovement : MonoBehaviour
             gravity = defGravity;
             jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             animator.SetTrigger("Jump");
-            Debug.Log("Triggered jump");
         }
     }
 
     public void Dash()
     {
-        if (dashTimer == 0.0f)
+        if (dashTimer == 0.0f && playerState.dashCount > 0)
         {
             dashing = true;
             playerState.SetPlayerSpeed(16.0f);
@@ -162,6 +161,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 gravity /= 3;
             }
+            playerState.DecrementDashCount();
         }
     }
 

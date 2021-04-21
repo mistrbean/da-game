@@ -52,7 +52,7 @@ public class LaserBeam : Ability
     {
         if (useTimer >= useTime)
         {
-            CancelInvoke();
+            CancelInvoke(nameof(CheckTargets));
             this.useTimer = 0.0f;
             StartCooldown();
         }

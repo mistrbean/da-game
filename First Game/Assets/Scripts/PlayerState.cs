@@ -17,6 +17,14 @@ public class PlayerState : MonoBehaviour
     public bool lockRotation;
     public float playerSpeed = 6f;
     public float returnSpeed; //holds current speed to return to after attack
+    public int dashCount; //number of dash charges available
+    public int maxDashCount;
+    public float dashCooldown;
+
+    public float[] dashChargeCooldowns;
+    public float dashChargeCooldown1;
+    public float dashChargeCooldown2;
+    public float dashChargeCooldown3;
 
     //pick-up prompt
     public GameObject promptPickup;
@@ -45,7 +53,12 @@ public class PlayerState : MonoBehaviour
         ability2 = gameObject.AddComponent<LegSpin>();
         maxEnergy = 100;
         energy = maxEnergy;
-        InvokeRepeating("AccumulateEnergy", 0f, 0.25f);
+        InvokeRepeating(nameof(AccumulateEnergy), 0f, 0.25f);
+        maxDashCount = 3;
+        dashCount = maxDashCount;
+        dashCooldown = 5.0f;
+        dashChargeCooldowns = new float[maxDashCount];
+        for (int i = 0; i < dashChargeCooldowns.Length; i++) dashChargeCooldowns[i] = dashCooldown;
     }
 
     public void StartAttack()
@@ -228,6 +241,150 @@ public class PlayerState : MonoBehaviour
         {
             this.energy -= energy;
             return true;
+        }
+    }
+
+    public void IncrementDashCount()
+    {
+        dashCount = 0;
+        for (int i = 0; i < dashChargeCooldowns.Length; i++)
+        {
+            if (dashChargeCooldowns[i] >= dashCooldown) dashCount++;
+        }
+        Debug.Log($"Dash count set to {dashCount}");
+
+        /*
+        dashCount = Mathf.Min(dashCount + 1, maxDashCount);
+        Debug.Log($"Dash count incremented to {dashCount}");
+        //if (dashChargeCooldown2 >= dashCooldown && dashCount == 1)
+        if (dashChargeCooldowns[1] >= dashCooldown && dashCount == 1)
+        {
+            dashCount++;
+            Debug.Log($"Dash count should have incremented to {dashCount}");
+        }
+        //if (dashChargeCooldown3 >= dashCooldown && dashCount == 2)
+        if (dashChargeCooldowns[2] >= dashCooldown && dashCount == 2)
+        {
+            dashCount++;
+            Debug.Log($"Dash count should have been incremented to {dashCount}");
+        }*/
+    }
+
+    public void DecrementDashCount()
+    {
+        dashCount = Mathf.Max(dashCount - 1, 0);
+        DashCooldown();
+    }
+
+    public void DashCooldown()
+    {
+        for (int i = dashChargeCooldowns.Length - 1; i >= 0; i--)
+        {
+            if (dashChargeCooldowns[i] >= dashCooldown)
+            {
+                dashChargeCooldowns[i] = 0;
+                if (i == 2)
+                {
+                    InvokeRepeating(nameof(IncrementDashCooldown3), 0.1f, 0.1f);
+                    return;
+                }
+                else if (i == 1)
+                {
+                    InvokeRepeating(nameof(IncrementDashCooldown2), 0.1f, 0.1f);
+                    return;
+                }
+                else if (i == 0)
+                {
+                    InvokeRepeating(nameof(IncrementDashCooldown1), 0.1f, 0.1f);
+                    return;
+                }
+            }
+            
+        }
+
+        /*if (dashCount == 2)
+        {
+            //dashChargeCooldown3 = 0;
+            dashChargeCooldowns[2] = 0;
+            InvokeRepeating(nameof(IncrementDashCooldown3), 0.1f, 0.1f);
+        }
+        else if (dashCount == 1)
+        {
+            //dashChargeCooldown2 = 0;
+            dashChargeCooldowns[1] = 0;
+            InvokeRepeating(nameof(IncrementDashCooldown2), 0.1f, 0.1f);
+        }
+        else if (dashCount == 0)
+        {
+            //dashChargeCooldown1 = 0;
+            dashChargeCooldowns[0] = 0;
+            InvokeRepeating(nameof(IncrementDashCooldown1), 0.1f, 0.1f);
+        }*/
+    }
+
+    /*public void IncrementDashCooldown1()
+    {
+        dashChargeCooldown1 += .1f;
+        if (dashChargeCooldown1 >= dashCooldown)
+        {
+            IncrementDashCount();
+            dashChargeCooldown1 = dashCooldown;
+            CancelInvoke(nameof(IncrementDashCooldown1));
+        }
+    }
+
+    public void IncrementDashCooldown2()
+    {
+        dashChargeCooldown2 += .1f;
+        if (dashChargeCooldown2 >= dashCooldown)
+        {
+            IncrementDashCount();
+            dashChargeCooldown2 = dashCooldown;
+            CancelInvoke(nameof(IncrementDashCooldown2));
+        }
+    }
+
+    public void IncrementDashCooldown3()
+    {
+        dashChargeCooldown3 += .1f;
+        if (dashChargeCooldown3 >= dashCooldown)
+        {
+            IncrementDashCount();
+            dashChargeCooldown3 = dashCooldown;
+            CancelInvoke(nameof(IncrementDashCooldown3));
+        }
+    }*/
+
+    public void IncrementDashCooldown1()
+    {
+        dashChargeCooldowns[0] += .1f;
+        if (dashChargeCooldowns[0] >= dashCooldown)
+        {
+            CancelInvoke(nameof(IncrementDashCooldown1));
+            IncrementDashCount();
+            dashChargeCooldowns[0] = dashCooldown;
+        }
+    }
+
+    public void IncrementDashCooldown2()
+    {
+        dashChargeCooldowns[1] += .1f;
+        if (dashChargeCooldowns[1] >= dashCooldown)
+        {
+            CancelInvoke(nameof(IncrementDashCooldown2));
+            IncrementDashCount();
+            dashChargeCooldowns[1] = dashCooldown;
+        }
+    }
+
+    public void IncrementDashCooldown3()
+    {
+        dashChargeCooldowns[2] += .1f;
+        if (dashChargeCooldowns[2] >= dashCooldown)
+        {
+            CancelInvoke(nameof(IncrementDashCooldown3));
+            IncrementDashCount();
+            dashChargeCooldowns[2] = dashCooldown;
         }
     }
 }
