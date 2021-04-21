@@ -16,6 +16,11 @@ public class EnemyCondition : MonoBehaviour
     private CapsuleCollider enemyCollider;
     private Rigidbody[] rigidbodies;
     private Rigidbody myRigidbody;
+
+    private GameObject player;
+    private PlayerState playerState;
+    private Vector3 lookAt;
+    private Vector3 rotationMask;
     
 
     // Start is called before the first frame update
@@ -29,6 +34,30 @@ public class EnemyCondition : MonoBehaviour
         rigidbodies = GetComponentsInChildren<Rigidbody>();
         myRigidbody = GetComponent<Rigidbody>();
         ToggleRagdoll(false);
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerState = player.GetComponent<PlayerState>();
+        rotationMask = new Vector3(0, 1, 0);
+    }
+
+    private void Awake()
+    {
+        maxHealth = (float)PlayerPrefs.GetInt("enemyHealth");
+        currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
+        enemyCollider = GetComponent<CapsuleCollider>();
+        isRagdoll = false;
+        rigidbodies = GetComponentsInChildren<Rigidbody>();
+        myRigidbody = GetComponent<Rigidbody>();
+        ToggleRagdoll(false);
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerState = player.GetComponent<PlayerState>();
+    }
+
+    private void Update()
+    {
+        //transform.rotation = Quaternion.LookRotation(player.transform.position);
+        lookAt = Quaternion.LookRotation(player.transform.position - transform.position).eulerAngles;
+        transform.rotation = Quaternion.Euler(Vector3.Scale(lookAt, rotationMask));
     }
 
     public void TakeDamage(float damage)
