@@ -16,7 +16,7 @@ public class PlayerHUD : MonoBehaviour
     private Slider energySlider;
     private TextMeshProUGUI energyValue;
 
-    [SerializeField] private Slider[] dashSliders;
+    [SerializeField] private GameObject[] dashChargeFills;
 
     private void Awake()
     {
@@ -38,10 +38,6 @@ public class PlayerHUD : MonoBehaviour
         }
 
         UpdateEnergySlider();
-        if (playerState.dashCount < playerState.maxDashCount)
-        {
-            UpdateDashElements();
-        }
     }
 
     //set pick-up prompt visibility to check
@@ -88,11 +84,31 @@ public class PlayerHUD : MonoBehaviour
 
     public void UpdateDashElements()
     {
-        for (int i = 0; i < playerState.dashChargeCooldowns.Length; i++)
-        {
-            dashSliders[i].value = playerState.dashChargeCooldowns[i];
-        }
         
+    }
+
+    public void AddDashCharge()
+    {
+        for (int i = 0; i < dashChargeFills.Length; i++)
+        {
+            if (!dashChargeFills[i].activeSelf)
+            {
+                dashChargeFills[i].SetActive(true);
+                return;
+            }
+        }
+    }
+
+    public void RemoveDashCharge()
+    {
+        for (int i = dashChargeFills.Length - 1; i >= 0; i--)
+        {
+            if (dashChargeFills[i].activeSelf)
+            {
+                dashChargeFills[i].SetActive(false);
+                return;
+            }
+        }
     }
 
 }

@@ -57,7 +57,7 @@ public class EnemyCondition : MonoBehaviour
     {
         //transform.rotation = Quaternion.LookRotation(player.transform.position);
         lookAt = Quaternion.LookRotation(player.transform.position - transform.position).eulerAngles;
-        transform.rotation = Quaternion.Euler(Vector3.Scale(lookAt, rotationMask));
+        if (!vanquished) transform.rotation = Quaternion.Euler(Vector3.Scale(lookAt, rotationMask));
     }
 
     public void TakeDamage(float damage)
