@@ -290,7 +290,7 @@ public class CharacterMovement : MonoBehaviour
             //smooth turning
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             //set rotation
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (!onWall) transform.rotation = Quaternion.Euler(0f, angle, 0f);
             //set moveDir
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
@@ -309,7 +309,7 @@ public class CharacterMovement : MonoBehaviour
             //smooth turning
             float angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             //set rotation
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (!onWall) transform.rotation = Quaternion.Euler(0f, angle, 0f);
             //set moveDir
             if (direction.magnitude >= 0.1f)
             {
@@ -397,6 +397,9 @@ public class CharacterMovement : MonoBehaviour
                 jumps = 0;
                 canAttach = false;
                 lastWall = hit;
+                Debug.Log(hit.normal);
+                transform.rotation = Quaternion.LookRotation(hit.normal);
+                transform.RotateAround(transform.position, transform.up, 180f);
             }
         }
     }
