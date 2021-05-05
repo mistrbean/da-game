@@ -49,7 +49,7 @@ public abstract class Ability : MonoBehaviour
 
     public virtual void IncrementUseTimer()
     {
-        this.useTimer += 0.25f;
+        this.useTimer += 0.1f;
         if (this.useTimer >= this.useTime)
         {
             CancelInvoke(nameof(IncrementUseTimer));

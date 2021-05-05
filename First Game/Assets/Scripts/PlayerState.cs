@@ -13,6 +13,7 @@ public class PlayerState : MonoBehaviour
     public BoxCollider weaponCollider;
 
     public PlayerHUD playerHUD;
+    public CharacterMovement characterMovement;
 
     public bool attacking;
     public int playerDamage;
@@ -35,6 +36,16 @@ public class PlayerState : MonoBehaviour
 
     public Ability ability1;
     public Ability ability2;
+
+    public Augment headAugment;
+    public Augment rightArmAugment;
+    public Augment leftArmAugment;
+    public Augment chestAugment;
+    public Augment waistAugment;
+    public Augment rightLegAugment;
+    public Augment leftLegAugment;
+
+    public Augment[] collectedAugments;
 
     //energy
     public int energy;
@@ -323,6 +334,144 @@ public class PlayerState : MonoBehaviour
             CancelInvoke(nameof(IncrementDashCooldown3));
             IncrementDashCount();
             dashChargeCooldowns[2] = dashCooldown;
+        }
+    }
+
+    public void EquipAugment(Augment augment, int slot)
+    {
+        switch (slot)
+        {
+            case 0:
+                UnequipAugment(slot);
+                headAugment = augment;
+                return;
+            case 1:
+                UnequipAugment(slot);
+                rightArmAugment = augment;
+                return;
+            case 2:
+                UnequipAugment(slot);
+                leftArmAugment = augment;
+                return;
+            case 3:
+                UnequipAugment(slot);
+                chestAugment = augment;
+                if (augment.name == "Volatile Discharge")
+                {
+                    if (ability1 is LaserBeam laserBeam)
+                    {
+                        laserBeam.energyCost += 25;
+                        laserBeam.SetUseTimeToTick();
+                        laserBeam.UpdateTickDamage();
+                    }
+                    else if (ability2 is LaserBeam laserBeam2)
+                    {
+                        laserBeam2.energyCost += 25;
+                        laserBeam2.SetUseTimeToTick();
+                        laserBeam2.UpdateTickDamage();
+                    }
+                }
+                return;
+            case 4:
+                UnequipAugment(slot);
+                waistAugment = augment;
+                return;
+            case 5:
+                UnequipAugment(slot);
+                rightLegAugment = augment;
+                if (augment.name == "Impact Energy") 
+                {
+                    if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(5);
+                    else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(5);
+                }
+                if (augment.name == "Increased Potential")
+                {
+                    characterMovement.maxJumps++;
+                }
+                return;
+            case 6:
+                UnequipAugment(slot);
+                leftLegAugment = augment;
+                if (augment.name == "Impact Energy")
+                {
+                    if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(5);
+                    else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(5);
+                }
+                if (augment.name == "Increased Potential")
+                {
+                    characterMovement.maxJumps++;
+                }
+                return;
+        }
+    }
+
+    public void UnequipAugment(int slot)
+    {
+        switch (slot)
+        {
+            case 0:
+                headAugment = null;
+                return;
+            case 1:
+                rightArmAugment = null;
+                return;
+            case 2:
+                leftArmAugment = null;
+                return;
+            case 3:
+                if (chestAugment != null)
+                {
+                    if (chestAugment.name == "Volatile Discharge")
+                    {
+                        if (ability1 is LaserBeam laserBeam)
+                        {
+                            laserBeam.energyCost -= 25;
+                            laserBeam.RevertUseTime();
+                            laserBeam.UpdateTickDamage();
+                        }
+                        else if (ability2 is LaserBeam laserBeam2)
+                        {
+                            laserBeam2.energyCost -= 25;
+                            laserBeam2.RevertUseTime();
+                            laserBeam2.UpdateTickDamage();
+                        }
+                    }
+                    chestAugment = null;
+                }
+                return;
+            case 4:
+                waistAugment = null;
+                return;
+            case 5:
+                if (rightLegAugment != null)
+                {
+                    if (rightLegAugment.name == "Impact Energy")
+                    {
+                        if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(0);
+                        else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(0);
+                    }
+                    if (rightLegAugment.name == "Increased Potential")
+                    {
+                        characterMovement.maxJumps--;
+                    }
+                    rightLegAugment = null;
+                }
+                return;
+            case 6:
+                if (leftLegAugment != null)
+                {
+                    if (leftLegAugment.name == "Impact Energy")
+                    {
+                        if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(0);
+                        else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(0);
+                    }
+                    if (leftLegAugment.name == "Increased Potential")
+                    {
+                        characterMovement.maxJumps--;
+                    }
+                    leftLegAugment = null;
+                }
+                return;
         }
     }
 }

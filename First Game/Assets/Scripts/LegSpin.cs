@@ -23,8 +23,8 @@ public class LegSpin : Ability
         this.energyCost = 75;
         legL = GameObject.Find("Foot.L");
         legR = GameObject.Find("Foot.R");
-        legL.GetComponent<WeaponController>().weaponDamage = this.hitDamage;
-        legR.GetComponent<WeaponController>().weaponDamage = this.hitDamage;
+        legL.GetComponent<LegController>().weaponDamage = this.hitDamage;
+        legR.GetComponent<LegController>().weaponDamage = this.hitDamage;
         legL_collider = legL.GetComponent<BoxCollider>();
         legR_collider = legR.GetComponent<BoxCollider>();
         legL_collider.enabled = false;
@@ -39,7 +39,7 @@ public class LegSpin : Ability
             legR_collider.enabled = true;
 
             playerState.animator.SetTrigger("LegSpin");
-            InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.25f);
+            InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.1f);
             return true;
         }
         else
@@ -63,5 +63,11 @@ public class LegSpin : Ability
     public void LegSpinning()
     {
         playerState.animator.SetBool("SpinningLegs", true);
+    }
+
+    public void UpdateReturnEnergy(int energyReturn)
+    {
+        legL.GetComponent<LegController>().energyReturn = energyReturn;
+        legR.GetComponent<LegController>().energyReturn = energyReturn;
     }
 }

@@ -8,6 +8,7 @@ public class LaserBeam : Ability
     private float tickRate; //rate that spherecast occurs
     private float tickDamage;
     private float totalDamage;
+    public float defaultUseTime;
 
     public float moveSpeed;
     public float verticalSpeed;
@@ -26,6 +27,7 @@ public class LaserBeam : Ability
         this.cooldown = 10.0f;
         this.energyCost = 25;
         this.useTime = 5.0f; //5 seconds
+        this.defaultUseTime = 5.0f;
         this.tickRate = 0.5f; //tick damage every half second
         this.totalDamage = 1500.0f;
         this.tickDamage = totalDamage / (useTime / tickRate);
@@ -38,7 +40,7 @@ public class LaserBeam : Ability
     {
         if (base.UseAbility())
         {
-            InvokeRepeating(nameof(IncrementUseTimer), 0.0f, 0.25f);
+            InvokeRepeating(nameof(this.IncrementUseTimer), 0.0f, 0.1f);
             InvokeRepeating(nameof(CheckTargets), 0.0f, tickRate);
             return true;
         }
@@ -48,33 +50,40 @@ public class LaserBeam : Ability
         }
     }
 
-    public void CheckTargets()
+    public override void IncrementUseTimer()
     {
-        if (useTimer >= useTime)
+        this.useTimer += 0.1f;
+        if (this.useTimer >= this.useTime)
         {
+            CancelInvoke(nameof(IncrementUseTimer));
             CancelInvoke(nameof(CheckTargets));
             this.useTimer = 0.0f;
             StartCooldown();
         }
-        else
-        {
-            /*RaycastHit[] targets = Physics.SphereCastAll(cam.position, 1.0f, cam.TransformDirection(Vector3.forward), 20.0f, layerMask);
-            Debug.DrawRay(cam.position, cam.TransformDirection(Vector3.forward) * 20.0f, Color.yellow, 1, true);
-            if (targets.Length != 0)
-            {
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    targets[i].collider.gameObject.SendMessage("TakeDamage", tickDamage);
-                }
-            }*/
+    }
 
-            Physics.SphereCastNonAlloc(cam.position, 1.0f, cam.TransformDirection(Vector3.forward), targets, 20.0f, layerMask);
-            for (int i = 0; i < targets.Length; i++)
-            {
-                if (targets[i].collider != null)
-                targets[i].collider.gameObject.SendMessage("TakeDamage", tickDamage);
-            }
+    public void CheckTargets()
+    {
+        Physics.SphereCastNonAlloc(cam.position, 1.0f, cam.TransformDirection(Vector3.forward), targets, 20.0f, layerMask);
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (targets[i].collider != null) targets[i].collider.gameObject.SendMessage("TakeDamage", tickDamage);
         }
+    }
+
+    public void UpdateTickDamage()
+    {
+        this.tickDamage = totalDamage / (useTime / tickRate);
+    }
+
+    public void SetUseTimeToTick()
+    {
+        this.useTime = this.tickRate;
+    }
+
+    public void RevertUseTime()
+    {
+        this.useTime = this.defaultUseTime;
     }
 
 }
