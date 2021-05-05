@@ -89,7 +89,6 @@ public class PlayerState : MonoBehaviour
     {
         weaponCollider.enabled = false;
         playerSpeed = returnSpeed;
-        Debug.Log("Returning movement.");
         lockRotation = false;
         attacking = false;
         animator.SetBool("Attacking", false);

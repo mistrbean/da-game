@@ -110,7 +110,7 @@ public class AugmentMenu : MonoBehaviour
                     j++;
                 }
             }
-            else if ((slot == 5 || slot == 6) && (playerState.collectedAugments[i].slot == 5 || playerState.collectedAugments[i].slot == 6))
+            else if ((slot == 5 || slot == 6) && playerState.collectedAugments[i].slot == 5)
             {
                 if (j < transform.childCount)
                 {
