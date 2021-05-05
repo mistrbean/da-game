@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98012de7e5d6b9845b64d09af12ad2a2, type: 3}
-  m_Name: 4_DynamicRotor
+  m_Name: Waist_DynamicRotor
   m_EditorClassIdentifier: 
   name: Dynamic Rotor
   description: Leg Spin now has no cooldown and instead uses 10 energy per second.

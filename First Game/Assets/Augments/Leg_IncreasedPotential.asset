@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98012de7e5d6b9845b64d09af12ad2a2, type: 3}
-  m_Name: 5_IncreasedPotential
+  m_Name: Leg_IncreasedPotential
   m_EditorClassIdentifier: 
   name: Increased Potential
   description: Add another in-air jump.
