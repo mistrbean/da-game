@@ -156,7 +156,7 @@ public class CharacterMovement : MonoBehaviour
         if (dashTimer == 0.0f && playerState.dashCount > 0)
         {
             dashing = true;
-            playerState.SetPlayerSpeed(16.0f);
+            playerState.SetPlayerSpeed(playerState.dashSpeed);
             if (!groundedPlayer)
             {
                 gravity /= 3;
@@ -172,7 +172,7 @@ public class CharacterMovement : MonoBehaviour
         if ((dashTimer % 60) >= maxDashTime)
         {
             dashing = false;
-            playerState.SetPlayerSpeed(4.0f);
+            playerState.SetPlayerSpeed(playerState.runSpeed);
         }
 
         //keep gravity lowered for 0.2f, then reset dash timer
@@ -228,12 +228,12 @@ public class CharacterMovement : MonoBehaviour
         //set animator speed multiplier for sprinting
         if (anythingPressed && sprint && !targeting)
         {
-            if (playerState.playerSpeed != 8.0f) playerState.SetPlayerSpeed(8.0f);
+            if (playerState.playerSpeed != playerState.sprintSpeed) playerState.SetPlayerSpeed(playerState.sprintSpeed);
             animator.SetFloat("AnimSpeedMultiplier", 1.5f);
         }
         else if (!dashing)
         {
-            if (playerState.playerSpeed != 4.0f) playerState.SetPlayerSpeed(4.0f);
+            if (playerState.playerSpeed != playerState.runSpeed) playerState.SetPlayerSpeed(playerState.runSpeed);
             animator.SetFloat("AnimSpeedMultiplier", 1.0f);
         }
         else

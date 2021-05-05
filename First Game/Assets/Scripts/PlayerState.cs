@@ -18,12 +18,16 @@ public class PlayerState : MonoBehaviour
     public bool attacking;
     public int playerDamage;
     public bool lockRotation;
-    public float playerSpeed = 6f;
+    public float playerSpeed;
+    public float defaultSpeed = 4f;
+    public float runSpeed = 4f;
+    public float sprintSpeed = 8f;
     public float returnSpeed; //holds current speed to return to after attack
     public int dashCount; //number of dash charges available
     public int maxDashCount;
     public float dashCooldown;
 
+    public float dashSpeed = 16f;
     public float[] dashChargeCooldowns;
     public float dashChargeCooldown1;
     public float dashChargeCooldown2;
@@ -181,6 +185,7 @@ public class PlayerState : MonoBehaviour
     //set pause menu visibility to true
     public void OpenPause()
     {
+        playerHUD.gameObject.SetActive(false);
         pausePanel.SetActive(true);
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
@@ -191,6 +196,7 @@ public class PlayerState : MonoBehaviour
     //set pause menu visiblity to false
     public void ClosePause()
     {
+        playerHUD.gameObject.SetActive(true);
         pausePanel.SetActive(false);
         if (!augmentPanel.activeSelf)
         {
@@ -216,6 +222,7 @@ public class PlayerState : MonoBehaviour
 
     public void OpenAugmentScreen()
     {
+        playerHUD.gameObject.SetActive(false);
         augmentPanel.SetActive(true);
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
@@ -225,6 +232,7 @@ public class PlayerState : MonoBehaviour
 
     public void CloseAugmentScreen()
     {
+        playerHUD.gameObject.SetActive(true);
         augmentPanel.SetActive(false);
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
@@ -387,6 +395,11 @@ public class PlayerState : MonoBehaviour
                 {
                     characterMovement.maxJumps++;
                 }
+                if (augment.name == "Fresh Oil")
+                {
+                    this.runSpeed *= 1.25f;
+                    this.sprintSpeed *= 1.25f;
+                }
                 return;
             case 6:
                 UnequipAugment(slot);
@@ -399,6 +412,11 @@ public class PlayerState : MonoBehaviour
                 if (augment.name == "Increased Potential")
                 {
                     characterMovement.maxJumps++;
+                }
+                if (augment.name == "Fresh Oil")
+                {
+                    this.runSpeed *= 1.25f;
+                    this.sprintSpeed *= 1.25f;
                 }
                 return;
         }
@@ -453,6 +471,11 @@ public class PlayerState : MonoBehaviour
                     {
                         characterMovement.maxJumps--;
                     }
+                    if (rightLegAugment.name == "Fresh Oil")
+                    {
+                        this.runSpeed *= defaultSpeed;
+                        this.sprintSpeed *= runSpeed * 2;
+                    }
                     rightLegAugment = null;
                 }
                 return;
@@ -467,6 +490,11 @@ public class PlayerState : MonoBehaviour
                     if (leftLegAugment.name == "Increased Potential")
                     {
                         characterMovement.maxJumps--;
+                    }
+                    if (leftLegAugment.name == "Fresh Oil")
+                    {
+                        this.runSpeed *= defaultSpeed;
+                        this.sprintSpeed *= runSpeed * 2;
                     }
                     leftLegAugment = null;
                 }
