@@ -32,6 +32,8 @@ public class CharacterMovement : MonoBehaviour
     public bool onWall;
     public bool canAttach;
     public bool canKick; //off of an enemy
+    public float landingDamage = 0;
+    public float maxLandingDamage = 0;
 
     //smooth character turning
     public float turnSmoothTime = 0.1f;
@@ -87,7 +89,7 @@ public class CharacterMovement : MonoBehaviour
 
     }
 
-    public void UpdateMovement(CharacterInput input, bool abilityControlled)
+    /*public void UpdateMovement(CharacterInput input, bool abilityControlled)
     {
         groundedPlayer = controller.isGrounded;
         if (!groundedPlayer) animator.SetBool("Grounded", false);
@@ -117,7 +119,7 @@ public class CharacterMovement : MonoBehaviour
             UpdateAnimator(input.forwardPressed, input.backPressed, input.strafeLeft, input.strafeRight, input.targeting);
         }
 
-    }
+    } */
 
     public void UpdateJumpVelocity()
     {
@@ -400,6 +402,23 @@ public class CharacterMovement : MonoBehaviour
                 Debug.Log(hit.normal);
                 transform.rotation = Quaternion.LookRotation(hit.normal);
                 transform.RotateAround(transform.position, transform.up, 180f);
+            }
+        }
+        else if (hit.gameObject.layer == 13 && jumpVelocity.y < -12f)
+        {
+            Debug.Log(jumpVelocity.y);
+            if (landingDamage > 0)
+            {
+                if (jumpVelocity.y > -16f) landingDamage = Mathf.Min(jumpVelocity.y * -1 * 10, maxLandingDamage);
+                else if (jumpVelocity.y > -20) landingDamage = Mathf.Min(jumpVelocity.y * -1 * 20, maxLandingDamage);
+                else landingDamage = Mathf.Min(jumpVelocity.y * -1 * 30, maxLandingDamage);
+
+                RaycastHit[] targets = Physics.SphereCastAll(transform.position, 3.0f, cam.TransformDirection(Vector3.up), 0.0f, playerState.enemyLayerMask);
+                for (int i = 0; i < targets.Length; i++)
+                {
+                    if (targets[i].collider != null) targets[i].collider.gameObject.SendMessage("TakeDamage", landingDamage);
+                }
+                Debug.DrawRay(transform.position, transform.forward.normalized * 3.0f, Color.yellow, 5f);
             }
         }
     }

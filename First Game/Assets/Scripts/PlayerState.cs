@@ -26,6 +26,7 @@ public class PlayerState : MonoBehaviour
     public int dashCount; //number of dash charges available
     public int maxDashCount;
     public float dashCooldown;
+    public int enemyLayerMask = 1 << 11; //only collide with objects in "Enemy" layer 11
 
     public float dashSpeed = 16f;
     public float[] dashChargeCooldowns;
@@ -344,6 +345,47 @@ public class PlayerState : MonoBehaviour
         }
     }
 
+    public bool HasAugment(string augmentName)
+    {
+        if (headAugment.name == augmentName) return true;
+        if (rightArmAugment.name == augmentName) return true;
+        if (leftArmAugment.name == augmentName) return true;
+        if (chestAugment.name == augmentName) return true;
+        if (waistAugment.name == augmentName) return true;
+        if (rightLegAugment.name == augmentName) return true;
+        if (leftLegAugment.name == augmentName) return true;
+        return false;
+    }
+
+    public bool HasAugment(string augmentName, int slot)
+    {
+        switch (slot)
+        {
+            case 0:
+                if (headAugment.name == augmentName) return true;
+                else return false;
+            case 1:
+                if (rightArmAugment.name == augmentName || leftArmAugment.name == augmentName) return true;
+                else return false;
+            case 2:
+                if (rightArmAugment.name == augmentName || leftArmAugment.name == augmentName) return true;
+                else return false;
+            case 3:
+                if (chestAugment.name == augmentName) return true;
+                else return false;
+            case 4:
+                if (waistAugment.name == augmentName) return true;
+                else return false;
+            case 5:
+                if (rightLegAugment.name == augmentName || leftLegAugment.name == augmentName) return true;
+                else return false;
+            case 6:
+                if (rightLegAugment.name == augmentName || leftLegAugment.name == augmentName) return true;
+                else return false;
+        }
+        return false;
+    }
+
     public void EquipAugment(Augment augment, int slot)
     {
         switch (slot)
@@ -400,6 +442,11 @@ public class PlayerState : MonoBehaviour
                     this.runSpeed *= 1.25f;
                     this.sprintSpeed *= 1.25f;
                 }
+                if (augment.name == "Explosive Landing")
+                {
+                    characterMovement.landingDamage = 1;
+                    characterMovement.maxLandingDamage = 1000;
+                }
                 return;
             case 6:
                 UnequipAugment(slot);
@@ -417,6 +464,11 @@ public class PlayerState : MonoBehaviour
                 {
                     this.runSpeed *= 1.25f;
                     this.sprintSpeed *= 1.25f;
+                }
+                if (augment.name == "Explosive Landing")
+                {
+                    characterMovement.landingDamage = 1;
+                    characterMovement.maxLandingDamage = 1000;
                 }
                 return;
         }
@@ -473,8 +525,13 @@ public class PlayerState : MonoBehaviour
                     }
                     if (rightLegAugment.name == "Fresh Oil")
                     {
-                        this.runSpeed *= defaultSpeed;
-                        this.sprintSpeed *= runSpeed * 2;
+                        this.runSpeed = defaultSpeed;
+                        this.sprintSpeed = runSpeed * 2;
+                    }
+                    if (rightLegAugment.name == "Explosive Landing")
+                    {
+                        characterMovement.landingDamage = 0;
+                        characterMovement.maxLandingDamage = 0;
                     }
                     rightLegAugment = null;
                 }
@@ -493,8 +550,13 @@ public class PlayerState : MonoBehaviour
                     }
                     if (leftLegAugment.name == "Fresh Oil")
                     {
-                        this.runSpeed *= defaultSpeed;
-                        this.sprintSpeed *= runSpeed * 2;
+                        this.runSpeed = defaultSpeed;
+                        this.sprintSpeed = runSpeed * 2;
+                    }
+                    if (leftLegAugment.name == "Explosive Landing")
+                    {
+                        characterMovement.landingDamage = 0;
+                        characterMovement.maxLandingDamage = 0;
                     }
                     leftLegAugment = null;
                 }

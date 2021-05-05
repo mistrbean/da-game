@@ -94,17 +94,19 @@ public class AugmentMenu : MonoBehaviour
                 {
                     GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
                     augmentListing.GetComponent<Image>().sprite = playerState.collectedAugments[i].icon;
+                    augmentListing.GetComponent<Image>().color = Color.white;
                     int index = i;
                     augmentListing.GetComponent<Button>().onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
                     j++;
                 }
             }
-            else if ((slot == 2 || slot == 3) && (playerState.collectedAugments[i].slot == 2 || playerState.collectedAugments[i].slot == 3))
+            else if ((slot == 1 || slot == 2) && playerState.collectedAugments[i].slot == 2)
             {
                 if (j < transform.childCount)
                 {
                     GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
                     augmentListing.GetComponent<Image>().sprite = playerState.collectedAugments[i].icon;
+                    augmentListing.GetComponent<Image>().color = Color.white;
                     int index = i;
                     augmentListing.GetComponent<Button>().onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
                     j++;
@@ -116,6 +118,7 @@ public class AugmentMenu : MonoBehaviour
                 {
                     GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
                     augmentListing.GetComponent<Image>().sprite = playerState.collectedAugments[i].icon;
+                    augmentListing.GetComponent<Image>().color = Color.white;
                     int index = i;
                     augmentListing.GetComponent<Button>().onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
                     j++;
