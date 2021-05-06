@@ -419,6 +419,7 @@ public class PlayerState : MonoBehaviour
                         laserBeam2.SetUseTimeToTick();
                         laserBeam2.UpdateTickDamage();
                     }
+                    return;
                 }
                 return;
             case 4:
@@ -432,20 +433,29 @@ public class PlayerState : MonoBehaviour
                 {
                     if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(5);
                     else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(5);
+                    return;
                 }
                 if (augment.name == "Increased Potential")
                 {
                     characterMovement.maxJumps++;
+                    return;
                 }
                 if (augment.name == "Fresh Oil")
                 {
                     this.runSpeed *= 1.25f;
                     this.sprintSpeed *= 1.25f;
+                    return;
                 }
                 if (augment.name == "Explosive Landing")
                 {
                     characterMovement.landingDamage = 1;
                     characterMovement.maxLandingDamage = 1000;
+                    return;
+                }
+                if (augment.name == "Overclock")
+                {
+                    characterMovement.maxDashTime *= 2;
+                    return;
                 }
                 return;
             case 6:
@@ -455,20 +465,29 @@ public class PlayerState : MonoBehaviour
                 {
                     if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(5);
                     else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(5);
+                    return;
                 }
                 if (augment.name == "Increased Potential")
                 {
                     characterMovement.maxJumps++;
+                    return;
                 }
                 if (augment.name == "Fresh Oil")
                 {
                     this.runSpeed *= 1.25f;
                     this.sprintSpeed *= 1.25f;
+                    return;
                 }
                 if (augment.name == "Explosive Landing")
                 {
                     characterMovement.landingDamage = 1;
                     characterMovement.maxLandingDamage = 1000;
+                    return;
+                }
+                if (augment.name == "Overclock")
+                {
+                    characterMovement.maxDashTime *= 2;
+                    return;
                 }
                 return;
         }
@@ -504,6 +523,8 @@ public class PlayerState : MonoBehaviour
                             laserBeam2.RevertUseTime();
                             laserBeam2.UpdateTickDamage();
                         }
+                        chestAugment = null;
+                        return;
                     }
                     chestAugment = null;
                 }
@@ -518,22 +539,34 @@ public class PlayerState : MonoBehaviour
                     {
                         if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(0);
                         else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(0);
+                        rightLegAugment = null;
+                        return;
                     }
                     if (rightLegAugment.name == "Increased Potential")
                     {
                         characterMovement.maxJumps--;
+                        rightLegAugment = null;
+                        return;
                     }
                     if (rightLegAugment.name == "Fresh Oil")
                     {
                         this.runSpeed = defaultSpeed;
                         this.sprintSpeed = runSpeed * 2;
+                        rightLegAugment = null;
+                        return;
                     }
                     if (rightLegAugment.name == "Explosive Landing")
                     {
                         characterMovement.landingDamage = 0;
                         characterMovement.maxLandingDamage = 0;
+                        rightLegAugment = null;
+                        return;
                     }
-                    rightLegAugment = null;
+                    if (rightLegAugment.name == "Overclock")
+                    {
+                        characterMovement.maxDashTime /= 2;
+                        return;
+                    }
                 }
                 return;
             case 6:
@@ -543,20 +576,33 @@ public class PlayerState : MonoBehaviour
                     {
                         if (ability1 is LegSpin legSpin) legSpin.UpdateReturnEnergy(0);
                         else if (ability2 is LegSpin legSpin2) legSpin2.UpdateReturnEnergy(0);
+                        leftLegAugment = null;
+                        return;
                     }
                     if (leftLegAugment.name == "Increased Potential")
                     {
                         characterMovement.maxJumps--;
+                        leftLegAugment = null;
+                        return;
                     }
                     if (leftLegAugment.name == "Fresh Oil")
                     {
                         this.runSpeed = defaultSpeed;
                         this.sprintSpeed = runSpeed * 2;
+                        leftLegAugment = null;
+                        return;
                     }
                     if (leftLegAugment.name == "Explosive Landing")
                     {
                         characterMovement.landingDamage = 0;
                         characterMovement.maxLandingDamage = 0;
+                        leftLegAugment = null;
+                        return;
+                    }
+                    if (leftLegAugment.name == "Overclock")
+                    {
+                        characterMovement.maxDashTime /= 2;
+                        return;
                     }
                     leftLegAugment = null;
                 }
