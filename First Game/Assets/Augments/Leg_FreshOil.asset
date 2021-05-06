@@ -15,4 +15,4 @@ MonoBehaviour:
   name: Fresh Oil
   description: Increase horizontal movement speed by 25%
   slot: 5
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1cf0c80dae9f41e43bab0e87b0d9cd62, type: 3}
