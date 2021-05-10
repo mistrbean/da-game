@@ -27,6 +27,15 @@ ModelImporter:
   - first:
       74: 620644321873780976
     second: Armature|TPOSE
+  - first:
+      74: 5296193449656265134
+    second: Armature|fixed_backstep
+  - first:
+      74: 3274074077895409652
+    second: Armature|sidestep_l
+  - first:
+      74: -38684007981398661
+    second: Armature|sidestep_r
   externalObjects: {}
   materials:
     materialImportMode: 1
