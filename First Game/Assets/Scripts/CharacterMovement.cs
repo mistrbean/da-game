@@ -252,24 +252,23 @@ public class CharacterMovement : MonoBehaviour
             {
                 animator.SetBool("SideStepLeft", true);
                 animator.SetBool("SideStepRight", false);
-                animator.SetBool("BackStep", false);
             } 
             else if (!strafeLeft && strafeRight)
             {
                 animator.SetBool("SideStepLeft", false);
                 animator.SetBool("SideStepRight", true);
-                animator.SetBool("BackStep", false);
-            }
-            else if (backPressed)
-            {
-                animator.SetBool("SideStepLeft", false);
-                animator.SetBool("SideStepRight", false);
-                animator.SetBool("BackStep", true);
             }
             else
             {
                 animator.SetBool("SideStepLeft", false);
                 animator.SetBool("SideStepRight", false);
+            }
+            if (backPressed)
+            {
+                animator.SetBool("BackStep", true);
+            }
+            else
+            {
                 animator.SetBool("BackStep", false);
             }
         }
