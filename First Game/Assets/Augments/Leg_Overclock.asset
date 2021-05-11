@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Leg_Overclock
   m_EditorClassIdentifier: 
   name: Overclock
-  description: Dash now lasts twice as long.
+  description: Dash speed is now doubled.
   slot: 5
   icon: {fileID: 21300000, guid: 479a9554b28b5f1469ce4d5bc76105b4, type: 3}
+  highlightedIcon: {fileID: 21300000, guid: 71e3f7aa20cc6fe458c64607c59552db, type: 3}

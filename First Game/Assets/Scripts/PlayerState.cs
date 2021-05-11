@@ -29,6 +29,7 @@ public class PlayerState : MonoBehaviour
     public int enemyLayerMask = 1 << 11; //only collide with objects in "Enemy" layer 11
 
     public float dashSpeed = 16f;
+    public float defaultDashSpeed = 16f;
     public float[] dashChargeCooldowns;
     public float dashChargeCooldown1;
     public float dashChargeCooldown2;
@@ -267,13 +268,8 @@ public class PlayerState : MonoBehaviour
 
     public void IncrementDashCount()
     {
-        /*dashCount = 0;
-        for (int i = 0; i < dashChargeCooldowns.Length; i++)
-        {
-            if (dashChargeCooldowns[i] >= dashCooldown) dashCount++;
-        }*/
         dashCount = Mathf.Min(dashCount + 1, maxDashCount);
-        Debug.Log($"Dash count set to {dashCount}");
+        //Debug.Log($"Dash count set to {dashCount}");
         playerHUD.AddDashCharge();
     }
 
@@ -454,7 +450,7 @@ public class PlayerState : MonoBehaviour
                 }
                 if (augment.name == "Overclock")
                 {
-                    characterMovement.maxDashTime *= 2;
+                    this.dashSpeed *= 2;
                     return;
                 }
                 return;
@@ -486,7 +482,7 @@ public class PlayerState : MonoBehaviour
                 }
                 if (augment.name == "Overclock")
                 {
-                    characterMovement.maxDashTime *= 2;
+                    this.dashSpeed *= 2;
                     return;
                 }
                 return;
@@ -564,7 +560,7 @@ public class PlayerState : MonoBehaviour
                     }
                     if (rightLegAugment.name == "Overclock")
                     {
-                        characterMovement.maxDashTime /= 2;
+                        this.dashSpeed /= 2;
                         return;
                     }
                 }
@@ -601,7 +597,7 @@ public class PlayerState : MonoBehaviour
                     }
                     if (leftLegAugment.name == "Overclock")
                     {
-                        characterMovement.maxDashTime /= 2;
+                        this.dashSpeed /= 2;
                         return;
                     }
                     leftLegAugment = null;

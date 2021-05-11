@@ -64,7 +64,7 @@ public class CharacterMovement : MonoBehaviour
         if (dashing || dashTimer > 0.0f) CheckDash();
         if (ability != null && ability.inUse && ability.takeControl && !input.targeting)
         {
-            Debug.Log("Ability taking control");
+            //Debug.Log("Ability taking control");
             MoveCharacter(ability);
         }
         else
@@ -88,38 +88,6 @@ public class CharacterMovement : MonoBehaviour
         }
 
     }
-
-    /*public void UpdateMovement(CharacterInput input, bool abilityControlled)
-    {
-        groundedPlayer = controller.isGrounded;
-        if (!groundedPlayer) animator.SetBool("Grounded", false);
-        if (dashing || dashTimer > 0.0f) CheckDash();
-        if (abilityControlled)
-        {
-            Debug.Log("Ability taking control");
-            MoveCharacter(playerState.ability1);
-        }
-        else
-        {
-            UpdateJumpVelocity();
-            if (input.jump) Jump();
-            if (input.dash) Dash();
-            if (!dashing)
-            {
-                jumpVelocity.y += gravity * Time.deltaTime;
-            }
-            if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
-            else SetMoveDir(input.direction);
-
-            bool anythingPressed = input.strafePressed || input.forwardPressed;
-            MoveCharacter(input.jump, anythingPressed);
-            UpdateAnimVelocity(anythingPressed);
-            UpdateAnimVerticalVelocity();
-            UpdateAnimSpeedMultiplier(anythingPressed, input.sprint, input.targeting);
-            UpdateAnimator(input.forwardPressed, input.backPressed, input.strafeLeft, input.strafeRight, input.targeting);
-        }
-
-    } */
 
     public void UpdateJumpVelocity()
     {
@@ -389,7 +357,7 @@ public class CharacterMovement : MonoBehaviour
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         //if hitting wall (should somehow change to if jumping into wall)
-        if (hit.gameObject.layer == 9)
+        if (hit.gameObject.layer == 9 && verticalVelocity != 0)
         {
             if (canAttach || lastWall.gameObject != hit.gameObject)
             {
@@ -398,27 +366,24 @@ public class CharacterMovement : MonoBehaviour
                 jumps = 0;
                 canAttach = false;
                 lastWall = hit;
-                Debug.Log(hit.normal);
+                //Debug.Log(hit.normal);
                 transform.rotation = Quaternion.LookRotation(hit.normal);
                 transform.RotateAround(transform.position, transform.up, 180f);
             }
         }
-        else if (hit.gameObject.layer == 13 && jumpVelocity.y < -12f)
+        else if (hit.gameObject.layer == 13 && jumpVelocity.y < -12f && landingDamage > 0)
         {
-            Debug.Log(jumpVelocity.y);
-            if (landingDamage > 0)
-            {
-                if (jumpVelocity.y > -16f) landingDamage = Mathf.Min(jumpVelocity.y * -1 * 10, maxLandingDamage);
-                else if (jumpVelocity.y > -20) landingDamage = Mathf.Min(jumpVelocity.y * -1 * 20, maxLandingDamage);
-                else landingDamage = Mathf.Min(jumpVelocity.y * -1 * 30, maxLandingDamage);
+            //Debug.Log(jumpVelocity.y);
+            if (jumpVelocity.y > -16f) landingDamage = Mathf.Min(jumpVelocity.y * -1 * 10, maxLandingDamage);
+            else if (jumpVelocity.y > -20) landingDamage = Mathf.Min(jumpVelocity.y * -1 * 20, maxLandingDamage);
+            else landingDamage = Mathf.Min(jumpVelocity.y * -1 * 30, maxLandingDamage);
 
-                RaycastHit[] targets = Physics.SphereCastAll(transform.position, 3.0f, cam.TransformDirection(Vector3.up), 0.0f, playerState.enemyLayerMask);
-                for (int i = 0; i < targets.Length; i++)
-                {
-                    if (targets[i].collider != null) targets[i].collider.gameObject.SendMessage("TakeDamage", landingDamage);
-                }
-                Debug.DrawRay(transform.position, transform.forward.normalized * 3.0f, Color.yellow, 5f);
+            RaycastHit[] targets = Physics.SphereCastAll(transform.position, 3.0f, cam.TransformDirection(Vector3.up), 0.0f, playerState.enemyLayerMask);
+            for (int i = 0; i < targets.Length; i++)
+            {
+                if (targets[i].collider != null) targets[i].collider.gameObject.SendMessage("TakeDamage", landingDamage);
             }
+            Debug.DrawRay(transform.position, transform.forward.normalized * 3.0f, Color.yellow, 5f);
         }
     }
 }

@@ -88,41 +88,47 @@ public class AugmentMenu : MonoBehaviour
         int j = 0;
         for (int i = 0; i < playerState.collectedAugments.Length; i++)
         {
-            if (playerState.collectedAugments[i].slot == slot)
+            if (playerState.collectedAugments[i].slot == slot && j < transform.childCount)
             {
-                if (j < transform.childCount)
-                {
-                    GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
-                    augmentListing.GetComponent<Image>().sprite = playerState.collectedAugments[i].icon;
-                    augmentListing.GetComponent<Image>().color = Color.white;
-                    int index = i;
-                    augmentListing.GetComponent<Button>().onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
-                    j++;
-                }
+                GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
+                Image image = augmentListing.GetComponent<Image>();
+                Button button = augmentListing.GetComponent<Button>();
+                SpriteState spriteState = new SpriteState();
+                image.sprite = playerState.collectedAugments[i].icon;
+                image.color = Color.white;
+                int index = i;
+                button.onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
+                spriteState.highlightedSprite = playerState.collectedAugments[i].highlightedIcon;
+                button.spriteState = spriteState;
+                j++;
             }
             else if ((slot == 1 || slot == 2) && playerState.collectedAugments[i].slot == 2)
             {
-                if (j < transform.childCount)
-                {
-                    GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
-                    augmentListing.GetComponent<Image>().sprite = playerState.collectedAugments[i].icon;
-                    augmentListing.GetComponent<Image>().color = Color.white;
-                    int index = i;
-                    augmentListing.GetComponent<Button>().onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
-                    j++;
-                }
+                GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
+                Image image = augmentListing.GetComponent<Image>();
+                Button button = augmentListing.GetComponent<Button>();
+                SpriteState spriteState = new SpriteState();
+                image.sprite = playerState.collectedAugments[i].icon;
+                image.color = Color.white;
+                int index = i;
+                button.onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
+                spriteState.highlightedSprite = playerState.collectedAugments[i].highlightedIcon;
+                button.spriteState = spriteState;
+                j++;
             }
             else if ((slot == 5 || slot == 6) && playerState.collectedAugments[i].slot == 5)
             {
-                if (j < transform.childCount)
-                {
-                    GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
-                    augmentListing.GetComponent<Image>().sprite = playerState.collectedAugments[i].icon;
-                    augmentListing.GetComponent<Image>().color = Color.white;
-                    int index = i;
-                    augmentListing.GetComponent<Button>().onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
-                    j++;
-                }
+                GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
+                Image image = augmentListing.GetComponent<Image>();
+                Button button = augmentListing.GetComponent<Button>();
+                SpriteState spriteState = new SpriteState();
+                image.sprite = playerState.collectedAugments[i].icon;
+                image.color = Color.white;
+                int index = i;
+                button.onClick.AddListener(delegate { EquipAugment(playerState.collectedAugments[index], slot); });
+                spriteState.highlightedSprite = playerState.collectedAugments[i].highlightedIcon;
+                button.spriteState = spriteState;
+                j++;
             }
         }
     }

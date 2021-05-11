@@ -10,5 +10,6 @@ public class Augment : ScriptableObject
     public int slot;
 
     public Sprite icon;
+    public Sprite highlightedIcon;
 
 }

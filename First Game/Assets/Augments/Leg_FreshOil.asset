@@ -16,3 +16,4 @@ MonoBehaviour:
   description: Increase horizontal movement speed by 25%
   slot: 5
   icon: {fileID: 21300000, guid: 1cf0c80dae9f41e43bab0e87b0d9cd62, type: 3}
+  highlightedIcon: {fileID: 21300000, guid: cf3fd79fe1779234d94a4b34663aff6d, type: 3}
