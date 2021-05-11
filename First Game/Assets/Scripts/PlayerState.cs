@@ -27,6 +27,7 @@ public class PlayerState : MonoBehaviour
     public int maxDashCount;
     public float dashCooldown;
     public int enemyLayerMask = 1 << 11; //only collide with objects in "Enemy" layer 11
+    public int kickDamage = 0; //jump kick damage (for aerial stomp augment)
 
     public float dashSpeed = 16f;
     public float defaultDashSpeed = 16f;
@@ -453,6 +454,11 @@ public class PlayerState : MonoBehaviour
                     this.dashSpeed *= 2;
                     return;
                 }
+                if (augment.name == "Aerial Stomp")
+                {
+                    this.kickDamage = 500;
+                    return;
+                }
                 return;
             case 6:
                 UnequipAugment(slot);
@@ -483,6 +489,11 @@ public class PlayerState : MonoBehaviour
                 if (augment.name == "Overclock")
                 {
                     this.dashSpeed *= 2;
+                    return;
+                }
+                if (augment.name == "Aerial Stomp")
+                {
+                    this.kickDamage = 500;
                     return;
                 }
                 return;
@@ -561,6 +572,13 @@ public class PlayerState : MonoBehaviour
                     if (rightLegAugment.name == "Overclock")
                     {
                         this.dashSpeed /= 2;
+                        rightLegAugment = null;
+                        return;
+                    }
+                    if (rightLegAugment.name == "Aerial Stomp")
+                    {
+                        this.kickDamage = 0;
+                        rightLegAugment = null;
                         return;
                     }
                 }
@@ -598,9 +616,15 @@ public class PlayerState : MonoBehaviour
                     if (leftLegAugment.name == "Overclock")
                     {
                         this.dashSpeed /= 2;
+                        leftLegAugment = null;
                         return;
                     }
-                    leftLegAugment = null;
+                    if (leftLegAugment.name == "Aerial Stomp")
+                    {
+                        this.kickDamage = 0;
+                        leftLegAugment = null;
+                        return;
+                    }
                 }
                 return;
         }

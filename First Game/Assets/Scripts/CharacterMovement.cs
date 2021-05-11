@@ -76,8 +76,9 @@ public class CharacterMovement : MonoBehaviour
             {
                 jumpVelocity.y += gravity * Time.deltaTime;
             }
-            if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
-            else SetMoveDir(input.direction);
+            //if (input.lockRotation) SetMoveDir(input.direction, input.lockRotation);
+            //else SetMoveDir(input.direction);
+            SetMoveDir(input.direction, playerState.lockRotation || input.lockRotation);
 
             bool anythingPressed = input.strafePressed || input.forwardPressed;
             MoveCharacter(input.jump, anythingPressed);
@@ -248,7 +249,7 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    public void SetMoveDir(Vector3 direction)
+    /*public void SetMoveDir(Vector3 direction)
     {
         moveDir = Vector3.zero;
 
@@ -265,7 +266,7 @@ public class CharacterMovement : MonoBehaviour
         }
         
 
-    }
+    }*/
 
     public void SetMoveDir(Vector3 direction, bool lockRotation)
     {
@@ -284,6 +285,17 @@ public class CharacterMovement : MonoBehaviour
             {
                 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             }
+        }
+        else if (direction.magnitude >= 0.1f)
+        {
+            //rotate character with camera
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            //smooth turning
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            //set rotation
+            if (!onWall) transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            //set moveDir
+            moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
     }
 
@@ -344,8 +356,9 @@ public class CharacterMovement : MonoBehaviour
         if (ability is LaserBeam laser)
         {
             SetPlayerSpeed(laser.moveSpeed);
-            if (playerState.lockRotation) SetMoveDir(Vector3.back, true);
-            else SetMoveDir(Vector3.back);
+            //if (playerState.lockRotation) SetMoveDir(Vector3.back, true);
+            //else SetMoveDir(Vector3.back);
+            SetMoveDir(Vector3.back, playerState.lockRotation);
 
             jumpVelocity.y = cam.rotation.x * laser.verticalSpeed;
             controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
@@ -384,6 +397,15 @@ public class CharacterMovement : MonoBehaviour
                 if (targets[i].collider != null) targets[i].collider.gameObject.SendMessage("TakeDamage", landingDamage);
             }
             Debug.DrawRay(transform.position, transform.forward.normalized * 3.0f, Color.yellow, 5f);
+        }
+        else if (hit.gameObject.layer == 11 && verticalVelocity != 0 && playerState.kickDamage > 0)
+        {
+            if (Input.GetKeyDown("space"))
+            {
+                hit.gameObject.GetComponent<EnemyCondition>().TakeDamage(playerState.kickDamage);
+                jumpVelocity.y += 6;
+                //controller.Move((Vector3.back * playerState.playerSpeed) + jumpVelocity);
+            }
         }
     }
 }

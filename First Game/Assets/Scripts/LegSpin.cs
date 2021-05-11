@@ -70,4 +70,11 @@ public class LegSpin : Ability
         legL.GetComponent<LegController>().energyReturn = energyReturn;
         legR.GetComponent<LegController>().energyReturn = energyReturn;
     }
+
+    public override void Interrupt()
+    {
+        CancelInvoke();
+        this.useTimer = 0.0f;
+        this.StartCooldown();
+    }
 }
