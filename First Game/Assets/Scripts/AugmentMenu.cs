@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
 
 public class AugmentMenu : MonoBehaviour
 {
@@ -10,6 +12,10 @@ public class AugmentMenu : MonoBehaviour
     [SerializeField] private Image[] icons;
     [SerializeField] private Button[] slotButtons;
     [SerializeField] private GameObject[] augmentChoices; //per slot
+    [SerializeField] private AugmentDataContainer augmentData;
+    [SerializeField] private GameObject augmentHoverWindow;
+    [SerializeField] private TextMeshProUGUI augmentHoverName;
+    [SerializeField] private TextMeshProUGUI augmentHoverDescription;
 
     private void Awake()
     {
@@ -23,6 +29,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.headAugment.highlightedIcon;
             slotButtons[0].spriteState = spriteState;
+            if (slotButtons[0].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.headAugment);
+            }
+            else
+            {
+                slotButtons[0].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.headAugment);
+            }
             icons[0].sprite = playerState.headAugment.icon;
             icons[0].gameObject.SetActive(true);
         }
@@ -30,6 +44,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.rightArmAugment.highlightedIcon;
             slotButtons[1].spriteState = spriteState;
+            if (slotButtons[1].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.rightArmAugment);
+            }
+            else
+            {
+                slotButtons[1].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.rightArmAugment);
+            }
             icons[1].sprite = playerState.rightArmAugment.icon;
             icons[1].gameObject.SetActive(true);
         }
@@ -37,6 +59,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.leftArmAugment.highlightedIcon;
             slotButtons[2].spriteState = spriteState;
+            if (slotButtons[2].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.leftArmAugment);
+            }
+            else
+            {
+                slotButtons[2].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.leftArmAugment);
+            }
             icons[2].sprite = playerState.leftArmAugment.icon;
             icons[2].gameObject.SetActive(true);
         }
@@ -44,6 +74,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.chestAugment.highlightedIcon;
             slotButtons[3].spriteState = spriteState;
+            if (slotButtons[3].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.chestAugment);
+            }
+            else
+            {
+                slotButtons[3].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.chestAugment);
+            }
             icons[3].sprite = playerState.chestAugment.icon;
             icons[3].gameObject.SetActive(true);
         }
@@ -51,6 +89,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.waistAugment.highlightedIcon;
             slotButtons[4].spriteState = spriteState;
+            if (slotButtons[4].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.waistAugment);
+            }
+            else
+            {
+                slotButtons[4].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.waistAugment);
+            }
             icons[4].sprite = playerState.waistAugment.icon;
             icons[4].gameObject.SetActive(true);
         }
@@ -58,6 +104,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.rightLegAugment.highlightedIcon;
             slotButtons[5].spriteState = spriteState;
+            if (slotButtons[5].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.rightLegAugment);
+            }
+            else
+            {
+                slotButtons[5].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.rightLegAugment);
+            }
             icons[5].sprite = playerState.rightLegAugment.icon;
             icons[5].gameObject.SetActive(true);
         }
@@ -65,6 +119,14 @@ public class AugmentMenu : MonoBehaviour
         {
             spriteState.highlightedSprite = playerState.leftLegAugment.highlightedIcon;
             slotButtons[6].spriteState = spriteState;
+            if (slotButtons[6].TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+            {
+                augmentData.UpdateAugmentData(playerState.leftLegAugment);
+            }
+            else
+            {
+                slotButtons[6].gameObject.AddComponent<AugmentDataContainer>().UpdateAugmentData(playerState.leftLegAugment);
+            }
             icons[6].sprite = playerState.leftLegAugment.icon;
             icons[6].gameObject.SetActive(true);
         }
@@ -109,6 +171,15 @@ public class AugmentMenu : MonoBehaviour
                 GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
                 Image image = augmentListing.GetComponent<Image>();
                 Button button = augmentListing.GetComponent<Button>();
+                if (augmentListing.TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+                {
+                    augmentData.UpdateAugmentData(playerState.collectedAugments[i]);
+                }
+                else
+                {
+                    augmentListing.AddComponent(typeof(AugmentDataContainer));
+                    augmentListing.GetComponent<AugmentDataContainer>().UpdateAugmentData(playerState.collectedAugments[i]);
+                }
                 SpriteState spriteState = new SpriteState();
                 image.sprite = playerState.collectedAugments[i].icon;
                 image.color = Color.white;
@@ -123,6 +194,15 @@ public class AugmentMenu : MonoBehaviour
                 GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
                 Image image = augmentListing.GetComponent<Image>();
                 Button button = augmentListing.GetComponent<Button>();
+                if (augmentListing.TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+                {
+                    augmentData.UpdateAugmentData(playerState.collectedAugments[i]);
+                }
+                else
+                {
+                    augmentListing.AddComponent(typeof(AugmentDataContainer));
+                    augmentListing.GetComponent<AugmentDataContainer>().UpdateAugmentData(playerState.collectedAugments[i]);
+                }
                 SpriteState spriteState = new SpriteState();
                 image.sprite = playerState.collectedAugments[i].icon;
                 image.color = Color.white;
@@ -137,6 +217,15 @@ public class AugmentMenu : MonoBehaviour
                 GameObject augmentListing = augmentChoices[slot].transform.GetChild(j).gameObject;
                 Image image = augmentListing.GetComponent<Image>();
                 Button button = augmentListing.GetComponent<Button>();
+                if (augmentListing.TryGetComponent<AugmentDataContainer>(out AugmentDataContainer augmentData))
+                {
+                    augmentData.UpdateAugmentData(playerState.collectedAugments[i]);
+                }
+                else
+                {
+                    augmentListing.AddComponent(typeof(AugmentDataContainer));
+                    augmentListing.GetComponent<AugmentDataContainer>().UpdateAugmentData(playerState.collectedAugments[i]);
+                }
                 SpriteState spriteState = new SpriteState();
                 image.sprite = playerState.collectedAugments[i].icon;
                 image.color = Color.white;
@@ -169,5 +258,23 @@ public class AugmentMenu : MonoBehaviour
             }
             augmentChoices[i].SetActive(false);
         }
+        HideAugmentData();
+    }
+
+    public void DisplayAugmentData(AugmentDataContainer augmentData)
+    {
+        augmentHoverWindow.transform.position = augmentData.transform.position;
+        augmentHoverWindow.transform.position += Vector3.up * 180;
+        augmentHoverWindow.SetActive(true);
+        if (augmentData.augmentInfo != null)
+        {
+            augmentHoverName.text = augmentData.augmentInfo.name;
+            augmentHoverDescription.text = augmentData.augmentInfo.description;
+        }
+    }
+
+    public void HideAugmentData()
+    {
+        augmentHoverWindow.SetActive(false);
     }
 }
