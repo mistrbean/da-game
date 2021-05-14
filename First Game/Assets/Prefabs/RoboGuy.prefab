@@ -882,7 +882,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3438071705509889040}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: d9fea43cbc6ba8a41a27970c19c2f1de, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 2833df89e9cb66048b75e978a52a047a, type: 3}
   m_Controller: {fileID: 9100000, guid: 263c89bf1e58f934a9723343ec30ae5f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -963,7 +963,9 @@ MonoBehaviour:
   maxDashCount: 0
   dashCooldown: 0
   enemyLayerMask: 2048
+  kickDamage: 0
   dashSpeed: 16
+  defaultDashSpeed: 16
   dashChargeCooldowns: []
   dashChargeCooldown1: 0
   dashChargeCooldown2: 0
