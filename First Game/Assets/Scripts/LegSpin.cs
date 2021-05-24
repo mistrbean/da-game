@@ -21,8 +21,8 @@ public class LegSpin : Ability
         this.takeControl = false;
         this.hitDamage = 300;
         this.energyCost = 75;
-        legL = GameObject.Find("Foot.L");
-        legR = GameObject.Find("Foot.R");
+        legL = GameObject.Find("Shin.L");
+        legR = GameObject.Find("Shin.R");
         legL.GetComponent<LegController>().weaponDamage = this.hitDamage;
         legR.GetComponent<LegController>().weaponDamage = this.hitDamage;
         legL_collider = legL.GetComponent<BoxCollider>();

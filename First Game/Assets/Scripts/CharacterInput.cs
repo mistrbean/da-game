@@ -132,8 +132,10 @@ public class CharacterInput : MonoBehaviour
 
         //movement input
         forwardPressed = Input.GetKey("w");
+        animator.SetBool("ForwardPressed", forwardPressed);
         strafeLeft = Input.GetKey("a"); strafeRight = Input.GetKey("d");
         backPressed = Input.GetKey("s");
+        animator.SetBool("BackPressed", backPressed);
         strafePressed = strafeLeft || strafeRight || backPressed;
         
 
