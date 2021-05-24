@@ -20,6 +20,7 @@ public class CharacterMovement : MonoBehaviour
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
     private int VelocityHash;
+    [SerializeField] private bool sprinting;
 
     //aerial movement (jumping/falling)
     public Vector3 jumpVelocity;
@@ -59,6 +60,7 @@ public class CharacterMovement : MonoBehaviour
 
     public void UpdateMovement(CharacterInput input, Ability ability)
     {
+        this.sprinting = input.sprint;
         groundedPlayer = controller.isGrounded;
         if (!groundedPlayer) animator.SetBool("Grounded", false);
         if (dashing || dashTimer > 0.0f) CheckDash();
@@ -157,9 +159,15 @@ public class CharacterMovement : MonoBehaviour
     public void UpdateAnimVelocity(bool anythingPressed)
     {
         //animator blend tree (setting velocity)
-        if (anythingPressed && velocity < 1.0f)
+        //if (anythingPressed && velocity < 1.0f)
+        if (anythingPressed)
         {
-            velocity += Time.deltaTime * acceleration;
+            if (this.sprinting && velocity < 1.0f) velocity += Time.deltaTime * acceleration;
+            else
+            {
+                if (velocity < 0.5f) velocity += Time.deltaTime * acceleration;
+                else if (velocity > 0.51f) velocity -= Time.deltaTime * deceleration;
+            }
         }
 
         if (!anythingPressed && velocity > 0.0f)
@@ -200,17 +208,24 @@ public class CharacterMovement : MonoBehaviour
         if (anythingPressed && sprint && !targeting)
         {
             if (playerState.playerSpeed != playerState.sprintSpeed) playerState.SetPlayerSpeed(playerState.sprintSpeed);
-            animator.SetFloat("AnimSpeedMultiplier", 1.5f);
+            this.sprinting = true;
+            //animator.SetFloat("AnimSpeedMultiplier", 1.5f);
         }
         else if (!dashing)
         {
             if (playerState.playerSpeed != playerState.runSpeed) playerState.SetPlayerSpeed(playerState.runSpeed);
-            animator.SetFloat("AnimSpeedMultiplier", 1.0f);
+            this.sprinting = false;
+            //animator.SetFloat("AnimSpeedMultiplier", 1.0f);
+
         }
         else
         {
-            animator.SetFloat("AnimSpeedMultiplier", 1.0f);
+            this.sprinting = false;
         }
+        /*else
+        {
+            animator.SetFloat("AnimSpeedMultiplier", 1.0f);
+        }*/
     }
 
     public void UpdateAnimator(bool forwardPressed, bool backPressed, bool strafeLeft, bool strafeRight, bool targeting)
