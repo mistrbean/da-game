@@ -36,6 +36,13 @@ public class PlayerState : MonoBehaviour
     public float dashChargeCooldown2;
     public float dashChargeCooldown3;
 
+    //targets for melee assist
+    [SerializeField] private int potentialTargetCount = 3;
+    [SerializeField] private RaycastHit[] meleeTargets;
+    [SerializeField] public GameObject target;
+    [SerializeField] private float targetDistance;
+    [SerializeField] private float potentialTargetDistance;
+
     //pick-up prompt
     public GameObject promptPickup;
     public GameObject pausePanel;
@@ -79,10 +86,41 @@ public class PlayerState : MonoBehaviour
         dashCooldown = 5.0f;
         dashChargeCooldowns = new float[maxDashCount];
         for (int i = 0; i < dashChargeCooldowns.Length; i++) dashChargeCooldowns[i] = dashCooldown;
+        meleeTargets = new RaycastHit[potentialTargetCount];
     }
 
     public void StartAttack()
     {
+        target = null;
+        targetDistance = -1.0f;
+        Vector3 origin = transform.position + transform.forward * 1f;
+        if (Physics.SphereCastNonAlloc(origin, 1.0f, transform.forward, meleeTargets, 1.5f, enemyLayerMask) > 0)
+        {
+            for (int i = 0; i < meleeTargets.Length; i++)
+            {
+                if (meleeTargets[i].collider != null)
+                {
+                    if (target == null)
+                    {
+                        target = meleeTargets[i].collider.gameObject;
+                        targetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
+                    }
+                    else
+                    {
+                        potentialTargetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
+                        if (potentialTargetDistance < targetDistance)
+                        {
+                            target = meleeTargets[i].collider.gameObject;
+                            targetDistance = potentialTargetDistance;
+                        }
+                    }
+                    //Debug.Log($"Potential Target: {meleeTargets[i]} | Distance: {Vector3.Distance(transform.position, meleeTargets[i].transform.position)}");
+                }
+            }
+        }
+        //Debug.Log($"Chose target {target} | {targetDistance} units away.");
+        //if (target != null) target.GetComponent<EnemyCondition>().TakeDamage(5000);
+        characterMovement.attackControl = true;
         attacking = true;
         weaponCollider.enabled = true;
         lockRotation = true;
@@ -98,6 +136,7 @@ public class PlayerState : MonoBehaviour
         playerSpeed = returnSpeed;
         lockRotation = false;
         attacking = false;
+        characterMovement.attackControl = true;
         animator.SetBool("Attacking", false);
     }
 

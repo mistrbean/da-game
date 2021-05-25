@@ -63,7 +63,7 @@ public class EnemyCondition : MonoBehaviour
     public void TakeDamage(float damage)
     {
         this.currentHealth -= damage;
-        Debug.Log(gameObject.ToString() + " took " + damage + " damage.");
+        //Debug.Log(gameObject.ToString() + " took " + damage + " damage.");
         FoeVanquished();
     }
 

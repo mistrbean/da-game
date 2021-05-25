@@ -45,6 +45,9 @@ public class CharacterMovement : MonoBehaviour
     public float dashTimer = 0.0f;
     public float maxDashTime;
 
+    //attacking
+    public bool attackControl = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -68,6 +71,12 @@ public class CharacterMovement : MonoBehaviour
         {
             //Debug.Log("Ability taking control");
             MoveCharacter(ability);
+        }
+        else if (playerState.attacking && playerState.target != null && attackControl)
+        {
+            Vector3 offset = playerState.target.transform.position - transform.position;
+            if (offset.magnitude <= 0.75f) attackControl = false;
+            else MoveCharacter(true, playerState.target);
         }
         else
         {
@@ -363,6 +372,28 @@ public class CharacterMovement : MonoBehaviour
         {
             onWall = false;
             animator.SetBool("OnWall", false);
+        }
+    }
+
+    public void MoveCharacter(bool attacking, GameObject target)
+    {
+        if (attacking && target != null)
+        {
+            Vector3 offset = target.transform.position - transform.position;
+            if (offset.magnitude > .75f)
+            {
+                controller.Move(offset.normalized * 10.0f * Time.deltaTime);
+                attackControl = true;
+            }
+            else
+            {
+                attackControl = false;
+            }
+            
+        }
+        else
+        {
+            attackControl = true;
         }
     }
 

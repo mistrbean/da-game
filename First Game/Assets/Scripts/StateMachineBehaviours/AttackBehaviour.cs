@@ -10,6 +10,7 @@ public class AttackBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (playerState == null) playerState = animator.gameObject.GetComponent<PlayerState>();
+        playerState.StartAttack();
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
