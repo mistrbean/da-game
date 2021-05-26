@@ -17,7 +17,8 @@ public class PlayerState : MonoBehaviour
 
     public bool attacking;
     public int playerDamage;
-    public bool lockRotation;
+    public bool lockRotation; //lock rotation with camera
+    public bool dontRotate = false; //lock rotation in place (keep model facing the same way)
     public float playerSpeed;
     public float defaultSpeed = 4f;
     public float runSpeed = 4f;
@@ -118,12 +119,13 @@ public class PlayerState : MonoBehaviour
                 }
             }
         }
-        //Debug.Log($"Chose target {target} | {targetDistance} units away.");
+        if (target != null) Debug.Log($"Attacking target!{target}");
         //if (target != null) target.GetComponent<EnemyCondition>().TakeDamage(5000);
         characterMovement.attackControl = true;
         attacking = true;
         weaponCollider.enabled = true;
-        lockRotation = true;
+        //lockRotation = true;
+        dontRotate = true;
         animator.SetBool("Attacking", true);
         returnSpeed = playerSpeed;
         playerSpeed = 1.5f;
@@ -134,7 +136,8 @@ public class PlayerState : MonoBehaviour
     {
         weaponCollider.enabled = false;
         playerSpeed = returnSpeed;
-        lockRotation = false;
+        //lockRotation = false;
+        dontRotate = false;
         attacking = false;
         characterMovement.attackControl = true;
         animator.SetBool("Attacking", false);

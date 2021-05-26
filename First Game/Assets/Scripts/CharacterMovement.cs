@@ -19,7 +19,6 @@ public class CharacterMovement : MonoBehaviour
     public float verticalDeceleration;
     public float acceleration = 0.1f;
     public float deceleration = 0.5f;
-    private int VelocityHash;
     [SerializeField] private bool sprinting;
 
     //aerial movement (jumping/falling)
@@ -48,6 +47,16 @@ public class CharacterMovement : MonoBehaviour
     //attacking
     public bool attackControl = true;
 
+    //animator paramter hashes
+    private int velocityHash;
+    private int onWallHash;
+    private int groundedHash;
+    private int jumpHash;
+    private int verticalVelocityHash;
+    private int sideStepLeftHash;
+    private int sideStepRightHash;
+    private int backStepHash;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,17 +64,24 @@ public class CharacterMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         playerState = GetComponent<PlayerState>();
 
-        //get velocity parameter id
-        VelocityHash = Animator.StringToHash("Velocity");
+        //get animator parameter hashes
+        velocityHash = Animator.StringToHash("Velocity");
+        onWallHash = Animator.StringToHash("OnWall");
+        groundedHash = Animator.StringToHash("Grounded");
+        jumpHash = Animator.StringToHash("Jump");
+        verticalVelocityHash = Animator.StringToHash("VerticalVelocity");
+        sideStepLeftHash = Animator.StringToHash("SideStepLeft");
+        sideStepRightHash = Animator.StringToHash("SideStepRight");
+        backStepHash = Animator.StringToHash("BackStep");
 
-        dashing = false;
+    dashing = false;
     }
 
     public void UpdateMovement(CharacterInput input, Ability ability)
     {
         this.sprinting = input.sprint;
         groundedPlayer = controller.isGrounded;
-        if (!groundedPlayer) animator.SetBool("Grounded", false);
+        if (!groundedPlayer) animator.SetBool(groundedHash, false);
         if (dashing || dashTimer > 0.0f) CheckDash();
         if (ability != null && ability.inUse && ability.takeControl && !input.targeting)
         {
@@ -129,7 +145,7 @@ public class CharacterMovement : MonoBehaviour
             jumps++;
             gravity = defGravity;
             jumpVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            animator.SetTrigger("Jump");
+            animator.SetTrigger(jumpHash);
         }
     }
 
@@ -190,7 +206,7 @@ public class CharacterMovement : MonoBehaviour
         }
 
         //update velocity variable in animator blend tree
-        animator.SetFloat(VelocityHash, velocity);
+        animator.SetFloat(velocityHash, velocity);
     }
 
     public void UpdateAnimVerticalVelocity()
@@ -198,7 +214,7 @@ public class CharacterMovement : MonoBehaviour
         if (groundedPlayer)
         {
             verticalVelocity = 0f;
-            animator.SetBool("Grounded", true);
+            animator.SetBool(groundedHash, true);
             return;
         }
         if (jumpVelocity.y > 0) verticalVelocity += Time.deltaTime * verticalAcceleration;
@@ -208,7 +224,7 @@ public class CharacterMovement : MonoBehaviour
             else verticalVelocity -= Time.deltaTime * verticalDeceleration;
         }
 
-        animator.SetFloat("VerticalVelocity", verticalVelocity);
+        animator.SetFloat(verticalVelocityHash, verticalVelocity);
     }
 
     public void UpdateAnimSpeedMultiplier(bool anythingPressed, bool sprint, bool targeting)
@@ -243,33 +259,33 @@ public class CharacterMovement : MonoBehaviour
         {
             if (strafeLeft && !strafeRight)
             {
-                animator.SetBool("SideStepLeft", true);
-                animator.SetBool("SideStepRight", false);
+                animator.SetBool(sideStepLeftHash, true);
+                animator.SetBool(sideStepRightHash, false);
             } 
             else if (!strafeLeft && strafeRight)
             {
-                animator.SetBool("SideStepLeft", false);
-                animator.SetBool("SideStepRight", true);
+                animator.SetBool(sideStepLeftHash, false);
+                animator.SetBool(sideStepRightHash, true);
             }
             else
             {
-                animator.SetBool("SideStepLeft", false);
-                animator.SetBool("SideStepRight", false);
+                animator.SetBool(sideStepLeftHash, false);
+                animator.SetBool(sideStepRightHash, false);
             }
             if (backPressed)
             {
-                animator.SetBool("BackStep", true);
+                animator.SetBool(backStepHash, true);
             }
             else
             {
-                animator.SetBool("BackStep", false);
+                animator.SetBool(backStepHash, false);
             }
         }
         else
         {
-            animator.SetBool("SideStepLeft", false);
-            animator.SetBool("SideStepRight", false);
-            animator.SetBool("BackStep", false);
+            animator.SetBool(sideStepLeftHash, false);
+            animator.SetBool(sideStepRightHash, false);
+            animator.SetBool(backStepHash, false);
         }
     }
 
@@ -303,7 +319,7 @@ public class CharacterMovement : MonoBehaviour
             //smooth turning
             float angle = Mathf.SmoothDampAngle(cam.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             //set rotation
-            if (!onWall) transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (!onWall && !playerState.dontRotate) transform.rotation = Quaternion.Euler(0f, angle, 0f);
             //set moveDir
             if (direction.magnitude >= 0.1f)
             {
@@ -317,7 +333,7 @@ public class CharacterMovement : MonoBehaviour
             //smooth turning
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             //set rotation
-            if (!onWall) transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            if (!onWall && !playerState.dontRotate) transform.rotation = Quaternion.Euler(0f, angle, 0f);
             //set moveDir
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
         }
@@ -366,12 +382,12 @@ public class CharacterMovement : MonoBehaviour
         {
             controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
-            animator.SetBool("OnWall", false);
+            animator.SetBool(onWallHash, false);
         }
         else
         {
             onWall = false;
-            animator.SetBool("OnWall", false);
+            animator.SetBool(onWallHash, false);
         }
     }
 
@@ -382,6 +398,9 @@ public class CharacterMovement : MonoBehaviour
             Vector3 offset = target.transform.position - transform.position;
             if (offset.magnitude > .75f)
             {
+                Vector3 targetPos = target.transform.position;
+                targetPos.y = transform.position.y;
+                transform.LookAt(targetPos);
                 controller.Move(offset.normalized * 10.0f * Time.deltaTime);
                 attackControl = true;
             }
@@ -409,7 +428,7 @@ public class CharacterMovement : MonoBehaviour
             jumpVelocity.y = cam.rotation.x * laser.verticalSpeed;
             controller.Move(((moveDir.normalized * playerState.playerSpeed) + jumpVelocity) * Time.deltaTime);
             onWall = false;
-            animator.SetBool("OnWall", false);
+            animator.SetBool(onWallHash, false);
         }
     }
 
@@ -421,7 +440,7 @@ public class CharacterMovement : MonoBehaviour
             if (canAttach || lastWall.gameObject != hit.gameObject)
             {
                 onWall = true;
-                animator.SetBool("OnWall", true);
+                animator.SetBool(onWallHash, true);
                 jumps = 0;
                 canAttach = false;
                 lastWall = hit;
