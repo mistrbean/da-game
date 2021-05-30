@@ -718,11 +718,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature.001|GroundAttack_1 (1)
+      name: Armature.001|GroundAttack_1
       takeName: Armature.001|GroundAttack_1
       internalID: 0
       firstFrame: 0
-      lastFrame: 14
+      lastFrame: 17
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
