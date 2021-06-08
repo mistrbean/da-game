@@ -316,3 +316,4 @@ Received Import Request.
 Start importing Assets/Prefabs/Hammer.prefab using Guid(7c2c121eda314614c936928fa702af14) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '30a41b4d188fd370b21cca9c8ec6c8af') in 0.019469 seconds
   Import took 0.025467 seconds .
 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
