@@ -20746,6 +20746,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hammer
       objectReference: {fileID: 0}
+    - target: {fileID: 803677890666134047, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.x
+      value: 198.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 803677890666134047, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.y
+      value: -34.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 803677890666134047, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.z
+      value: 100.63
+      objectReference: {fileID: 0}
     - target: {fileID: 913533314805543769, guid: 7c2c121eda314614c936928fa702af14,
         type: 3}
       propertyPath: m_RootOrder

@@ -60,3 +60,8 @@ First Game/Logs/AssetImportWorker0.log
 *.log
 *.log
 *.log
+*.log
+*.log
+First Game/Logs/AssetImportWorker0-prev.log
+*.log
+*.log
