@@ -7,6 +7,7 @@ public class EnemyCondition : MonoBehaviour
 {
     private float maxHealth;
     public float currentHealth;
+    public float enemySpeed = 4;
 
     //"dead"
     public bool vanquished;
@@ -19,6 +20,8 @@ public class EnemyCondition : MonoBehaviour
 
     private GameObject player;
     private PlayerState playerState;
+    [SerializeField] private GameObject target;
+    private Vector3 targetPos;
     private Vector3 lookAt;
     private Vector3 rotationMask;
     
@@ -53,11 +56,27 @@ public class EnemyCondition : MonoBehaviour
         playerState = player.GetComponent<PlayerState>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(player.transform.position);
-        lookAt = Quaternion.LookRotation(player.transform.position - transform.position).eulerAngles;
-        if (!vanquished) transform.rotation = Quaternion.Euler(Vector3.Scale(lookAt, rotationMask));
+        //lookAt = Quaternion.LookRotation(player.transform.position - transform.position).eulerAngles;
+        if (!vanquished && target != null)
+        {
+            lookAt = Quaternion.LookRotation(target.transform.position - transform.position).eulerAngles;
+            if (!vanquished)
+            {
+                transform.rotation = Quaternion.Euler(Vector3.Scale(lookAt, rotationMask));
+
+                /*if (Vector3.Distance(transform.position, target.transform.position) > 1)
+                {
+                    targetPos = transform.position;
+                    targetPos.x = Mathf.MoveTowards(transform.position.x, target.transform.position.x, enemySpeed * Time.deltaTime);
+                    targetPos.z = Mathf.MoveTowards(transform.position.z, target.transform.position.z, enemySpeed * Time.deltaTime);
+
+                    myRigidbody.MovePosition(targetPos);
+                }*/
+            }
+        }
     }
 
     public void TakeDamage(float damage)
@@ -95,6 +114,28 @@ public class EnemyCondition : MonoBehaviour
                 enemyCollider.enabled = false;
                 animator.enabled = false;
             }
+        }
+    }
+
+    public void ResetState()
+    {
+
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            CancelInvoke("ResetState");
+            this.target = other.gameObject;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player") && other.gameObject == target)
+        {
+            Invoke("ResetState", 10);
         }
     }
 }

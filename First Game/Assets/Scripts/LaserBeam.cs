@@ -19,7 +19,7 @@ public class LaserBeam : Ability
     public override void Start()
     {
         base.Start();
-        cam = GameObject.Find("Main Camera").transform;
+        cam = GameObject.Find("Camera").transform;
 
         this.abilityName = "Laser Beam";
         this.moveSpeed = 12f;

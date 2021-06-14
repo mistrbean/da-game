@@ -33,7 +33,7 @@ public class CharacterInput : MonoBehaviour
 
         //set references for game objects and components
         animator = GetComponent<Animator>();
-        virtualCam = GameObject.Find("VirtualPlayerCam");
+        virtualCam = GameObject.Find("CM vcam1");
         playerState = GetComponent<PlayerState>();
         characterMovement = GetComponent<CharacterMovement>();
         playerHUD = GameObject.Find("HUD").GetComponent<PlayerHUD>();

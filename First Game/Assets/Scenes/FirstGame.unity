@@ -5786,8 +5786,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1617251408}
+        m_TargetAssemblyTypeName: CinemachineVirtualCam, Assembly-CSharp
         m_MethodName: UpdateSensitivity
         m_Mode: 1
         m_Arguments:
@@ -7389,7 +7389,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722931878}
   m_LocalRotation: {x: 0.13494323, y: 0.04926545, z: -0.0067178714, w: 0.989605}
-  m_LocalPosition: {x: 0.42420945, y: 3.661116, z: -4.0956435}
+  m_LocalPosition: {x: 0.34884644, y: 3.661116, z: -4.0881214}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -15960,7 +15960,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617251407}
   m_LocalRotation: {x: 0.13494323, y: 0.04926545, z: -0.0067178714, w: 0.989605}
-  m_LocalPosition: {x: 0.42420945, y: 3.661116, z: -4.0956435}
+  m_LocalPosition: {x: 0.34884644, y: 3.661116, z: -4.0881214}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1194474759}
