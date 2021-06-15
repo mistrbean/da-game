@@ -9,6 +9,8 @@ public class WeaponController : MonoBehaviour
 
     public int weaponDamage;
 
+    public int iWeaponType; // 0: hammer
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))

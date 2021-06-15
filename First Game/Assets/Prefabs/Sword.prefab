@@ -58,6 +58,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +83,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &4588802800132185889
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -123,3 +125,4 @@ MonoBehaviour:
   PrefPosition: {x: -0.00069, y: -0.00006, z: 0.0014}
   PrefRotation: {x: 11.723, y: 62.59, z: 89.00401}
   weaponDamage: 250
+  iWeaponType: 1

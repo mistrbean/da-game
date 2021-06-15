@@ -17,6 +17,10 @@ public class PlayerState : MonoBehaviour
 
     public bool attacking;
     public int playerDamage;
+
+    public int comboCount; //hit number in current combo
+
+
     public bool lockRotation; //lock rotation with camera
     public bool dontRotate = false; //lock rotation in place (keep model facing the same way)
     public float playerSpeed;
@@ -38,7 +42,7 @@ public class PlayerState : MonoBehaviour
     public float dashChargeCooldown3;
 
     //targets for melee assist
-    [SerializeField] private int potentialTargetCount = 3;
+    [SerializeField] private int potentialTargetCount = 10;
     [SerializeField] private RaycastHit[] meleeTargets;
     [SerializeField] public GameObject target;
     [SerializeField] private float targetDistance;
@@ -61,6 +65,10 @@ public class PlayerState : MonoBehaviour
     public Augment leftLegAugment;
 
     public Augment[] collectedAugments;
+
+    //animator paramter hashes
+    public int weaponTypeHash;
+    public int comboCountHash;
 
     //energy
     public int energy;
@@ -88,10 +96,15 @@ public class PlayerState : MonoBehaviour
         dashChargeCooldowns = new float[maxDashCount];
         for (int i = 0; i < dashChargeCooldowns.Length; i++) dashChargeCooldowns[i] = dashCooldown;
         meleeTargets = new RaycastHit[potentialTargetCount];
+        weaponTypeHash = Animator.StringToHash("WeaponType");
+        comboCountHash = Animator.StringToHash("ComboCount");
     }
 
     public void StartAttack()
     {
+        comboCount++;
+        if (comboCount > 1) CancelInvoke(nameof(ResetComboCount));
+
         target = null;
         targetDistance = -1.0f;
         Vector3 origin = transform.position + transform.forward * 1f;
@@ -140,7 +153,30 @@ public class PlayerState : MonoBehaviour
         dontRotate = false;
         attacking = false;
         characterMovement.attackControl = true;
+        switch (comboCount)
+        {
+            case 1:
+                Invoke(nameof(ResetComboCount), 1);
+                animator.SetInteger(comboCountHash, 1);
+                break;
+            case 2:
+                Invoke(nameof(ResetComboCount), 1);
+                animator.SetInteger(comboCountHash, 2);
+                break;
+            case 3:
+                ResetComboCount();
+                break;
+            default:
+                ResetComboCount();
+                break;
+        }
         animator.SetBool("Attacking", false);
+    }
+
+    public void ResetComboCount()
+    {
+        comboCount = 0;
+        animator.SetInteger(comboCountHash, 0);
     }
 
     public void SetIdle()
@@ -190,6 +226,7 @@ public class PlayerState : MonoBehaviour
             weapon.GetComponent<SphereCollider>().enabled = false;
 
             Debug.Log("Equipped weapon " + this.equippedWeapon.ToString());
+            animator.SetInteger(weaponTypeHash, weaponController.iWeaponType);
         }
     }
 
