@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f308349dd2a7da447bede0654abdf43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordImpact: {fileID: 0}
   PrefPosition: {x: -0.00049, y: -0.0001452435, z: 0.0004642998}
   PrefRotation: {x: 180.518, y: 31.271, z: -34.55099}
   weaponDamage: 100

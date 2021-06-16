@@ -327,7 +327,6 @@ GameObject:
   - component: {fileID: 9129461795810629427}
   - component: {fileID: 9129461795810629426}
   - component: {fileID: 2120767513917960025}
-  - component: {fileID: 7459938091037407040}
   m_Layer: 11
   m_Name: Enemy_Ragdoll
   m_TagString: Enemy
@@ -400,7 +399,6 @@ MonoBehaviour:
   enemySpeed: 4
   vanquished: 0
   isRagdoll: 0
-  target: {fileID: 0}
 --- !u!54 &2120767513917960025
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -417,19 +415,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &7459938091037407040
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9129461796230481453}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 4
-  m_Center: {x: 0, y: 0.87, z: 0}
 --- !u!1 &9129461796230481455
 GameObject:
   m_ObjectHideFlags: 0
