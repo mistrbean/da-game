@@ -7345,7 +7345,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 722931878}
   m_LocalRotation: {x: 0.13494323, y: 0.04926545, z: -0.0067178714, w: 0.989605}
-  m_LocalPosition: {x: 0.34884644, y: 3.661116, z: -4.0881214}
+  m_LocalPosition: {x: 0.35266387, y: 3.661116, z: -4.0885024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -15916,7 +15916,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617251407}
   m_LocalRotation: {x: 0.13494323, y: 0.04926545, z: -0.0067178714, w: 0.989605}
-  m_LocalPosition: {x: 0.34884644, y: 3.661116, z: -4.0881214}
+  m_LocalPosition: {x: 0.35266387, y: 3.661116, z: -4.0885024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1194474759}
@@ -17994,6 +17994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f308349dd2a7da447bede0654abdf43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordImpact: {fileID: 0}
   PrefPosition: {x: 0, y: 0, z: 0}
   PrefRotation: {x: 0, y: 0, z: 0}
   weaponDamage: 100
@@ -20982,12 +20983,12 @@ PrefabInstance:
     - target: {fileID: 803677890666134047, guid: 7c2c121eda314614c936928fa702af14,
         type: 3}
       propertyPath: PrefRotation.x
-      value: 175.7
+      value: 199.3
       objectReference: {fileID: 0}
     - target: {fileID: 803677890666134047, guid: 7c2c121eda314614c936928fa702af14,
         type: 3}
       propertyPath: PrefRotation.y
-      value: -1.3
+      value: 10.82
       objectReference: {fileID: 0}
     - target: {fileID: 803677890666134047, guid: 7c2c121eda314614c936928fa702af14,
         type: 3}
