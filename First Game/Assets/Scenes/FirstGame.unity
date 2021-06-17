@@ -20875,6 +20875,11 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 722931884}
+    - target: {fileID: 286115009963710626, guid: d637718a234c05d429d3ffb690e06e3c,
+        type: 3}
+      propertyPath: iWeaponType
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 320535577937722368, guid: d637718a234c05d429d3ffb690e06e3c,
         type: 3}
       propertyPath: m_RootOrder

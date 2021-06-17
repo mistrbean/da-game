@@ -227,6 +227,7 @@ public class PlayerState : MonoBehaviour
 
             Debug.Log("Equipped weapon " + this.equippedWeapon.ToString());
             animator.SetInteger(weaponTypeHash, weaponController.iWeaponType);
+            if (animator.GetLayerWeight(weaponController.iWeaponType + 2) < 1) animator.SetLayerWeight(weaponController.iWeaponType + 2, 1);
         }
     }
 
