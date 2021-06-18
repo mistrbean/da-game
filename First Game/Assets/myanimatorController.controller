@@ -5158,18 +5158,6 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: LegSpinMovement
-    m_StateMachine: {fileID: -7541501357144511914}
-    m_Mask: {fileID: 31900000, guid: ba158afa6e440a84da5af9a0f700c213, type: 2}
-    m_Motions: []
-    m_Behaviours: []
-    m_BlendingMode: 1
-    m_SyncedLayerIndex: -1
-    m_DefaultWeight: 1
-    m_IKPass: 1
-    m_SyncedLayerAffectsTiming: 0
-    m_Controller: {fileID: 9100000}
-  - serializedVersion: 5
     m_Name: HammerLayer
     m_StateMachine: {fileID: -2077853501321155222}
     m_Mask: {fileID: 0}
@@ -5191,6 +5179,18 @@ AnimatorController:
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 0
     m_IKPass: 0
+    m_SyncedLayerAffectsTiming: 0
+    m_Controller: {fileID: 9100000}
+  - serializedVersion: 5
+    m_Name: LegSpinMovement
+    m_StateMachine: {fileID: -7541501357144511914}
+    m_Mask: {fileID: 31900000, guid: ba158afa6e440a84da5af9a0f700c213, type: 2}
+    m_Motions: []
+    m_Behaviours: []
+    m_BlendingMode: 1
+    m_SyncedLayerIndex: -1
+    m_DefaultWeight: 1
+    m_IKPass: 1
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
 --- !u!1101 &19926341834419927
