@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class EnemyCondition : MonoBehaviour
 {
+    public AudioSource targetAudio;
+
     private float maxHealth;
     public float currentHealth;
     public float enemySpeed = 4;
@@ -22,6 +24,8 @@ public class EnemyCondition : MonoBehaviour
     private PlayerState playerState;
     private Vector3 lookAt;
     private Vector3 rotationMask;
+
+    private GameObject target;
     
 
     // Start is called before the first frame update
@@ -38,6 +42,7 @@ public class EnemyCondition : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         playerState = player.GetComponent<PlayerState>();
         rotationMask = new Vector3(0, 1, 0);
+        targetAudio = GetComponent<AudioSource>();
     }
 
     private void Awake()
@@ -58,10 +63,16 @@ public class EnemyCondition : MonoBehaviour
     {
         if (!vanquished)
         {
-            lookAt = Quaternion.LookRotation(player.transform.position - transform.position).eulerAngles;
-            if (!vanquished)
+            if (Vector3.Distance(player.transform.position, transform.position) < 5)
             {
+                lookAt = Quaternion.LookRotation(player.transform.position - transform.position).eulerAngles;
                 transform.rotation = Quaternion.Euler(Vector3.Scale(lookAt, rotationMask));
+                if (target == null)
+                {
+                    targetAudio.Play();
+                    target = player;
+                }
+                
             }
         }
     }
