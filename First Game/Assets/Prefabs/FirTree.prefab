@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3248275979760101607}
   - component: {fileID: 788348199794908205}
   - component: {fileID: 9021222281825225462}
+  - component: {fileID: 6489274941409360567}
   m_Layer: 0
   m_Name: FirTree
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1292597908385283576}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.57, y: 2.04, z: 3.76}
   m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
@@ -56,6 +57,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +82,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!64 &9021222281825225462
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -94,3 +97,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7387706064836869012, guid: 1df0117a916e4d7488b9157d8e3eb84d, type: 3}
+--- !u!205 &6489274941409360567
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292597908385283576}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0046826005, y: 0.274716, z: -0.0030421019}
+  m_Size: 0.549432
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.053962037
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 788348199794908205}
+  m_Enabled: 1
