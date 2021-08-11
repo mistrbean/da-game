@@ -89,6 +89,7 @@ public class EnemyCondition : MonoBehaviour
     {
         if (currentHealth <= 0 && !vanquished)
         {
+            if (playerState.targetLock == gameObject) playerState.UnsetTarget();
             vanquished = true;
             animator.SetTrigger("Vanquished");
             ToggleRagdoll(vanquished);
