@@ -5466,6 +5466,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: SpinningLegs
     m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Attacking
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3155463586021782645}
   m_Solo: 0
