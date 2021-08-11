@@ -54,11 +54,6 @@ public class CharacterInput : MonoBehaviour
 
         if (playerState.paused) return; //stop getting input if game is paused
 
-        if (Input.GetKeyDown("left ctrl"))
-        {
-            playerState.FindTarget(true);
-        }
-
         bool abilityOne = Input.GetKeyDown("e");
         bool abilityTwo = Input.GetKeyDown("r");
 

@@ -88,22 +88,11 @@ public class CharacterMovement : MonoBehaviour
             //Debug.Log("Ability taking control");
             MoveCharacter(ability);
         }
-        else if (playerState.attacking && (playerState.target != null || playerState.targetLock != null) && attackControl)
+        else if (playerState.attacking && playerState.target != null && attackControl)
         {
-            Vector3 offset;
-            if (playerState.targetLock != null)
-            {
-                offset = playerState.targetLock.transform.position - transform.position;
-                if (offset.magnitude <= 0.75f) attackControl = false;
-                else MoveCharacter(true, playerState.targetLock);
-            }
-            else
-            {
-                offset = playerState.target.transform.position - transform.position;
-                if (offset.magnitude <= 0.75f) attackControl = false;
-                else MoveCharacter(true, playerState.target);
-            }
-            
+            Vector3 offset = playerState.target.transform.position - transform.position;
+            if (offset.magnitude <= 0.75f) attackControl = false;
+            else MoveCharacter(true, playerState.target);
         }
         else
         {

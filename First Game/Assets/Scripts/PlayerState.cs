@@ -6,7 +6,6 @@ public class PlayerState : MonoBehaviour
 {
     public Animator animator;
     public GameObject virtualCam;
-    public GameObject virtualCam_targetLock;
 
     public GameObject equippedWeapon;
     public GameObject secondWeapon;
@@ -46,7 +45,6 @@ public class PlayerState : MonoBehaviour
     [SerializeField] private int potentialTargetCount = 10;
     [SerializeField] private RaycastHit[] meleeTargets;
     [SerializeField] public GameObject target;
-    [SerializeField] public GameObject targetLock; //stores game object (enemy) for locked target
     [SerializeField] private float targetDistance;
     [SerializeField] private float potentialTargetDistance;
 
@@ -102,128 +100,39 @@ public class PlayerState : MonoBehaviour
         comboCountHash = Animator.StringToHash("ComboCount");
     }
 
-    public void UnsetTarget()
-    {
-        virtualCam_targetLock.SendMessage("UnsetTargetLock");
-        targetLock = null;
-    }
-
-    public void FindTarget(bool lockTarget)
-    {
-        if (lockTarget) //if attempting to target lock
-        {
-            Vector3 origin = transform.position;// + virtualCam.transform.forward * 1f;
-            if (targetLock != null)
-            {
-                targetDistance = Vector3.Distance(transform.position, targetLock.transform.position);
-                if (Physics.SphereCastNonAlloc(origin, 5.0f, virtualCam_targetLock.transform.forward, meleeTargets, 1.5f, enemyLayerMask) > 0)
-                {
-                    for (int i = 0; i < meleeTargets.Length; i++)
-                    {
-                        if (meleeTargets[i].collider != null)
-                        {
-                            potentialTargetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
-                            if (targetLock == null && potentialTargetDistance <= 7.0f)
-                            {
-                                targetLock = meleeTargets[i].collider.gameObject;
-                                targetDistance = potentialTargetDistance;
-                            }
-                            else
-                            {
-                                if (potentialTargetDistance <= 7.0f && potentialTargetDistance < targetDistance)
-                                {
-                                    targetLock = meleeTargets[i].collider.gameObject;
-                                    targetDistance = potentialTargetDistance;
-                                }
-                            }
-                            //Debug.Log($"Potential Target: {meleeTargets[i]} | Distance: {Vector3.Distance(transform.position, meleeTargets[i].transform.position)}");
-                        }
-                    }
-                }
-                else
-                {
-                    targetLock = null;
-                }
-            }
-            else
-            {
-                if (Physics.SphereCastNonAlloc(origin, 5.0f, virtualCam.transform.forward, meleeTargets, 1.5f, enemyLayerMask) > 0)
-                {
-                    for (int i = 0; i < meleeTargets.Length; i++)
-                    {
-                        if (meleeTargets[i].collider != null)
-                        {
-                            potentialTargetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
-                            if (targetLock == null && potentialTargetDistance <= 7.0f)
-                            {
-                                targetLock = meleeTargets[i].collider.gameObject;
-                                targetDistance = potentialTargetDistance;
-                            }
-                            else
-                            {
-                                if (potentialTargetDistance <= 7.0f && potentialTargetDistance < targetDistance)
-                                {
-                                    targetLock = meleeTargets[i].collider.gameObject;
-                                    targetDistance = potentialTargetDistance;
-                                }
-                            }
-                            //Debug.Log($"Potential Target: {meleeTargets[i]} | Distance: {Vector3.Distance(transform.position, meleeTargets[i].transform.position)}");
-                        }
-                    }
-                }
-                else
-                {
-                    targetLock = null;
-                }
-            }
-            if (targetLock != null) virtualCam_targetLock.SendMessage("SetTargetLock", targetLock);
-            else virtualCam_targetLock.SendMessage("UnsetTargetLock");
-
-        }
-        else
-        {
-            target = null;
-            targetDistance = -1.0f;
-
-            Vector3 origin = transform.position + virtualCam.transform.forward * 1f;
-            if (Physics.SphereCastNonAlloc(origin, 1.0f, virtualCam.transform.forward, meleeTargets, 1.5f, enemyLayerMask) > 0)
-            {
-                for (int i = 0; i < meleeTargets.Length; i++)
-                {
-                    if (meleeTargets[i].collider != null)
-                    {
-                        if (target == null)
-                        {
-                            target = meleeTargets[i].collider.gameObject;
-                            targetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
-                        }
-                        else
-                        {
-                            potentialTargetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
-                            if (potentialTargetDistance < targetDistance)
-                            {
-                                target = meleeTargets[i].collider.gameObject;
-                                targetDistance = potentialTargetDistance;
-                            }
-                        }
-                        //Debug.Log($"Potential Target: {meleeTargets[i]} | Distance: {Vector3.Distance(transform.position, meleeTargets[i].transform.position)}");
-                    }
-                }
-            }
-        }
-        
-    }
-
     public void StartAttack()
     {
         comboCount++;
         if (comboCount > 1) CancelInvoke(nameof(ResetComboCount));
 
-        if (targetLock == null) FindTarget(false);
-        else transform.LookAt(targetLock.transform);
-
-
-        //if (target != null) Debug.Log($"Attacking target!{target}");
+        target = null;
+        targetDistance = -1.0f;
+        Vector3 origin = transform.position + transform.forward * 1f;
+        if (Physics.SphereCastNonAlloc(origin, 1.0f, transform.forward, meleeTargets, 1.5f, enemyLayerMask) > 0)
+        {
+            for (int i = 0; i < meleeTargets.Length; i++)
+            {
+                if (meleeTargets[i].collider != null)
+                {
+                    if (target == null)
+                    {
+                        target = meleeTargets[i].collider.gameObject;
+                        targetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
+                    }
+                    else
+                    {
+                        potentialTargetDistance = Vector3.Distance(transform.position, meleeTargets[i].transform.position);
+                        if (potentialTargetDistance < targetDistance)
+                        {
+                            target = meleeTargets[i].collider.gameObject;
+                            targetDistance = potentialTargetDistance;
+                        }
+                    }
+                    //Debug.Log($"Potential Target: {meleeTargets[i]} | Distance: {Vector3.Distance(transform.position, meleeTargets[i].transform.position)}");
+                }
+            }
+        }
+        if (target != null) Debug.Log($"Attacking target!{target}");
         //if (target != null) target.GetComponent<EnemyCondition>().TakeDamage(5000);
         characterMovement.attackControl = true;
         attacking = true;
