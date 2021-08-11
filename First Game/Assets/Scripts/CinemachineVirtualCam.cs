@@ -23,7 +23,7 @@ public class CinemachineVirtualCam : MonoBehaviour
         virtualCamFrameTransposer = virtualCam.GetCinemachineComponent<CinemachineFramingTransposer>();
         virtualCamFrameTransposer.m_CameraDistance = defaultZoom;
         currentZoom = defaultZoom;
-        virtualCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("playerSens");
+        if (virtualCamPOV) virtualCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("playerSens");
     }
 
     public void ZoomIn()
@@ -46,6 +46,21 @@ public class CinemachineVirtualCam : MonoBehaviour
 
     public void UpdateSensitivity()
     {
-        virtualCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("playerSens");
+        if (virtualCamPOV) virtualCamPOV.m_HorizontalAxis.m_MaxSpeed = PlayerPrefs.GetFloat("playerSens");
+    }
+
+    public void SetTargetLock(GameObject targetLock)
+    {
+        if (targetLock != null)
+        {
+            virtualCam.m_LookAt = targetLock.transform.GetChild(0).transform;
+            virtualCam.m_Priority = 15;
+        }
+    }
+
+    public void UnsetTargetLock()
+    {
+        virtualCam.m_LookAt = null;
+        virtualCam.m_Priority = 0;
     }
 }
