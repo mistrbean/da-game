@@ -83,6 +83,7 @@ public class CharacterMovement : MonoBehaviour
         groundedPlayer = controller.isGrounded;
         if (!groundedPlayer) animator.SetBool(groundedHash, false);
         if (dashing || dashTimer > 0.0f) CheckDash();
+        if (playerState.attacking && playerState.targetLock) transform.LookAt(playerState.targetLock.transform);
         if (ability != null && ability.inUse && ability.takeControl && !input.targeting)
         {
             //Debug.Log("Ability taking control");
