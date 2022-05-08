@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class LaserBeam : Ability
 {
@@ -9,6 +10,9 @@ public class LaserBeam : Ability
     private float tickDamage;
     private float totalDamage;
     public float defaultUseTime;
+    public static Transform chestTransform;
+    public static GameObject laserBeam;
+    public static VisualEffect laserFX;
 
     public float moveSpeed;
     public float verticalSpeed;
@@ -20,6 +24,10 @@ public class LaserBeam : Ability
     {
         base.Start();
         cam = GameObject.Find("Camera").transform;
+        laserBeam = GameObject.Find("LaserBeam");
+        laserFX = laserBeam.GetComponent<VisualEffect>();
+        laserFX.Stop();
+
 
         this.abilityName = "Laser Beam";
         this.moveSpeed = 12f;
@@ -40,6 +48,9 @@ public class LaserBeam : Ability
     {
         if (base.UseAbility())
         {
+            laserFX.SetFloat("lifetime", this.useTime);
+            laserFX.Play();
+            InvokeRepeating(nameof(this.OrientBeam), 0.0f, 0.01f);
             InvokeRepeating(nameof(this.IncrementUseTimer), 0.0f, 0.1f);
             InvokeRepeating(nameof(CheckTargets), 0.0f, tickRate);
             return true;
@@ -55,6 +66,8 @@ public class LaserBeam : Ability
         this.useTimer += 0.1f;
         if (this.useTimer >= this.useTime)
         {
+            CancelInvoke(nameof(OrientBeam));
+            laserFX.Stop();
             CancelInvoke(nameof(IncrementUseTimer));
             CancelInvoke(nameof(CheckTargets));
             this.useTimer = 0.0f;
@@ -84,6 +97,11 @@ public class LaserBeam : Ability
     public void RevertUseTime()
     {
         this.useTime = this.defaultUseTime;
+    }
+
+    public void OrientBeam()
+    {
+        laserBeam.transform.rotation = Quaternion.LookRotation(cam.transform.forward, cam.transform.up);
     }
 
 }
