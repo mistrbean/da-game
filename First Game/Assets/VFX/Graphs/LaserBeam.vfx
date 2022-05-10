@@ -47,9 +47,9 @@ MonoBehaviour:
   - title: Charge
     position:
       serializedVersion: 2
-      x: 2133
+      x: 2132
       y: -419
-      width: 488
+      width: 489
       height: 2089
     contents:
     - model: {fileID: 8926484042661615281}
@@ -4750,7 +4750,7 @@ MonoBehaviour:
   m_Children:
   - {fileID: 8926484042661615298}
   - {fileID: 8926484042661615307}
-  m_UIPosition: {x: 2158, y: -19}
+  m_UIPosition: {x: 2157, y: -19}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -5096,7 +5096,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615327}
   - {fileID: 8926484042661615309}
   dataType: 0
-  capacity: 64
+  capacity: 50
   stripCapacity: 16
   particlePerStripCount: 16
   m_Space: 1
@@ -5450,7 +5450,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.5
+      m_SerializableObject: 0.4
     m_Space: 2147483647
   m_Property:
     name: Lifetime
@@ -5480,7 +5480,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615316}
   - {fileID: 8926484042661615321}
   - {fileID: 8926484042661615323}
-  m_UIPosition: {x: 2172, y: 744}
+  m_UIPosition: {x: 2172, y: 786}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -5594,7 +5594,7 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots: []
-  m_Disabled: 1
+  m_Disabled: 0
   mode: 0
   axes: 4
 --- !u!114 &8926484042661615313
@@ -6058,7 +6058,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661615329}
-  m_UIPosition: {x: 2171, y: 440}
+  m_UIPosition: {x: 2171, y: 482}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -6981,7 +6981,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615385}
   - {fileID: 8926484042661615367}
   dataType: 0
-  capacity: 64
+  capacity: 50
   stripCapacity: 16
   particlePerStripCount: 16
   m_Space: 1
@@ -7479,7 +7479,7 @@ MonoBehaviour:
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots: []
-  m_Disabled: 1
+  m_Disabled: 0
   mode: 0
   axes: 4
 --- !u!114 &8926484042661615371
@@ -7623,7 +7623,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.20000000298023225,"y":1.2000000476837159,"z":1.0}'
+      m_SerializableObject: '{"x":0.20000000298023225,"y":1.5,"z":1.0}'
     m_Space: 2147483647
   m_Property:
     name: Scale
@@ -8354,3 +8354,55 @@ MonoBehaviour:
         PublicKeyToken=b77a5c561934e089
   m_Direction: 0
   m_LinkedSlots: []
+--- !u!114 &8926484042661615398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a971fa2e110a0ac42ac1d8dae408704b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661615345}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots: []
+  m_Disabled: 0
+  attribute: axisY
+  Composition: 0
+  Source: 1
+  Random: 0
+  channels: 6
+--- !u!114 &8926484042661615404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a971fa2e110a0ac42ac1d8dae408704b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UIIgnoredErrors: []
+  m_Parent: {fileID: 8926484042661615287}
+  m_Children: []
+  m_UIPosition: {x: 0, y: 0}
+  m_UICollapsed: 0
+  m_UISuperCollapsed: 0
+  m_InputSlots: []
+  m_OutputSlots: []
+  m_Disabled: 0
+  attribute: axisY
+  Composition: 0
+  Source: 1
+  Random: 0
+  channels: 6
