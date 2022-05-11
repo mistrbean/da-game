@@ -32,9 +32,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.0705986
+  m_TransitionDuration: 0.07542205
   m_TransitionOffset: 0
-  m_ExitTime: 0.8032786
+  m_ExitTime: 0.19691503
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1518,7 +1518,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 6d9bcf77c557d9444a32c0d3edb62d0e, type: 2}
+  m_Motion: {fileID: 7400000, guid: 92d7b8f9c1d45a441b773dd2e004a579, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2385,7 +2385,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: sidestep_left
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7532941159150567171}
@@ -2402,8 +2402,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6928878444818435626, guid: 85dec0b683940b044969240c874cd407,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 488f58287c0404947b94dfb4f669b3d0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -2866,9 +2865,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.05606899
-  m_TransitionOffset: 0.0022577997
-  m_ExitTime: 0.1213054
+  m_TransitionDuration: 0.22344473
+  m_TransitionOffset: 0
+  m_ExitTime: 0.0000000024199136
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -5940,8 +5939,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4136325367649045364, guid: 85dec0b683940b044969240c874cd407,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 62c9006354779324a91117a03de72ef6, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -6770,8 +6768,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 8477147205796331354, guid: 85dec0b683940b044969240c874cd407,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 9b2b5e4124c5e8c49b8e930a4ccd7092, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -7684,7 +7681,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Armature|backstep
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2786620196999281130}
@@ -7701,8 +7698,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6292093535542478772, guid: 85dec0b683940b044969240c874cd407,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 8a7666edc36ea70469d1243c836f3895, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -10178,7 +10174,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: sidestep_right
-  m_Speed: 1.5
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -3480708141251437731}
@@ -10195,8 +10191,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -9045353816175729046, guid: 85dec0b683940b044969240c874cd407,
-    type: 3}
+  m_Motion: {fileID: 7400000, guid: 7a1505316ffdfd74388453f02c8a162d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -13444,7 +13444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3251cd860bf8f40acad5de5de11656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerState: {fileID: 794889332}
+  playerState: {fileID: 1465185650}
   cam: {fileID: 722931884}
   promptPickup: {fileID: 1355943721}
   lookingAt: {fileID: 0}
