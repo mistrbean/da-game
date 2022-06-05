@@ -376,6 +376,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefPosition.x
+      value: 0.0482
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefPosition.y
+      value: 0.0347
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefPosition.z
+      value: 0.0542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.x
+      value: 211.163
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.y
+      value: 76.049
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.z
+      value: 85.74
+      objectReference: {fileID: 0}
     - target: {fileID: 3152461239390497722, guid: 7c2c121eda314614c936928fa702af14,
         type: 3}
       propertyPath: m_Name
@@ -1712,6 +1742,25 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &193939346 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2715566404302941441, guid: 03e29ab563905f84e94dda7dfa9d9546,
+    type: 3}
+  m_PrefabInstance: {fileID: 609949530}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &193939348
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 193939346}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24766928, y: 0.72364026, z: 0.1414777}
+  m_Center: {x: -0.0050161052, y: -0.13817972, z: 0.0061570234}
 --- !u!1001 &224963975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19789,8 +19838,8 @@ MonoBehaviour:
   virtualCam_targetLock: {fileID: 113321091}
   equippedWeapon: {fileID: 0}
   secondWeapon: {fileID: 0}
-  hand: {fileID: 1839398598}
-  weaponCollider: {fileID: 0}
+  hand: {fileID: 193939346}
+  weaponCollider: {fileID: 193939348}
   playerHUD: {fileID: 877673205}
   characterMovement: {fileID: 2071337096}
   attacking: 0
@@ -26878,6 +26927,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 856745910}
     m_Modifications:
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefPosition.x
+      value: 0.0482
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefPosition.y
+      value: 0.0347
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefPosition.z
+      value: 0.0542
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.x
+      value: 211.163
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.y
+      value: 76.049
+      objectReference: {fileID: 0}
+    - target: {fileID: 3152461239390497716, guid: 7c2c121eda314614c936928fa702af14,
+        type: 3}
+      propertyPath: PrefRotation.z
+      value: 85.74
+      objectReference: {fileID: 0}
     - target: {fileID: 3152461239390497722, guid: 7c2c121eda314614c936928fa702af14,
         type: 3}
       propertyPath: m_Name
